@@ -6,9 +6,9 @@ from xml.etree.ElementTree import fromstring, ElementTree
 
 conndb = psycopg2.connect(host='HOST', port='PORT', database='pyted', user='USER', password='PASSWORD')
 
-def getInfo():
+def getData():
     while True:
-        conn = http.client.HTTPConnection('dyn.beaniebot.me', 8880, 5)
+        conn = http.client.HTTPConnection('HOST', 8880, 5)
         payload = ""
         headers = {
             'cache-control': "no-cache",
@@ -28,7 +28,7 @@ def getInfo():
         powerToday = (float(root.getchildren()[3].getchildren()[0].getchildren()[2].text)/1000)
 
     #   Build & execute Query
-        sql = """INSERT INTO Voltage(voltage) VALUES(%s) RETURNING id;"""
+        sql = "INSERT INTO Voltage(voltage) VALUES(%s) RETURNING id;"
         qry = conndb.cursor()
         qry.execute(sql, [voltageNow])
         print(qry.fetchone()[0])
@@ -50,11 +50,11 @@ def getInfo():
         print(" Today's  Usage ")
         print('+--------------+')
         print('  ', powerToday, 'kWh')
-        print('+--------------+')        
-
-        time.sleep(60)
+        print('+--------------+')
+        time.sleep(60)        
+    
 def main():
-        thread = threading.Thread(target=getInfo)
+        thread = threading.Thread(target=getData)
         thread.start()
         
 
