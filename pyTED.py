@@ -7,7 +7,8 @@ import time
 import http.client
 from xml.etree.ElementTree import fromstring, ElementTree
 
-conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted', user=app.config['DBUSER'], password=app.config['DBPORT'])
+conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
+                          user=app.config['DBUSER'], password=app.config['DBPORT'])
 
 
 def getInfo():
