@@ -19,7 +19,8 @@ def activateJob():
 
 
 def qryCurrent():
-    conndb = psycopg2.connect(host='DBHOST', port='PORT', database='pyted', user='USER', password='PASSWORD')
+    conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
+                              user=app.config['DBUSER'], password=app.config['DBPORT'])
     sql = "SELECT * FROM voltage ORDER BY id DESC LIMIT 1;"
     qry = conndb.cursor()
     qry.execute(sql)
