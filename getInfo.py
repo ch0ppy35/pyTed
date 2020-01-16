@@ -23,41 +23,23 @@ def getData():
         tree = ElementTree(fromstring(data))
         root = tree.getroot()
 
-        #   Get Data
-        voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text) / 10)
-        wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text) / 1000)
-        powerToday = (float(root.getchildren()[3].getchildren()[0].getchildren()[2].text) / 1000)
+    #   Get Data
+        voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text)/10)
+        wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text)/1000)
 
-        #   Build & execute Query
-        sql = "INSERT INTO Voltage(voltage) VALUES(%s) RETURNING id;"
+    #   Build & execute Query
+    #   Voltage
+        sql = "INSERT INTO Voltage(voltage) VALUES(%s);"
         qry = conndb.cursor()
         qry.execute(sql, [voltageNow])
-        print(qry.fetchone()[0])
         conndb.commit()
         qry.close
+        
+    #   Watts
+        sql = "INSERT INTO killawatts(killawatts) VALUES(%s);"
+        qry = conndb.cursor()
+        qry.execute(sql, [wattsNow])
+        qry.close
 
-        #   Print the data out
-        print('+--------------+')
-        print(' Current Status ')
-        print('+--------------+')
-        print(' ', voltageNow, ' Volts')
-        print('   ', wattsNow, 'kW')
-        print('+--------------+')
-        print('')
-        print('')
-        print('')
-        print('+--------------+')
-        print(" Today's  Usage ")
-        print('+--------------+')
-        print('  ', powerToday, 'kWh')
-        print('+--------------+')
-        time.sleep(60)
-
-
-def main():
-    thread = threading.Thread(target=getData)
-    thread.start()
-
-
-if __name__ == '__main__':
-    main()
+        print('Updated!')
+        time.sleep(30)   

@@ -13,7 +13,7 @@ conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], 
 
 def getInfo():
     while True:
-        conn = http.client.HTTPConnection('***REMOVED***', 8880, 5)
+        conn = http.client.HTTPConnection('HOST', 8880, 5)
         payload = ""
         headers = {
             'cache-control': "no-cache",
