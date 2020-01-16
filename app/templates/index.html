@@ -6,12 +6,12 @@
             padding: 5px;
         }
         td, th {
-          border: 1px solid #dddddd;
-          text-align: center;
-          padding: 8px;
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
         }
         tr:nth-child(even) {
-          background-color: #dddddd;
+            background-color: #dddddd;
         }
         #main{
             text-align: center;
@@ -39,43 +39,44 @@
             float: right;
             padding-right: 5%;
         }
-        </style>
+    </style>
+    <link rel="apple-touch-icon" href="iphone-icon.png"/>
 </head>
 <div id="main">
-<h1>pyTED</h1>
-<h2>Real-Time kW Usage</h2>
-<div id="rtkw">
-<h1>{{ currentStatus[0][1] }} kW</h1>
-</div>
-<div id="table1">
-<h3>Stats (Last 5 minutes)</h3>
-<table>
-    <tr>
-        <th>Present Voltage</th>
-
-        <th>kW Usage</th>
-    </tr>
-{% for row in currentStatus %}
-    <tr>
-      <td>{{ row[0] }} V</td>
-      <td>{{ row[1] }} kW</td>
-    </tr>
-{% endfor %}
-</table>
-</div>
-<div id="table2">
-    <h3>Recordings</h3>
-    <table>
-        <tr>
-            <th>Type</th>
-    
-            <th>Value</th>
-        </tr>
-        <tr>
-          <td>Voltage Today</td>
-          <td>{{ topStats[0][0] }} V @ {{ topStats[0][1] }}</td>
-        </tr>
-    </table>
+    <h1>pyTED</h1>
+    <h2>Real-Time kW Usage</h2>
+    <div id="rtkw">
+        <h1>{{ currentStatus[0][1] }} kW</h1>
     </div>
-<p>High Voltage Today: {{ topStats[0][0] }} V @ {{ topStats[0][1] }} </p>
+    <div id="table1">
+        <h3>Stats (Last 5 minutes)</h3>
+        <table>
+            <tr>
+                <th>Present Voltage</th>
+                
+                <th>kW Usage</th>
+            </tr>
+            {% for row in currentStatus %}
+            <tr>
+                <td>{{ row[0] }} V</td>
+                <td>{{ row[1] }} kW</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="table2">
+        <h3>Recordings</h3>
+        <table>
+            <tr>
+                <th>Type</th>
+                
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Voltage Today</td>
+                <td>{{ topStats[0][0] }} V @ {{ topStats[0][1] }}</td>
+            </tr>
+        </table>
+    </div>
+    <p>High Voltage Today: {{ topStats[0][0] }} V @ {{ topStats[0][1] }} </p>
 </div>
