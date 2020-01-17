@@ -2,8 +2,10 @@ from flask import Flask
 import logging
 import os
 from logging.handlers import RotatingFileHandler
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
 if not os.path.exists('logs'):
     os.mkdir('logs')
