@@ -1,8 +1,8 @@
 import psycopg2
-import threading
 import time
 import http.client
 from xml.etree.ElementTree import fromstring, ElementTree
+from scraper import goget
 from app import app
 
 conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
@@ -34,13 +34,13 @@ def getData():
         qry = conndb.cursor()
         qry.execute(sql, [voltageNow])
         conndb.commit()
-        qry.close
+        qry.close()
 
         #   Watts
         sql = "INSERT INTO killawatts(killawatts) VALUES(%s);"
         qry = conndb.cursor()
         qry.execute(sql, [wattsNow])
-        qry.close
+        qry.close()
 
         print('Updated!')
         time.sleep(30)
