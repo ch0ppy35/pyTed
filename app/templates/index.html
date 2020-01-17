@@ -1,81 +1,59 @@
-<!DOCTYPE html>
-<head>
-    <title>pyTED</title>
-    <style>
-        h1 {
-            padding: 5px;
-        }
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: center;
-          padding: 8px;
-        }
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-        #main{
-            text-align: center;
-            font-family: arial, sans-serif;
-        }
-        table{
-            width: 100%;
-            margin: 0pc auto;
-            border-collapse: collapse;
-            float: left;
-            box-shadow: 2.5px 5px 4px #888888;
-        }
-        #rtkw{
-            color: #4CAF50;
-        }
-        #table1{
-            width: 25%;
-            text-align: center;
-            float: left;
-            padding-left: 5%;
-        }
-        #table2{
-            width: 25%;
-            text-align: center;
-            float: right;
-            padding-right: 5%;
-        }
-        </style>
-</head>
-<div id="main">
-<h1>pyTED</h1>
-<h2>Real-Time kW Usage</h2>
-<div id="rtkw">
-<h1>{{ currentStatus[0][1] }} kW</h1>
-</div>
-<div id="table1">
-<h3>Stats (Last 5 minutes)</h3>
-<table>
-    <tr>
-        <th>Present Voltage</th>
+{% extends 'top.html' %}
+{% block content %}
+    <div id="main" class="w3-mobile">
+        <div class="w3-light-gray w3-center" style="padding:1px">
+            <h3>Real-Time kW Usage</h3>
+            <div id="rtkw">
+                <h1>{{ currentStatus[0][1] }} kW</h1>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-third w3-center">
+                <div id="table1">
+                    <h3>Stats (Last 5 minutes)</h3>
+                    <table>
+                        <tr>
+                            <th>Present Voltage</th>
 
-        <th>kW Usage</th>
-    </tr>
-{% for row in currentStatus %}
-    <tr>
-      <td>{{ row[0] }} V</td>
-      <td>{{ row[1] }} kW</td>
-    </tr>
-{% endfor %}
-</table>
-</div>
-<div id="table2">
-    <h3>Recordings</h3>
-    <table>
-        <tr>
-            <th>Type</th>
-    
-            <th>Value</th>
-        </tr>
-        <tr>
-          <td>Voltage Today</td>
-          <td>{{ topStats[0][0] }} V @ {{ topStats[0][1] }}</td>
-        </tr>
-    </table>
+                            <th>kW Usage</th>
+                        </tr>
+                        {% for row in currentStatus %}
+                            <tr>
+                                <td>{{ row[0] }} V</td>
+                                <td>{{ row[1] }} kW</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="w3-third w3-center">
+                <h3>Misc Stats</h3>
+                <a href="https://www.wunderground.com/dashboard/pws/{{ pws }}"><img
+                        src="http://banners.wunderground.com/cgi-bin/banner/ban/wxBanner?bannertype=wxstnsticker&weatherstationcount={{ pws }}"
+                        height="125" width="125" border="0" alt="Weather Underground PWS {{ PWS }}"/></a>
+            </div>
+            <div class="w3-third w3-center">
+                <div id="table2">
+                    <h3>Stats (High/Low)</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td> Peak Voltage Today</td>
+                            <td>{{ voltageStats[0][0] }} V @ {{ voltageStats[0][1] }}</td>
+                        </tr>
+                        <tr>
+                            <td> Peak kW Today</td>
+                            <td>{{ killawattStats[0][0] }} V @ {{ killawattStats[0][1] }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-<p>High Voltage Today: {{ topStats[0][0] }} V @ {{ topStats[0][1] }} </p>
-</div>
+    </body>
+    </html>
+{% endblock %}

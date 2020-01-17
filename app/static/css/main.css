@@ -1,0 +1,40 @@
+h1 {
+    padding: 5px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+#main {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    margin: 0pc auto;
+    border-collapse: collapse;
+    float: left;
+    box-shadow: 2.5px 5px 4px #888888;
+}
+
+#rtkw {
+    color: #4CAF50;
+}
+
+#table1 {
+    text-align: center;
+    padding-left: 5%;
+}
+
+#table2 {
+    text-align: center;
+    padding-right: 5%;
+}
