@@ -3,6 +3,7 @@ import threading
 import time
 import http.client
 from xml.etree.ElementTree import fromstring, ElementTree
+from app import app
 
 conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
                           user=app.config['DBUSER'], password=app.config['DBPORT'])

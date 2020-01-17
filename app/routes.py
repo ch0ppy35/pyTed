@@ -1,7 +1,7 @@
 from app import app
 from getInfo import getData
 from flask_executor import Executor
-from flask import redirect
+from flask import redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import threading
