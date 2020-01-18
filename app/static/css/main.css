@@ -18,10 +18,10 @@ tr:nth-child(even) {
 }
 
 table {
-    width: 100%;
+    width: 90%;
     margin: 0pc auto;
     border-collapse: collapse;
-    float: left;
+    align: center;
     box-shadow: 2.5px 5px 4px #888888;
 }
 
@@ -31,10 +31,8 @@ table {
 
 #table1 {
     text-align: center;
-    padding-left: 5%;
 }
 
 #table2 {
     text-align: center;
-    padding-right: 5%;
 }
