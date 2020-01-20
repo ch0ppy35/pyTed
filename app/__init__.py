@@ -16,6 +16,6 @@ file_handler.setLevel(logging.INFO)
 
 app.logger.addHandler(file_handler)
 app.logger.setLevel(logging.INFO)
-app.logger.info('pyTed startup')
+app.logger.info('~ pyTed is starting up ~')
 
 from app import routes
