@@ -38,14 +38,16 @@ SET default_with_oids = false;
 -- Name: killawatts; Type: TABLE; Schema: public; Owner: postgresadmin
 --
 
-CREATE TABLE public.killawatts (
-    id integer NOT NULL,
-    killawatts character varying(6),
-    ts timestamp without time zone DEFAULT now()
+CREATE TABLE public.killawatts
+(
+    id         integer NOT NULL,
+    killawatts real,
+    ts         timestamp without time zone DEFAULT now()
 );
 
 
-ALTER TABLE public.killawatts OWNER TO postgresadmin;
+ALTER TABLE public.killawatts
+    OWNER TO postgresadmin;
 
 --
 -- Name: killawatts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgresadmin
@@ -60,7 +62,8 @@ CREATE SEQUENCE public.killawatts_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.killawatts_id_seq OWNER TO postgresadmin;
+ALTER TABLE public.killawatts_id_seq
+    OWNER TO postgresadmin;
 
 --
 -- Name: killawatts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgresadmin
@@ -73,14 +76,16 @@ ALTER SEQUENCE public.killawatts_id_seq OWNED BY public.killawatts.id;
 -- Name: voltage; Type: TABLE; Schema: public; Owner: postgresadmin
 --
 
-CREATE TABLE public.voltage (
-    id integer NOT NULL,
-    voltage character varying(6),
-    ts timestamp without time zone DEFAULT now()
+CREATE TABLE public.voltage
+(
+    id      integer NOT NULL,
+    voltage real,
+    ts      timestamp without time zone DEFAULT now()
 );
 
 
-ALTER TABLE public.voltage OWNER TO postgresadmin;
+ALTER TABLE public.voltage
+    OWNER TO postgresadmin;
 
 --
 -- Name: voltage_id_seq; Type: SEQUENCE; Schema: public; Owner: postgresadmin
@@ -95,7 +100,8 @@ CREATE SEQUENCE public.voltage_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.voltage_id_seq OWNER TO postgresadmin;
+ALTER TABLE public.voltage_id_seq
+    OWNER TO postgresadmin;
 
 --
 -- Name: voltage_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgresadmin
@@ -108,14 +114,17 @@ ALTER SEQUENCE public.voltage_id_seq OWNED BY public.voltage.id;
 -- Name: killawatts id; Type: DEFAULT; Schema: public; Owner: postgresadmin
 --
 
-ALTER TABLE ONLY public.killawatts ALTER COLUMN id SET DEFAULT nextval('public.killawatts_id_seq'::regclass);
+ALTER TABLE ONLY public.killawatts
+    ALTER COLUMN id SET DEFAULT nextval('public.killawatts_id_seq'::regclass);
 
 
 --
 -- Name: voltage id; Type: DEFAULT; Schema: public; Owner: postgresadmin
 --
 
-ALTER TABLE ONLY public.voltage ALTER COLUMN id SET DEFAULT nextval('public.voltage_id_seq'::regclass);
+ALTER TABLE ONLY public.voltage
+    ALTER COLUMN id SET DEFAULT nextval('public.voltage_id_seq'::regclass);
+
 
 
 --
