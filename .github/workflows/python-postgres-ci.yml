@@ -39,14 +39,7 @@ jobs:
           sudo apt-get install -y libpq-dev
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-        if: steps.cache.outputs.cache-hit != 'true'
 
-      # - name: Test with black
-      #   run: |
-      #     python -m black --check .
-
-      # - name: Test with pytest
-      #   env:
-      #     DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
-      #   run: |
-      #     python -m pytest
+      - name: Test with pytest
+        run: |
+          pytest -v tests_basic.py
