@@ -10,7 +10,7 @@ This is a Flask app that's being written as a front-end for
 A neat gadget, check it out.
 
 ### Why?
-We want/need a dashboard for mobile, and we didn't want to write an Android app _and_ a iOS app. 
+We want/need a dashboard for mobile, and we didn't want to write an Android app _and_ an iOS app. 
 
 ### What it needs to run
 Python3, check requirements.  You'll need a Postgres endpoint too.
