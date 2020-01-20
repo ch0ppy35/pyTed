@@ -5,6 +5,7 @@ from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
 from app import app
 
+
 conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
                           user=app.config['DBUSER'], password=app.config['DBPASS'])
 
@@ -28,7 +29,7 @@ def getData():
         qry.close()
 
         #   Watts
-        sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);'
+        sql = "INSERT INTO killawatts(killawatts) VALUES(%s);"
         qry = conndb.cursor()
         qry.execute(sql, [wattsNow])
         qry.close()
