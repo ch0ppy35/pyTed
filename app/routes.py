@@ -17,19 +17,37 @@ def activateJob():
     executor.submit(getData())
 
 def qryCurrent():
-    sql = "select v.voltage, k.killawatts from voltage v inner join killawatts k on k.ts between v.ts and v.ts + interval '10 s' order by v.id desc limit 10;"
+    sql = """
+    SELECT v.voltage, k.killawatts
+    FROM voltage v
+         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
+    ORDER BY v.id DESC
+    LIMIT 10;
+    """
     qry = conndb.cursor()
     qry.execute(sql)
     return (qry.fetchall())
 
 def qryVoltage():
-    sql = "select voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM') from Voltage where current_date = date(ts) order by voltage desc limit 1;"
+    sql = """
+    SELECT voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    FROM Voltage
+    WHERE current_date = date(ts)
+    ORDER BY voltage DESC
+    LIMIT 1;
+    """
     qry = conndb.cursor()
     qry.execute(sql)
     return (qry.fetchall())
 
 def qryKillawatt():
-    sql = "select killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM') from killawatts where current_date = date(ts) order by killawatts desc limit 1;"
+    sql = """
+    SELECT killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    FROM killawatts
+    WHERE current_date = date(ts)
+    ORDER BY killawatts DESC
+    LIMIT 1;
+    """
     qry = conndb.cursor()
     qry.execute(sql)
     return (qry.fetchall())
