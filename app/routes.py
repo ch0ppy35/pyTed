@@ -1,13 +1,11 @@
-from app import app
+from app import app, database
 from getInfo import getData
 from flask_executor import Executor
-from flask import redirect, render_template
-import psycopg2
+from flask import render_template
 import threading
 
 
 executor = Executor(app)
-conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted', user=app.config['DBUSER'], password=app.config['DBPASS'])
 
 @app.before_first_request
 def startBackGroundJob():
@@ -17,22 +15,40 @@ def activateJob():
     executor.submit(getData())
 
 def qryCurrent():
-    sql = "select v.voltage, k.killawatts from voltage v inner join killawatts k on k.ts between v.ts and v.ts + interval '10 s' order by v.id desc limit 10;"
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    sql = """
+    SELECT v.voltage, k.killawatts
+    FROM voltage v
+         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
+    ORDER BY v.id DESC
+    LIMIT 10;
+    """
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 def qryVoltage():
-    sql = "select voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM') from Voltage where current_date = date(ts) order by voltage desc limit 1;"
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    sql = """
+    SELECT voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    FROM Voltage
+    WHERE current_date = date(ts)
+    ORDER BY voltage DESC
+    LIMIT 1;
+    """
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 def qryKillawatt():
-    sql = "select killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM') from killawatts where current_date = date(ts) order by killawatts desc limit 1;"
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    sql = """
+    SELECT killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    FROM killawatts
+    WHERE current_date = date(ts)
+    ORDER BY killawatts DESC
+    LIMIT 1;
+    """
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 @app.route('/')
 def index():

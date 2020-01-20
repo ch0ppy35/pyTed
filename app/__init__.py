@@ -18,4 +18,4 @@ app.logger.addHandler(file_handler)
 app.logger.setLevel(logging.INFO)
 app.logger.info('~ pyTed is starting up ~')
 
-from app import routes
+from app import routes, database
