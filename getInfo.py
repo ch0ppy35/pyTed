@@ -1,13 +1,8 @@
-import psycopg2
 import time
 import logging
 from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
-from app import app
-
-
-conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
-                          user=app.config['DBUSER'], password=app.config['DBPASS'])
+from app import app, database
 
 
 def getData():
@@ -22,19 +17,18 @@ def getData():
 
         #   Build & execute Query
         #   Voltage
-        sql = 'INSERT INTO Voltage(voltage) VALUES(%s);'
-        qry = conndb.cursor()
-        qry.execute(sql, [voltageNow])
-        conndb.commit()
-        qry.close()
+        db = database.MyDatabase()
+        sql = 'INSERT INTO Voltage(voltage) VALUES(%s);' % voltageNow
+        #print(sql)
+        db.insertq(sql)
 
         #   Watts
-        sql = "INSERT INTO killawatts(killawatts) VALUES(%s);"
-        qry = conndb.cursor()
-        qry.execute(sql, [wattsNow])
-        qry.close()
+        db = database.MyDatabase()
+        sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);' % wattsNow
+        #print(sql)
+        db.insertq(sql)
 
-        #print('Updated!')
+        # print('Updated!')
         app.logger.setLevel(logging.INFO)
         app.logger.info('Updated the DB with fresh data')
         time.sleep(30)
