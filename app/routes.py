@@ -1,13 +1,11 @@
-from app import app
+from app import app, database
 from getInfo import getData
 from flask_executor import Executor
-from flask import redirect, render_template
-import psycopg2
+from flask import render_template
 import threading
 
 
 executor = Executor(app)
-conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted', user=app.config['DBUSER'], password=app.config['DBPASS'])
 
 @app.before_first_request
 def startBackGroundJob():
@@ -24,9 +22,9 @@ def qryCurrent():
     ORDER BY v.id DESC
     LIMIT 10;
     """
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 def qryVoltage():
     sql = """
@@ -36,9 +34,9 @@ def qryVoltage():
     ORDER BY voltage DESC
     LIMIT 1;
     """
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 def qryKillawatt():
     sql = """
@@ -48,9 +46,9 @@ def qryKillawatt():
     ORDER BY killawatts DESC
     LIMIT 1;
     """
-    qry = conndb.cursor()
-    qry.execute(sql)
-    return (qry.fetchall())
+    db = database.MyDatabase()
+    #print(sql)
+    return db.query(sql)
 
 @app.route('/')
 def index():
