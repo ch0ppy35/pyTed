@@ -1,9 +1,10 @@
 import psycopg2
-import threading
 import time
-import http.client
+import logging
+from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
 from app import app
+
 
 conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
                           user=app.config['DBUSER'], password=app.config['DBPASS'])
@@ -11,16 +12,7 @@ conndb = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], 
 
 def getData():
     while True:
-        conn = http.client.HTTPConnection(app.config['HOST'], 8880, 5)
-        payload = ""
-        headers = {
-            'cache-control': "no-cache",
-        }
-
-        conn.request("GET", "/api/LiveData.xml", payload, headers)
-        res = conn.getresponse()
-        data = res.read()
-        data = data.decode("utf-8")
+        data = goget()
         tree = ElementTree(fromstring(data))
         root = tree.getroot()
 
@@ -30,17 +22,19 @@ def getData():
 
         #   Build & execute Query
         #   Voltage
-        sql = "INSERT INTO Voltage(voltage) VALUES(%s);"
+        sql = 'INSERT INTO Voltage(voltage) VALUES(%s);'
         qry = conndb.cursor()
         qry.execute(sql, [voltageNow])
         conndb.commit()
-        qry.close
+        qry.close()
 
         #   Watts
         sql = "INSERT INTO killawatts(killawatts) VALUES(%s);"
         qry = conndb.cursor()
         qry.execute(sql, [wattsNow])
-        qry.close
+        qry.close()
 
-        print('Updated!')
+        #print('Updated!')
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Updated the DB with fresh data')
         time.sleep(30)
