@@ -14,3 +14,5 @@ We want/need a dashboard for mobile, and we didn't want to write an Android app 
 
 ### What it needs to run
 Python3, check requirements.  You'll need a Postgres endpoint too.
+
+![Build Status](https://github.com/ch0ppy35/pyTed/workflows/CI/badge.svg)
