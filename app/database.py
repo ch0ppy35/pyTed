@@ -5,7 +5,6 @@ from app import app
 class MyDatabase():
     def __init__(self):
         self.conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
-                                     user=app.config['DBUSER'], password=app.config['DBPORT'])
                                      user=app.config['DBUSER'], password=app.config['DBPASS'])
     def query(self, query, columns):
         self.cur = self.conn.cursor()
