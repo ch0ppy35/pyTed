@@ -1,16 +1,19 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Flask (pyTED:app)" type="Python.FlaskServer" nameIsGenerated="true">
     <option name="application" value="app" />
+    <option name="flaskDebug" value="true" />
     <module name="pyTed" />
     <option name="target" value="pyTED" />
     <option name="targetType" value="PYTHON" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
-      <env name="DBHOST" value="127.0.0.1" />
-      <env name="DBPORT" value="5432" />
+      <env name="DBHOST" value="192.168.99.106" />
+      <env name="DBPORT" value="32389" />
+      <env name="DBUSER" value="postgresadmin" />
+      <env name="DBPASS" value="admin123" />
       <env name="HOST" value="***REMOVED***" />
-      <env name="FLASK_APP" value="pyTED.py" />
+      <env name="PWS" value="KNYSYRAC98" />
     </envs>
     <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
