@@ -3,13 +3,15 @@ from getInfo import getData
 from flask_executor import Executor
 from flask import render_template
 import threading
-
+import time
 
 executor = Executor(app)
 
 @app.before_first_request
 def startBackGroundJob():
     threading.Thread(target=activateJob).start()
+    #give time for new data to be inserted.
+    time.sleep(5)
 
 def activateJob():
     executor.submit(getData())
@@ -28,10 +30,10 @@ def qryCurrent():
 
 def qryVoltage():
     sql = """
-    SELECT voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    SELECT voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI AM')
     FROM Voltage
-    WHERE current_date = date(ts)
-    ORDER BY voltage DESC
+    WHERE current_date = date(ts) OR ts BETWEEN ts AND ts - interval '1h'
+    ORDER BY date(ts) DESC, voltage DESC
     LIMIT 1;
     """
     db = database.MyDatabase()
@@ -40,10 +42,10 @@ def qryVoltage():
 
 def qryKillawatt():
     sql = """
-    SELECT killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
+    SELECT killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI AM')
     FROM killawatts
-    WHERE current_date = date(ts)
-    ORDER BY killawatts DESC
+    WHERE current_date = date(ts) OR ts BETWEEN ts AND ts - interval '1h'
+    ORDER BY date(ts) DESC, killawatts DESC
     LIMIT 1;
     """
     db = database.MyDatabase()
