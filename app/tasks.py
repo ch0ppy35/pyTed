@@ -18,3 +18,6 @@ def dailyTasks():
     """
     db.modifyq(sql)
     app.logger.info("Daily task complete")
+
+def weeklyTasks():
+    app.logger.info("Weekly task complete")

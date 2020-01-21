@@ -3,14 +3,17 @@ from getInfo import getData
 from flask import render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
+import atexit
+
+scheduler = BackgroundScheduler()
 
 @app.before_first_request
 def startBackGroundJob():
-    scheduler = BackgroundScheduler()
     scheduler.add_job(
         getData,
         trigger='cron',
-        second='*/30'
+        second='*/30',
+        max_instances=1
     )
     scheduler.add_job(
         tasks.dailyTasks,
@@ -62,3 +65,7 @@ def qryKillawatt():
 @app.route('/')
 def index():
     return render_template('index.html', currentStatus=qryCurrent(), voltageStats=qryVoltage(), killawattStats=qryKillawatt(), pws=app.config['PWS'])
+
+@atexit.register
+def end():
+    scheduler.shutdown()
