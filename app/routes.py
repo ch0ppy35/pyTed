@@ -1,11 +1,8 @@
-from app import app, database
+from app import app, database, tasks
 from getInfo import getData
-from flask_executor import Executor
 from flask import render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
-
-executor = Executor(app)
 
 @app.before_first_request
 def startBackGroundJob():
@@ -15,8 +12,16 @@ def startBackGroundJob():
         trigger='cron',
         second='*/30'
     )
+    scheduler.add_job(
+        tasks.dailyTasks,
+        trigger='cron',
+        hour='23',
+        minute='59'
+    )
     scheduler.start()
-    #give time for new data to be inserted.
+
+    #Fire off get data & give time for new data to be inserted.
+    getData()
     time.sleep(5)
 def qryCurrent():
     sql = """
