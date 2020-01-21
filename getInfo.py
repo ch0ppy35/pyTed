@@ -1,5 +1,3 @@
-import time
-import logging
 from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
 from app import app, database
@@ -13,20 +11,24 @@ def getData():
     #   Get Data
     voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text) / 10)
     wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text) / 1000)
+    kwhTotalNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[2].text) / 1000)
 
     #   Build & execute Query
     #   Voltage
     db = database.MyDatabase()
     sql = 'INSERT INTO Voltage(voltage) VALUES(%s);' % voltageNow
-    # print(sql)
-    db.insertq(sql)
+    db.modifyq(sql)
 
     #   Watts
     db = database.MyDatabase()
     sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);' % wattsNow
-    # print(sql)
-    db.insertq(sql)
+    db.modifyq(sql)
+
+
+    #   kwhTotalNow
+    db = database.MyDatabase()
+    sql = 'INSERT INTO kwhTotals(kwhtotal) VALUES(%s);' % kwhTotalNow
+    db.modifyq(sql)
 
     # print('Updated!')
-    app.logger.setLevel(logging.INFO)
     app.logger.info('Updated the DB with fresh data')
