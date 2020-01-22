@@ -1,21 +1,31 @@
-from app import app, database
+from app import app, database, tasks
 from getInfo import getData
-from flask_executor import Executor
 from flask import render_template
-import threading
+from apscheduler.schedulers.background import BackgroundScheduler
 import time
+import atexit
 
-executor = Executor(app)
+scheduler = BackgroundScheduler()
 
 @app.before_first_request
 def startBackGroundJob():
-    threading.Thread(target=activateJob).start()
-    #give time for new data to be inserted.
+    scheduler.add_job(
+        getData,
+        trigger='cron',
+        second='*/30',
+        max_instances=1
+    )
+    scheduler.add_job(
+        tasks.dailyTasks,
+        trigger='cron',
+        hour='23',
+        minute='59'
+    )
+    scheduler.start()
+
+    #Fire off get data & give time for new data to be inserted.
+    getData()
     time.sleep(5)
-
-def activateJob():
-    executor.submit(getData())
-
 def qryCurrent():
     sql = """
     SELECT v.voltage, k.killawatts
@@ -55,3 +65,7 @@ def qryKillawatt():
 @app.route('/')
 def index():
     return render_template('index.html', currentStatus=qryCurrent(), voltageStats=qryVoltage(), killawattStats=qryKillawatt(), pws=app.config['PWS'])
+
+@atexit.register
+def end():
+    scheduler.shutdown()
