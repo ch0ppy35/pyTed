@@ -14,7 +14,7 @@ class MyDatabase():
         self.close()
         return result
 
-    def insertq(self, query):
+    def modifyq(self, query):
         self.cur = self.conn.cursor()
         self.cur.execute(query)
         self.conn.commit()
