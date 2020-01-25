@@ -1,6 +1,5 @@
-from app import app, tasks
-from getInfo import getData
-from flask import render_template, redirect
+from app import app, tasks, getInfo
+from flask import render_template, redirect, send_from_directory
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
@@ -11,7 +10,7 @@ scheduler = BackgroundScheduler()
 @app.before_first_request
 def startBackGroundJob():
     scheduler.add_job(
-        getData,
+        getInfo.getData,
         trigger='cron',
         second='*/30',
         max_instances=1
@@ -28,9 +27,10 @@ def startBackGroundJob():
         week='*'
     )
     scheduler.start()
+    app.logger.info('~ Scheduler starting for for tasks ~')
 
     # Fire off get data & give time for new data to be inserted.
-    getData()
+    getInfo.getData()
     time.sleep(5)
 
 
@@ -54,6 +54,13 @@ def runTasks():
     tasks.weeklyTasks()
     return redirect('/')
 
+
 @atexit.register
 def end():
-    scheduler.shutdown()
+    # Prevent an unhealthy shutdown
+    if scheduler.running:
+        scheduler.shutdown()
+        app.logger.info('~ Scheduler is shutting down ~')
+    else:
+        app.logger.info("~ Scheduler isn't running, not attempting shutdown ~")
+    app.logger.info('~ pyTed is shutting down - Until next time ~')
