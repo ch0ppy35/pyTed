@@ -1,55 +1,59 @@
-from app import app, database
+from app import app, tasks
 from getInfo import getData
-from flask_executor import Executor
-from flask import render_template
-import threading
+from flask import render_template, redirect
+from apscheduler.schedulers.background import BackgroundScheduler
+import time
+import atexit
 
+scheduler = BackgroundScheduler()
 
-executor = Executor(app)
 
 @app.before_first_request
 def startBackGroundJob():
-    threading.Thread(target=activateJob).start()
+    scheduler.add_job(
+        getData,
+        trigger='cron',
+        second='*/30',
+        max_instances=1
+    )
+    scheduler.add_job(
+        tasks.dailyTasks,
+        trigger='cron',
+        hour='23',
+        minute='59'
+    )
+    scheduler.add_job(
+        tasks.weeklyTasks,
+        trigger='cron',
+        week='*'
+    )
+    scheduler.start()
 
-def activateJob():
-    executor.submit(getData())
+    # Fire off get data & give time for new data to be inserted.
+    getData()
+    time.sleep(5)
 
-def qryCurrent():
-    sql = """
-    SELECT v.voltage, k.killawatts
-    FROM voltage v
-         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
-    ORDER BY v.id DESC
-    LIMIT 10;
-    """
-    db = database.MyDatabase()
-    #print(sql)
-    return db.query(sql)
-
-def qryVoltage():
-    sql = """
-    SELECT voltage, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
-    FROM Voltage
-    WHERE current_date = date(ts)
-    ORDER BY voltage DESC
-    LIMIT 1;
-    """
-    db = database.MyDatabase()
-    #print(sql)
-    return db.query(sql)
-
-def qryKillawatt():
-    sql = """
-    SELECT killawatts, to_char(ts at time zone 'utc' at time zone 'america/new_york', 'HH:MI:AM')
-    FROM killawatts
-    WHERE current_date = date(ts)
-    ORDER BY killawatts DESC
-    LIMIT 1;
-    """
-    db = database.MyDatabase()
-    #print(sql)
-    return db.query(sql)
 
 @app.route('/')
 def index():
-    return render_template('index.html', currentStatus=qryCurrent(), voltageStats=qryVoltage(), killawattStats=qryKillawatt(), pws=app.config['PWS'])
+    return render_template(
+        'index.html',
+        currentStatus=tasks.qryCurrent(),
+        voltageStats=tasks.qryVoltage(),
+        killawattStats=tasks.qryKillawatt(),
+        dayKwhTotal=tasks.qryDayKwhTotal(),
+        kwh7dTotal=tasks.qryKwh7dTotal(),
+        kwhPrevWk=tasks.qryKwhPrevWk(),
+        pws=app.config['PWS']
+    )
+
+
+@app.route('/runtasks')
+def runTasks():
+    tasks.dailyTasks()
+    tasks.weeklyTasks()
+    return redirect('/')
+
+@atexit.register
+def end():
+    scheduler.shutdown()

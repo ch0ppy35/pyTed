@@ -1,59 +1,88 @@
 {% extends 'top.html' %}
 {% block content %}
-    <div id="main" class="w3-mobile">
-        <div class="w3-light-gray w3-center" style="padding:1px">
-            <h3>Real-Time kW Usage</h3>
-            <div id="rtkw">
-                <h1>{{ currentStatus[0][1] }} kW</h1>
+<div id="main" class="w3-mobile">
+    <div class="w3-light-gray w3-center" style="padding:1px">
+        <h3>Real-Time kW Usage</h3>
+        <div id="rtkw">
+            <h1>{{ currentStatus[0][1] }} kW</h1>
+        </div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-third w3-center">
+            <div id="table1">
+                <h3>Stats (Last 5 minutes)</h3>
+                <table>
+                    <tr>
+                        <th>Present Voltage</th>
+
+                        <th>kW Usage</th>
+                    </tr>
+                    {% for row in currentStatus %}
+                    <tr>
+                        <td>{{ row[0] }} V</td>
+                        <td>{{ row[1] }} kW</td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
-        <div class="w3-row">
-            <div class="w3-third w3-center">
-                <div id="table1">
-                    <h3>Stats (Last 5 minutes)</h3>
-                    <table>
-                        <tr>
-                            <th>Present Voltage</th>
+        <div class="w3-third w3-center">
+            <h3>Misc Stats</h3>
+            <div id="table3">
+                <table>
+                    <tr>
+                        <th>Type</th>
 
-                            <th>kW Usage</th>
-                        </tr>
-                        {% for row in currentStatus %}
-                            <tr>
-                                <td>{{ row[0] }} V</td>
-                                <td>{{ row[1] }} kW</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td> kWh Used Since Midnight </td>
+                        <td> {{ dayKwhTotal[0][0] }} kW </td>
+                    </tr>
+                    <tr>
+                        <td> kWh Used Last 7 Days </td>
+                        <td> {{ kwh7dTotal[0][0] }} kW </td>
+                    </tr>
+                    <tr>
+                        <td> kWh Used Last Week</td>
+                        <td> {{ kwhPrevWk[0][0] }} kW </td>
+                    </tr>
+                </table>
             </div>
-            <div class="w3-third w3-center">
-                <h3>Misc Stats</h3>
-                <a href="https://www.wunderground.com/dashboard/pws/{{ pws }}"><img
-                        src="http://banners.wunderground.com/cgi-bin/banner/ban/wxBanner?bannertype=wxstnsticker&weatherstationcount={{ pws }}"
-                        height="125" width="125" border="0" alt="Weather Underground PWS {{ PWS }}"/></a>
-            </div>
-            <div class="w3-third w3-center">
-                <div id="table2">
-                    <h3>Stats (High/Low)</h3>
-                    <table>
-                        <tr>
-                            <th>Type</th>
+            <a href="https://www.wunderground.com/dashboard/pws/{{ pws }}"><img
+                    src="http://banners.wunderground.com/cgi-bin/banner/ban/wxBanner?bannertype=wxstnsticker&weatherstationcount={{ pws }}"
+                    height="125" width="125" border="0" alt="Weather Underground PWS {{ PWS }}"/></a>
+        </div>
+        <div class="w3-third w3-center">
+            <div id="table2">
+                <h3>Stats (High/Low)</h3>
+                <table>
+                    <tr>
+                        <th>Type</th>
 
-                            <th>Value</th>
-                        </tr>
-                        <tr>
-                            <td> Peak Voltage Today</td>
-                            <td>{{ voltageStats[0][0] }} V @ {{ voltageStats[0][1] }}</td>
-                        </tr>
-                        <tr>
-                            <td> Peak kW Today</td>
-                            <td>{{ killawattStats[0][0] }} kW @ {{ killawattStats[0][1] }}</td>
-                        </tr>
-                    </table>
-                </div>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td> Peak Voltage Today</td>
+                        <td>{{ voltageStats[0][0] }} V @ {{ voltageStats[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Low Voltage Today</td>
+                        <td>{{ voltageStats[0][2] }} V @ {{ voltageStats[0][3] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Peak kW Today</td>
+                        <td>{{ killawattStats[0][0] }} kW @ {{ killawattStats[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Low kW Today</td>
+                        <td>{{ killawattStats[0][2] }} kW @ {{ killawattStats[0][3] }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    </body>
-    </html>
+</div>
+</body>
+</html>
 {% endblock %}

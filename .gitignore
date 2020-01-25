@@ -1,4 +1,5 @@
 .vscode/
+.idea/
 venv/
 logs/
 __pycache__/
@@ -6,4 +7,3 @@ __pycache__/
 instance/
 .webassets-cache
 .DS_Store
-.idea/

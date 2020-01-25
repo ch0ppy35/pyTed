@@ -1,34 +1,34 @@
-import time
-import logging
 from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
 from app import app, database
 
 
 def getData():
-    while True:
-        data = goget()
-        tree = ElementTree(fromstring(data))
-        root = tree.getroot()
+    data = goget()
+    tree = ElementTree(fromstring(data))
+    root = tree.getroot()
 
-        #   Get Data
-        voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text) / 10)
-        wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text) / 1000)
+    #   Get Data
+    voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text) / 10)
+    wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text) / 1000)
+    kwhTotalNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[2].text) / 1000)
 
-        #   Build & execute Query
-        #   Voltage
-        db = database.MyDatabase()
-        sql = 'INSERT INTO Voltage(voltage) VALUES(%s);' % voltageNow
-        #print(sql)
-        db.insertq(sql)
+    #   Build & execute Query
+    #   Voltage
+    db = database.MyDatabase()
+    sql = 'INSERT INTO Voltage(voltage) VALUES(%s);' % voltageNow
+    db.modifyq(sql)
 
-        #   Watts
-        db = database.MyDatabase()
-        sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);' % wattsNow
-        #print(sql)
-        db.insertq(sql)
+    #   Watts
+    db = database.MyDatabase()
+    sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);' % wattsNow
+    db.modifyq(sql)
 
-        # print('Updated!')
-        app.logger.setLevel(logging.INFO)
-        app.logger.info('Updated the DB with fresh data')
-        time.sleep(30)
+
+    #   kwhTotalNow
+    db = database.MyDatabase()
+    sql = 'INSERT INTO kwhTotals(kwhtotal) VALUES(%s);' % kwhTotalNow
+    db.modifyq(sql)
+
+    # print('Updated!')
+    app.logger.info('Updated the DB with fresh data')
