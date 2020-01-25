@@ -16,7 +16,7 @@ class Config(object):
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
     # Mail Server
-    MAIL_SERVER = os.environ.get('MAILHOST') #or '127.0.0.1'
+    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
     MAIL_PORT = 25
     MAIL_USE_TLS = False
     MAIL_USE_SSL = False

@@ -19,8 +19,8 @@ app.logger.setLevel(logging.INFO)
 
 # Mail logging on errors (Needs work)
 if not app.debug and app.config['MAIL_SERVER'] is not None:
-    HOST_UP = True if os.system("ping -c 1 " + app.config['MAIL_SERVER']) is 0 else False
-    if HOST_UP:
+    MAIL_HOST = True if os.system("ping -c 1 " + app.config['MAIL_SERVER'] + " > /dev/null") is 0 else False
+    if MAIL_HOST:
         credentials = None
         app.logger.info('~ Trying to turn on mail services ~')
         if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
