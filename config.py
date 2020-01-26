@@ -28,3 +28,5 @@ class Config(object):
     LANGUAGES = {
         'en': 'English'
     }
+    # version
+    VERSION = '0.0.1a'

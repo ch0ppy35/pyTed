@@ -6,6 +6,11 @@
         <div id="rtkw">
             <h1>{{ currentStatus[0][1] }} kW</h1>
         </div>
+        <script>
+            setInterval(function () { // load the data from your endpoint into the div
+                $("#rtkw").load("/rtkw")
+            }, 30000)
+        </script>
     </div>
     <div class="w3-row">
         <div class="w3-third w3-center">
