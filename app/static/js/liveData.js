@@ -9,16 +9,16 @@ var opts = {
     },
     limitMax: false,     // If false, max value increases automatically if value > maxValue
     limitMin: false,     // If true, the min value of the gauge will be fixed
-    colorStart: '#0CCF3A',   // Colors
-    colorStop: '#78DA16',    // just experiment with them
-    strokeColor: '#E0E0E0',  // to see which ones work best for you
+    colorStart: '#96cfcc',   // Colors
+    colorStop: '#55d459',    // just experiment with them
+    strokeColor: '#a1a1a1',  // to see which ones work best for you
     generateGradient: true,
     highDpiSupport: true,     // High resolution support
 
 };
 var target = document.getElementById('gauge'); // your canvas element
 var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-gauge.maxValue = 100; // set max gauge value
+gauge.maxValue = 4; // set max gauge value
 gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
 gauge.animationSpeed = 32; // set animation speed (32 is default value)
 
