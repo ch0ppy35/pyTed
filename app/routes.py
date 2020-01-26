@@ -24,7 +24,9 @@ def startBackGroundJob():
     scheduler.add_job(
         tasks.weeklyTasks,
         trigger='cron',
-        week='*'
+        day_of_week='sun',
+        hour='0',
+        minute='0'
     )
     scheduler.start()
     app.logger.info('~ Scheduler starting for for tasks ~')
@@ -50,10 +52,9 @@ def index():
 
 @app.route('/rtkw')
 def rtkw():
-    return render_template(
-        'rtkw.html',
-        currentStatus=tasks.qryCurrent()
-    )
+    currentStatus = tasks.qryCurrent()
+    value = str(currentStatus[0][1])
+    return value
 
 
 @app.route('/about')

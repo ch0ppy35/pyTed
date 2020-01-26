@@ -2,15 +2,12 @@
 {% block content %}
 <div id="main" class="w3-mobile">
     <div class="w3-light-gray w3-center" style="padding:1px">
-        <h3>Real-Time kW Usage</h3>
-        <div id="rtkw">
-            <h1>{{ currentStatus[0][1] }} kW</h1>
-        </div>
-        <script>
-            setInterval(function () { // load the data from your endpoint into the div
-                $("#rtkw").load("/rtkw")
-            }, 30000)
-        </script>
+        <span class="gaugeTitle">Real-Time kW Usage</span>
+        <span class="gaugeLabel">
+            <div id="rtkw"> {{ currentStatus[0][1] }} kW</div>
+        </span>
+        <canvas id="gauge"></canvas>
+        <script src="{{ url_for('static', filename='js/liveData.js') }}"></script>
     </div>
     <div class="w3-row">
         <div class="w3-third w3-center">
@@ -41,16 +38,16 @@
                         <th>Value</th>
                     </tr>
                     <tr>
-                        <td> kWh Used Since Midnight </td>
-                        <td> {{ dayKwhTotal[0][0] }} kW </td>
+                        <td> kWh Used Since Midnight</td>
+                        <td> {{ dayKwhTotal[0][0] }} kW</td>
                     </tr>
                     <tr>
-                        <td> kWh Used Last 7 Days </td>
-                        <td> {{ kwh7dTotal[0][0] }} kW </td>
+                        <td> kWh Used Last 7 Days</td>
+                        <td> {{ kwh7dTotal[0][0] }} kW</td>
                     </tr>
                     <tr>
                         <td> kWh Used Last Week</td>
-                        <td> {{ kwhPrevWk[0][0] }} kW </td>
+                        <td> {{ kwhPrevWk[0][0] }} kW</td>
                     </tr>
                 </table>
             </div>
