@@ -1,5 +1,5 @@
 from app import app, tasks, getInfo
-from flask import render_template, redirect, send_from_directory
+from flask import render_template, redirect
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
@@ -45,6 +45,21 @@ def index():
         kwh7dTotal=tasks.qryKwh7dTotal(),
         kwhPrevWk=tasks.qryKwhPrevWk(),
         pws=app.config['PWS']
+    )
+
+
+@app.route('/rtkw')
+def rtkw():
+    currentStatus = tasks.qryCurrent()
+    value = "<h1>" + str(currentStatus[0][1]) + " kW</h1>"
+    return value
+
+
+@app.route('/about')
+def about():
+    return render_template(
+        'about.html',
+        version=app.config['VERSION']
     )
 
 
