@@ -3,14 +3,12 @@
 <div id="main" class="w3-mobile">
     <div class="w3-light-gray w3-center" style="padding:1px">
         <h3>Real-Time kW Usage</h3>
-        <div id="rtkw">
-            <h1>{{ currentStatus[0][1] }} kW</h1>
-        </div>
-        <script>
-            setInterval(function () { // load the data from your endpoint into the div
-                $("#rtkw").load("/rtkw")
-            }, 30000)
-        </script>
+        <h1>
+            <div id="rtkw"> {{ currentStatus[0][1] }} kW</div>
+        </h1>
+    </div>
+    <div>
+    <canvas id="foo"></canvas>
     </div>
     <div class="w3-row">
         <div class="w3-third w3-center">
