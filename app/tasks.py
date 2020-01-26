@@ -1,7 +1,6 @@
 from app import app, database
 
 
-
 def qryCurrent():
     sql = """
     SELECT v.voltage, k.killawatts
@@ -13,6 +12,7 @@ def qryCurrent():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
+
 def qryDayKwhTotal():
     sql = """
     SELECT kwhtotal 
@@ -20,6 +20,7 @@ def qryDayKwhTotal():
     """
     db = database.MyDatabase()
     return db.query(sql) or ['']
+
 
 def qryKwh7dTotal():
     sql = """
@@ -33,6 +34,7 @@ def qryKwh7dTotal():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
+
 def qryKwhPrevWk():
     sql = """
     SELECT kwhtotal
@@ -42,6 +44,7 @@ def qryKwhPrevWk():
     """
     db = database.MyDatabase()
     return db.query(sql) or ['']
+
 
 def qryVoltage():
     sql = """
@@ -57,6 +60,7 @@ def qryVoltage():
     """
     db = database.MyDatabase()
     return db.query(sql) or ['']
+
 
 def qryKillawatt():
     sql = """
@@ -75,11 +79,12 @@ def qryKillawatt():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
-#Cron Tasks
+
+# Cron Tasks
 
 def dailyTasks():
     db = database.MyDatabase()
-    sql="""
+    sql = """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES((
     SELECT kwhtotal FROM kwhTotals 
     ORDER BY ts DESC LIMIT 1));
@@ -87,20 +92,20 @@ def dailyTasks():
     db.modifyq(sql)
 
     db = database.MyDatabase()
-    sql="""
+    sql = """
     DELETE FROM kwhTotals
     WHERE ts < NOW() - INTERVAL '7 days';
     """
     db.modifyq(sql)
     app.logger.info("Daily task complete")
 
+
 def weeklyTasks():
     db = database.MyDatabase()
-    sql="""
+    sql = """
     INSERT INTO kwhTotalsWeek(kwhtotal) VALUES((
     SELECT kwhtotal FROM kwhTotalsDay 
     ORDER BY ts DESC LIMIT 1));
     """
     db.modifyq(sql)
-
     app.logger.info("Weekly task complete")
