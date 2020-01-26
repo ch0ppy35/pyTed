@@ -50,9 +50,10 @@ def index():
 
 @app.route('/rtkw')
 def rtkw():
-    currentStatus = tasks.qryCurrent()
-    value = "<h1>" + str(currentStatus[0][1]) + " kW</h1>"
-    return value
+    return render_template(
+        'rtkw.html',
+        currentStatus=tasks.qryCurrent()
+    )
 
 
 @app.route('/about')
