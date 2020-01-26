@@ -8,11 +8,12 @@
     <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="http://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
     {#Static images#}
     <link href="{{ url_for('static', filename='iphone-icon.png') }}" rel="apple-touch-icon">
     <link href="{{ url_for('static', filename='favicon.ico') }}" rel="shortcut icon">
+    {#Scripts#}
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
     <script>
         function mobileNav() {
             var x = document.getElementById("mobileNav");
@@ -22,16 +23,6 @@
                 x.className = x.className.replace(" w3-show", "");
             }
         }
-    </script>
-    <script>
-        setInterval(function () { // load the data from your endpoint into the div
-            $.get('/rtkw', function (data) {
-                $("#rtkw").replaceWith("<div id='rtkw'>" + data + " kW</div>")
-                console.log(data)
-            });
-        }, 30000)
-    </script>
-    <script>
     </script>
 </head>
 <body>
