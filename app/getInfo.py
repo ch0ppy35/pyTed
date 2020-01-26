@@ -1,10 +1,9 @@
-from scraper import goget
 from xml.etree.ElementTree import fromstring, ElementTree
-from app import app, database
+from app import app, database, scraper
 
 
 def getData():
-    data = goget()
+    data = scraper.goget()
     tree = ElementTree(fromstring(data))
     root = tree.getroot()
 
@@ -31,4 +30,4 @@ def getData():
     db.modifyq(sql)
 
     # print('Updated!')
-    app.logger.info('Updated the DB with fresh data')
+    app.logger.info('Updated the DB with fresh data from Ted')
