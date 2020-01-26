@@ -24,7 +24,9 @@ def startBackGroundJob():
     scheduler.add_job(
         tasks.weeklyTasks,
         trigger='cron',
-        week='*'
+        day_of_week='sun',
+        hour='0',
+        minute='0'
     )
     scheduler.start()
     app.logger.info('~ Scheduler starting for for tasks ~')
