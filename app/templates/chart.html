@@ -1,0 +1,11 @@
+{% extends "top.html" %}
+
+{% block content %}
+    <div>
+        <span>Last 5 Min...</span>
+        <canvas></canvas>
+        <script src="{{ url_for('static', filename='js/lineChart.js') }}"></script>
+        <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    </div>
+    <p><a href="{{ url_for('index') }}">Back</a></p>
+{% endblock %}

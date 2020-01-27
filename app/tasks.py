@@ -4,7 +4,7 @@ tz = app.config['TZ']
 
 def qryCurrent():
     sql = """
-    SELECT v.voltage, k.killawatts
+    SELECT v.ts, v.voltage, k.killawatts
     FROM voltage v
          INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
     ORDER BY v.id DESC
