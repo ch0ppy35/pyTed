@@ -1,7 +1,6 @@
 from app import app, database
 
 tz = app.config['TZ']
-print(tz)
 
 def qryCurrent():
     sql = """
@@ -29,10 +28,10 @@ def qryKwh7dTotal():
     SELECT prevDay.kwhSum + currentDay 
     FROM (
     SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE 'AMERICA/NEW_YORK' - INTERVAL '7d') AS prevDay, 
+    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7d') AS prevDay, 
     (SELECT kwhtotal currentDay
     FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
-    """
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -63,26 +62,25 @@ def qryVoltage():
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
     """ % {'s': tz}
-    print(sql)
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
 
 def qryKillawatt():
     sql = """
-    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mxTs,
-    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mnTs
+    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
+    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
     FROM killawatts
-    WHERE (CURRENT_TIMESTAMP AT TIME ZONE 'AMERICA/NEW_YORK')::DATE = 
-    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK')
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
     INNER JOIN killawatts mn ON mn.killawatts = K.mnK
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
-    """
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -101,8 +99,8 @@ def dailyTasks():
     db = database.MyDatabase()
     sql = """
     DELETE FROM kwhTotals
-    WHERE ts < NOW() AT TIME ZONE 'AMERICA/NEW_YORK' - INTERVAL '7 days';
-    """
+    WHERE ts < NOW() AT TIME ZONE '%(s)s' - INTERVAL '7 days';
+    """ % {'s': tz}
     db.modifyq(sql)
     app.logger.info("Daily task complete")
 
