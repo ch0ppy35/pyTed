@@ -1,5 +1,7 @@
 from app import app, database
 
+tz = app.config['TZ']
+print(tz)
 
 def qryCurrent():
     sql = """
@@ -48,19 +50,20 @@ def qryKwhPrevWk():
 
 def qryVoltage():
     sql = """
-    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mxTs,
-    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mnTs
+    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
+    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
     FROM Voltage
-    WHERE (CURRENT_TIMESTAMP AT TIME ZONE 'AMERICA/NEW_YORK')::DATE = 
-    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK')
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) v
     INNER JOIN voltage mx ON mx.voltage = v.mxV
     INNER JOIN voltage mn ON mn.voltage = v.mnV
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
-    """
+    """ % {'s': tz}
+    print(sql)
     db = database.MyDatabase()
     return db.query(sql) or ['']
 

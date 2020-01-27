@@ -10,6 +10,8 @@ class Config(object):
     HOST = os.environ.get('HOST')
     # Weather station
     PWS = os.environ.get('PWS') or 'KCALONGB124'
+    #TimeZone
+    TZ = os.environ.get('TZ') or 'UTC'
     # Database
     DBHOST = os.environ.get('DBHOST')
     DBPORT = os.environ.get('DBPORT') or '5432'
