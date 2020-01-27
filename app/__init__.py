@@ -3,7 +3,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler, SMTPHandler
 from config import Config
-
+import time
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -39,8 +39,27 @@ if not app.debug and app.config['MAIL_SERVER'] is not None:
 else:
     app.logger.info('~ Not turning on mail services, did you define a host? ~')
 
+from app import database
+
+sql = """
+select exists(
+ SELECT datname FROM pg_catalog.pg_database 
+ WHERE lower(datname) = lower('%(s)s')
+);
+""" % {'s': app.config['DBDB']}
+
+db = database.MyDatabase()
+result = db.query(sql)[0][0]
+
+if not result:
+    app.logger.info('(!) Database does not exist! Running setup!')
+    from setup import dbSetup
+    dbSetup()
+    time.sleep(5)
+else:
+    app.logger.info('~ pyTed db exists! ~')
+
 app.logger.info('~ pyTed is starting up ~')
 
+from app import routes, errors
 
-
-from app import routes, database, errors
