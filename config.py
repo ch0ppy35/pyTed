@@ -17,6 +17,7 @@ class Config(object):
     DBPORT = os.environ.get('DBPORT') or '5432'
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
+    DBDB = os.environ.get('DBDB') or 'pyted'
     # Mail Server
     MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
     MAIL_PORT = 25
