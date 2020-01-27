@@ -10,24 +10,29 @@ function drawChart() {
             ['2007', 1030, 540]
         ]);*/
 
-    $.get('/lastfive', function (setData) {
-        return setData;
+
+    $.getJSON('/lastfive', function (dataq) {
+        //var columns = ['ts', 'Voltage', 'killawatts'];
+        // var result = JSON.parse(dataq).map(function (obj) {
+        //     return columns.map(function (key) {
+        //         return obj[key];
+        //     });
+        // });
+        // result.unshift(columns);
+        console.log(dataq);
+        //var array  = JSON.parse(dataq);
+        var data = google.visualization.arrayToDataTable(dataq);
+
+        var options = {
+            title: 'Stats (Last 5 minutes)',
+            curveType: 'function',
+            legend: {position: 'bottom'}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
     });
-    var json_data = $.get();
-    var result = [];
-    for (var i in json_data)
-        result.push([i, json_data [i]]);
 
-    var data = google.visualization.arrayToDataTable(result);
-
-    var options = {
-        title: 'Stats (Last 5 minutes)',
-        curveType: 'function',
-        legend: {position: 'bottom'}
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-    chart.draw(data, options);
 
 }

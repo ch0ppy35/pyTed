@@ -14,6 +14,14 @@ class MyDatabase():
         self.close()
         return result
 
+    def queryJ(self, query):
+        self.cur = self.conn.cursor()
+        self.cur.execute(query)
+        r = [dict((self.cur.description[i][0], value)
+                  for i, value in enumerate(row)) for row in self.cur.fetchall()]
+        self.close()
+        return r  # (r[0] if r else None) if one else r
+
     def modifyq(self, query):
         self.cur = self.conn.cursor()
         self.cur.execute(query)
