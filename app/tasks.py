@@ -48,15 +48,18 @@ def qryKwhPrevWk():
 
 def qryVoltage():
     sql = """
-    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM'),
-    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM')
+    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mxTs,
+    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
     FROM Voltage
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE 'AMERICA/NEW_YORK')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK')
     ) v
     INNER JOIN voltage mx ON mx.voltage = v.mxV
     INNER JOIN voltage mn ON mn.voltage = v.mnV
-    WHERE CURRENT_DATE = date(mn.ts);
+    ORDER BY mxTs DESC, mnTs DESC
+    LIMIT 1;
     """
     db = database.MyDatabase()
     return db.query(sql) or ['']
@@ -64,15 +67,16 @@ def qryVoltage():
 
 def qryKillawatt():
     sql = """
-    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mxTs,
-    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mnTs
+    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mxTs,
+    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
     FROM killawatts
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE 'AMERICA/NEW_YORK')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE 'AMERICA/NEW_YORK')
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
     INNER JOIN killawatts mn ON mn.killawatts = K.mnK
-    WHERE CURRENT_DATE = date(mn.ts) OR mn.ts > NOW() - INTERVAL '1m'
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
     """
