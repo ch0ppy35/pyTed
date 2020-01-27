@@ -27,7 +27,7 @@ def qryKwh7dTotal():
     SELECT prevDay.kwhSum + currentDay 
     FROM (
     SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() - INTERVAL '7d') AS prevDay, 
+    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE 'AMERICA/NEW_YORK' - INTERVAL '7d') AS prevDay, 
     (SELECT kwhtotal currentDay
     FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
     """
@@ -98,7 +98,7 @@ def dailyTasks():
     db = database.MyDatabase()
     sql = """
     DELETE FROM kwhTotals
-    WHERE ts < NOW() - INTERVAL '7 days';
+    WHERE ts < NOW() AT TIME ZONE 'AMERICA/NEW_YORK' - INTERVAL '7 days';
     """
     db.modifyq(sql)
     app.logger.info("Daily task complete")
