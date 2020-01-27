@@ -1,10 +1,11 @@
 from app import app, database
+import json
 
 tz = app.config['TZ']
 
 def qryCurrent():
     sql = """
-    SELECT v.ts, v.voltage, k.killawatts
+    SELECT v.voltage, k.killawatts
     FROM voltage v
          INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
     ORDER BY v.id DESC
@@ -13,6 +14,16 @@ def qryCurrent():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
+def qryCurrentJson():
+    sql = """
+    SELECT v.ts, v.voltage, k.killawatts
+    FROM voltage v
+         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
+    ORDER BY v.id DESC
+    LIMIT 5;
+    """
+    db = database.MyDatabase()
+    return db.queryJ(sql)
 
 def qryDayKwhTotal():
     sql = """

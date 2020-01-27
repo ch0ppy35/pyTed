@@ -1,8 +1,9 @@
 from app import app, tasks, getInfo
-from flask import render_template, redirect, json
+from flask import render_template, redirect, Response
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
+import json
 
 scheduler = BackgroundScheduler()
 
@@ -59,8 +60,16 @@ def rtkw():
 
 @app.route('/lastfive')
 def lastfive():
-    lastFive = tasks.qryCurrent()
-    return json.dumps(lastFive, separators=(',', ':'))
+    lastFive = tasks.qryCurrentJson()
+    lastFive = json.dumps(lastFive,
+                          indent=4,
+                          sort_keys=False,
+                          default=str
+                          )
+    resp = Response(response=lastFive,
+                    status=200,
+                    mimetype="application/json")
+    return resp
 
 
 @app.route('/about')
