@@ -40,4 +40,6 @@ else:
 
 app.logger.info('~ pyTed is starting up ~')
 
+
+
 from app import routes, database, errors
