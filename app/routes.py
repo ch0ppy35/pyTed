@@ -1,5 +1,5 @@
 from app import app, tasks, getInfo
-from flask import render_template, redirect
+from flask import render_template, redirect, json
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
@@ -57,11 +57,24 @@ def rtkw():
     return value
 
 
+@app.route('/lastfive')
+def lastfive():
+    lastFive = tasks.qryCurrent()
+    return json.dumps(lastFive, separators=(',', ':'))
+
+
 @app.route('/about')
 def about():
     return render_template(
         'about.html',
         version=app.config['VERSION']
+    )
+
+
+@app.route('/charts')
+def charts():
+    return render_template(
+        'chart.html'
     )
 
 
