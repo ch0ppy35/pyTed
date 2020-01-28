@@ -6,7 +6,7 @@ def qryCurrent():
     sql = """
     SELECT v.voltage, k.killawatts
     FROM voltage v
-         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
+         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10S'
     ORDER BY v.id DESC
     LIMIT 10;
     """
@@ -28,7 +28,7 @@ def qryKwh7dTotal():
     SELECT prevDay.kwhSum + currentDay 
     FROM (
     SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7d') AS prevDay, 
+    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7D') AS prevDay, 
     (SELECT kwhtotal currentDay
     FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
     """ % {'s': tz}
@@ -49,8 +49,8 @@ def qryKwhPrevWk():
 
 def qryVoltage():
     sql = """
-    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
-    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
+    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
+    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
     FROM Voltage
@@ -99,7 +99,7 @@ def dailyTasks():
     db = database.MyDatabase()
     sql = """
     DELETE FROM kwhTotals
-    WHERE ts < NOW() AT TIME ZONE '%(s)s' - INTERVAL '7 days';
+    WHERE ts < NOW() AT TIME ZONE '%(s)s' - INTERVAL '7D';   
     """ % {'s': tz}
     db.modifyq(sql)
     app.logger.info("Daily task complete")
@@ -109,8 +109,21 @@ def weeklyTasks():
     db = database.MyDatabase()
     sql = """
     INSERT INTO kwhTotalsWeek(kwhtotal) VALUES((
-    SELECT kwhtotal FROM kwhTotalsDay 
-    ORDER BY ts DESC LIMIT 1));
+    SELECT SUM(kwhtotal) FROM(
+    SELECT * FROM kwhTotalsDay
+    ORDER BY ts DESC LIMIT 7)
+    ));
     """
     db.modifyq(sql)
     app.logger.info("Weekly task complete")
+
+
+def monthlyTasks():
+    db = database.MyDatabase()
+    sql = """
+    INSERT INTO kwhTotalsMonth(kwhtotal) VALUES((
+    SELECT kwhtotal FROM kwhTotalsWeek
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'))
+    """
+    db.modifyq(sql)
+    app.logger.info("Monthly task complete")
