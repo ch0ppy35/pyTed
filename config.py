@@ -10,11 +10,14 @@ class Config(object):
     HOST = os.environ.get('HOST')
     # Weather station
     PWS = os.environ.get('PWS') or 'KCALONGB124'
+    #TimeZone
+    TZ = os.environ.get('TZ') or 'UTC'
     # Database
     DBHOST = os.environ.get('DBHOST')
     DBPORT = os.environ.get('DBPORT') or '5432'
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
+    DBDB = os.environ.get('DBDB') or 'pyted'
     # Mail Server
     MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
     MAIL_PORT = 25

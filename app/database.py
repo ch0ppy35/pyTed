@@ -4,7 +4,7 @@ from app import app
 
 class MyDatabase():
     def __init__(self):
-        self.conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='pyted',
+        self.conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database=app.config['DBDB'],
                                      user=app.config['DBUSER'], password=app.config['DBPASS'])
 
     def query(self, query):

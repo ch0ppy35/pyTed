@@ -3,6 +3,7 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler, SMTPHandler
 from config import Config
+import time
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -38,6 +39,10 @@ if not app.debug and app.config['MAIL_SERVER'] is not None:
 else:
     app.logger.info('~ Not turning on mail services, did you define a host? ~')
 
+import setup
+setup.dbCheck()
+
 app.logger.info('~ pyTed is starting up ~')
 
-from app import routes, database, errors
+from app import routes, errors, database
+

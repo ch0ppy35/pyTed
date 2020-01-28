@@ -1,5 +1,6 @@
 from app import app, database
 
+tz = app.config['TZ']
 
 def qryCurrent():
     sql = """
@@ -27,10 +28,10 @@ def qryKwh7dTotal():
     SELECT prevDay.kwhSum + currentDay 
     FROM (
     SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() - INTERVAL '7d') AS prevDay, 
+    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7d') AS prevDay, 
     (SELECT kwhtotal currentDay
     FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
-    """
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -48,34 +49,38 @@ def qryKwhPrevWk():
 
 def qryVoltage():
     sql = """
-    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM'),
-    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM')
+    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
+    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
     FROM Voltage
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) v
     INNER JOIN voltage mx ON mx.voltage = v.mxV
     INNER JOIN voltage mn ON mn.voltage = v.mnV
-    WHERE CURRENT_DATE = date(mn.ts);
-    """
+    ORDER BY mxTs DESC, mnTs DESC
+    LIMIT 1;
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
 
 def qryKillawatt():
     sql = """
-    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mxTs,
-    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mnTs
+    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
+    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mnTs
     FROM(
     SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
     FROM killawatts
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
     INNER JOIN killawatts mn ON mn.killawatts = K.mnK
-    WHERE CURRENT_DATE = date(mn.ts) OR mn.ts > NOW() - INTERVAL '1m'
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
-    """
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -94,8 +99,8 @@ def dailyTasks():
     db = database.MyDatabase()
     sql = """
     DELETE FROM kwhTotals
-    WHERE ts < NOW() - INTERVAL '7 days';
-    """
+    WHERE ts < NOW() AT TIME ZONE '%(s)s' - INTERVAL '7 days';
+    """ % {'s': tz}
     db.modifyq(sql)
     app.logger.info("Daily task complete")
 
