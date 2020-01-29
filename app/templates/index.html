@@ -104,6 +104,14 @@
                         <td> Low kW Today</td>
                         <td>{{ killawattStats[0][2] }} kW @ {{ killawattStats[0][3] }}</td>
                     </tr>
+                    <tr>
+                        <td> Peak kW MTD</td>
+                        <td>{{ peakKwhDayMn[0][0] }} kW on {{ peakKwhDayMn[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Peak $ Spent MTD</td>
+                        <td> $ {{ kwhCost[3] }} on {{ peakKwhDayMn[0][1] }}</td>
+                    </tr>
                 </table>
             </div>
         </div>

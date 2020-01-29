@@ -59,7 +59,6 @@ def qryKwhPrevMn():
     return db.query(sql) or ['']
 
 
-
 def qryVoltage():
     sql = """
     SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
@@ -97,6 +96,21 @@ def qryKillawatt():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
+
+def qryPeakKwhDayMn():
+    sql = """
+    SELECT kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon DD')
+    FROM kwhTotalsDay
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'
+    ORDER BY kwhtotal DESC
+    LIMIT 1;
+    """ % {'s': tz}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+# Misc Tasks
+
 def tskCalculateCost():
     cost = float(app.config['COST'])
 
@@ -106,15 +120,20 @@ def tskCalculateCost():
     kwh7dTotal = qryKwh7dTotal()[0][0]
     kwh7dCost = round(kwh7dTotal * cost, 2)
 
-    kwhprevMnTotal = qryKwhPrevMn()[0][0]
-    kwhprevMnCost = round(kwhprevMnTotal * cost, 2)
+    kwhPrevMnTotal = qryKwhPrevMn()[0][0]
+    kwhPrevMnCost = round(kwhPrevMnTotal * cost, 2)
+
+    kwhPeakDayMn = qryPeakKwhDayMn()[0][0]
+    kwhPeakDayMnCost = round(kwhPeakDayMn * cost, 2)
 
 
     return(
         kwhDayCost,
         kwh7dCost,
-        kwhprevMnCost
+        kwhPrevMnCost,
+        kwhPeakDayMnCost
     )
+
 
 # Cron Tasks
 
