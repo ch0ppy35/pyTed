@@ -6,7 +6,6 @@ import atexit
 
 scheduler = BackgroundScheduler()
 
-
 @app.before_first_request
 def startBackGroundJob():
     scheduler.add_job(
@@ -28,6 +27,13 @@ def startBackGroundJob():
         hour='0',
         minute='0'
     )
+    scheduler.add_job(
+        tasks.monthlyTasks,
+        trigger='cron',
+        day='last',
+        hour='0',
+        minute='0'
+    )
     scheduler.start()
     app.logger.info('~ Scheduler starting for for tasks ~')
 
@@ -46,6 +52,7 @@ def index():
         dayKwhTotal=tasks.qryDayKwhTotal(),
         kwh7dTotal=tasks.qryKwh7dTotal(),
         kwhPrevWk=tasks.qryKwhPrevWk(),
+        kwhPrevMn=tasks.qryKwhPrevMn(),
         pws=app.config['PWS']
     )
 
