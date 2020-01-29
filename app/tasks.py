@@ -109,6 +109,18 @@ def qryPeakKwhDayMn():
     return db.query(sql) or ['']
 
 
+def qryLowKwhDayMn():
+    sql = """
+    SELECT kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon DD')
+    FROM kwhTotalsDay
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'
+    ORDER BY kwhtotal ASC
+    LIMIT 1;
+    """ % {'s': tz}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
 # Misc Tasks
 
 def tskCalculateCost():
@@ -126,12 +138,16 @@ def tskCalculateCost():
     kwhPeakDayMn = qryPeakKwhDayMn()[0][0]
     kwhPeakDayMnCost = round(kwhPeakDayMn * cost, 2)
 
+    kwhLowDayMn = qryLowKwhDayMn()[0][0]
+    kwhLowDayMnCost = round(kwhLowDayMn * cost, 2)
+
 
     return(
         kwhDayCost,
         kwh7dCost,
         kwhPrevMnCost,
-        kwhPeakDayMnCost
+        kwhPeakDayMnCost,
+        kwhLowDayMnCost
     )
 
 
