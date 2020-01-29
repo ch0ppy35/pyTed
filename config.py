@@ -35,4 +35,4 @@ class Config(object):
         'en': 'English'
     }
     # version
-    VERSION = '0.0.1a'
+    VERSION = '0.0.2RC1'
