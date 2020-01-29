@@ -5,6 +5,7 @@ import time
 import atexit
 
 scheduler = BackgroundScheduler()
+meterRead = app.config['METERREAD']
 
 @app.before_first_request
 def startBackGroundJob():
@@ -30,7 +31,7 @@ def startBackGroundJob():
     scheduler.add_job(
         tasks.monthlyTasks,
         trigger='cron',
-        day='last',
+        day='%(s)s' % {'s': meterRead},
         hour='0',
         minute='0'
     )

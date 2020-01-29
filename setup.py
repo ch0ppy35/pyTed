@@ -3,7 +3,6 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from app import app
 import time
 
-
 def dbCheck():
     conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database='postgres',
                             user=app.config['DBUSER'], password=app.config['DBPASS'])
