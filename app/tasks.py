@@ -47,6 +47,18 @@ def qryKwhPrevWk():
     return db.query(sql) or ['']
 
 
+def qryKwhPrevMn():
+    sql = """
+    SELECT kwhtotal
+    FROM kwhTotalsMonth
+    ORDER BY ts DESC
+    LIMIT 1;
+    """
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+
 def qryVoltage():
     sql = """
     SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI AM') AS mxTs,
@@ -85,6 +97,14 @@ def qryKillawatt():
     return db.query(sql) or ['']
 
 
+def tskCalculateCost():
+    sql = """
+    SELECT kwhtotal
+    FROM kwhTotals
+    ORDER BY ts DESC
+    LIMIT 1;
+    """
+
 # Cron Tasks
 
 def dailyTasks():
@@ -92,7 +112,8 @@ def dailyTasks():
     sql = """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES((
     SELECT kwhtotal FROM kwhTotals 
-    ORDER BY ts DESC LIMIT 1));
+    ORDER BY ts DESC 
+    LIMIT 1));
     """
     db.modifyq(sql)
 
@@ -122,8 +143,10 @@ def monthlyTasks():
     db = database.MyDatabase()
     sql = """
     INSERT INTO kwhTotalsMonth(kwhtotal) VALUES((
-    SELECT kwhtotal FROM kwhTotalsWeek
-    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'))
+    SELECT SUM(kwhtotal) FROM(
+    SELECT * FROM kwhTotalsDay
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M')k)
+    );
     """
     db.modifyq(sql)
     app.logger.info("Monthly task complete")
