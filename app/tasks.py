@@ -1,6 +1,4 @@
 from app import app, database
-import time
-import datetime
 
 tz = app.config['TZ']
 
