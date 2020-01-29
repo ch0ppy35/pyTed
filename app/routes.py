@@ -53,6 +53,7 @@ def index():
         kwh7dTotal=tasks.qryKwh7dTotal(),
         kwhPrevWk=tasks.qryKwhPrevWk(),
         kwhPrevMn=tasks.qryKwhPrevMn(),
+        kwhCost=tasks.tskCalculateCost(),
         pws=app.config['PWS']
     )
 
@@ -75,7 +76,7 @@ def about():
 @app.route('/runtasks')
 def runTasks():
     tasks.dailyTasks()
-    tasks.weeklyTasks()
+    print(tasks.tskCalculateCost())
     return redirect('/')
 
 

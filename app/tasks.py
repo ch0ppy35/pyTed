@@ -17,7 +17,8 @@ def qryCurrent():
 def qryDayKwhTotal():
     sql = """
     SELECT kwhtotal 
-    FROM kwhTotals ORDER BY ts DESC LIMIT 1;
+    FROM kwhTotals ORDER BY ts 
+    DESC LIMIT 1;
     """
     db = database.MyDatabase()
     return db.query(sql) or ['']
@@ -98,12 +99,18 @@ def qryKillawatt():
 
 
 def tskCalculateCost():
-    sql = """
-    SELECT kwhtotal
-    FROM kwhTotals
-    ORDER BY ts DESC
-    LIMIT 1;
-    """
+    cost = float(app.config['COST'])
+
+    kwhDayTotal = qryDayKwhTotal()[0][0]
+    kwhDayCost = round(kwhDayTotal * cost, 2)
+
+    kwh7dTotal = qryKwh7dTotal()[0][0]
+    kwh7dCost = round(kwh7dTotal * cost, 2)
+
+    return(
+        kwhDayCost,
+        kwh7dCost
+    )
 
 # Cron Tasks
 
