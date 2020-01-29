@@ -1,4 +1,6 @@
 from app import app, database
+import time
+import datetime
 
 tz = app.config['TZ']
 
@@ -97,7 +99,6 @@ def qryKillawatt():
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
-
 def tskCalculateCost():
     cost = float(app.config['COST'])
 
@@ -107,9 +108,14 @@ def tskCalculateCost():
     kwh7dTotal = qryKwh7dTotal()[0][0]
     kwh7dCost = round(kwh7dTotal * cost, 2)
 
+    kwhprevMnTotal = qryKwhPrevMn()[0][0]
+    kwhprevMnCost = round(kwhprevMnTotal * cost, 2)
+
+
     return(
         kwhDayCost,
-        kwh7dCost
+        kwh7dCost,
+        kwhprevMnCost
     )
 
 # Cron Tasks
@@ -156,4 +162,5 @@ def monthlyTasks():
     );
     """
     db.modifyq(sql)
+
     app.logger.info("Monthly task complete")
