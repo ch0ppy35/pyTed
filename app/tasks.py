@@ -1,6 +1,7 @@
 from app import app, database
 
 tz = app.config['TZ']
+cost = float(app.config['COST'])
 
 def qryCurrent():
     sql = """
@@ -132,10 +133,13 @@ def qryAvgKwhDayMn():
     return round(db.query(sql)[0][0], 3) or ''
 
 
-def qryGetBills():
+def qryGet5Bills():
     sql = """
-    select id, kwhtotal, ts from kwhTotalsMonth;
-    """
+    SELECT id, kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon YYYY')
+    FROM kwhTotalsMonth 
+    ORDER BY ts DESC 
+    LIMIT 5;
+    """ % {'s': tz}
     db = database.MyDatabase()
     qryResults = tskQryToList(db.query(sql))
     return qryResults
@@ -149,13 +153,13 @@ def tskQryToList(qry):
 
 
 def tskGetBillingData():
-
-    return 'data'
+    Bills = qryGet5Bills()
+    for inner_list in Bills:
+        inner_list[1] = round(inner_list[1] * cost, 2)
+    return Bills
 
 
 def tskCalculateCost():
-    cost = float(app.config['COST'])
-
     kwhDayTotal = qryDayKwhTotal()[0][0]
     kwhDayCost = round(kwhDayTotal * cost, 2)
 

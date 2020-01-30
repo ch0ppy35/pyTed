@@ -12,7 +12,26 @@
     </div>
     <div class="w3-row">
         <div class="w3-third w3-center">
-            <div id="table1">
+            <div class="table1">
+                <h3>Previous 5 Bills</h3>
+                <table>
+                    <tr>
+                        <th>Bill ID</th>
+
+                        <th>Total Cost</th>
+
+                        <th>Billing Date</th>
+                    </tr>
+                    {% for row in bills %}
+                    <tr>
+                        <td>{{ row[0] }} </td>
+                        <td>$ {{ row[1] }} </td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="table1">
                 <h3>Stats (Last 5 minutes)</h3>
                 <table>
                     <tr>
