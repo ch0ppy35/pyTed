@@ -152,7 +152,7 @@ def tskCalculateCost():
     kwhLowDayMn = qryLowKwhDayMn()[0][0]
     kwhLowDayMnCost = round(kwhLowDayMn * cost, 2)
 
-    kwhAvgDayMn = qryAvgKwhDayMn()
+    kwhAvgDayMn = qryAvgKwhDayMn()[0]
     kwhAvgDayMnCost = round(kwhAvgDayMn * cost, 2)
 
     return(

@@ -4,8 +4,7 @@ import time
 from sql import initialTblSetup
 
 neededDbVer = 0.1
-thisDbVer = 0.3
-
+thisDbVer = 0.2
 
 def dbVerCheck(dbVer):
     if dbVer < neededDbVer:
@@ -20,11 +19,9 @@ def tblSetup(dbVer):
 
     sql = (
         """
-    CREATE TABLE IF NOT EXISTS bills (
+    CREATE TABLE IF NOT EXISTS killawattsTest (
     id serial NOT NULL PRIMARY KEY,
-    totalKwhUsage REAL,
-    totalCost REAL,
-    billingPeriod VARCHAR(20),
+    killawatts real,
     ts timestamp without time zone DEFAULT now()
     );
     """,
