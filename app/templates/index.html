@@ -45,10 +45,6 @@
                         <td> $ {{ kwhCost[1] }}</td>
                     </tr>
                     <tr>
-                        <td> kWh Avg Last 30 Days</td>
-                        <td> $ {{ avgKwhDayMn[0] }}</td>
-                    </tr>
-                    <tr>
                         <td> kWh Avg $ Last 30 Days</td>
                         <td> $ {{ kwhCost[5] }}</td>
                     </tr>
@@ -80,6 +76,10 @@
                     <tr>
                         <td> kWh Used Last Month</td>
                         <td> {{ kwhPrevMn[0][0] }} kW</td>
+                    </tr>
+                    <tr>
+                        <td> kWh Avg Last 30 Days</td>
+                        <td> {{ avgKwhDayMn }} kW</td>
                     </tr>
                 </table>
             </div>

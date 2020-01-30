@@ -129,7 +129,7 @@ def qryAvgKwhDayMn():
     INTERVAL '1MONTH';
     """ % {'s': tz}
     db = database.MyDatabase()
-    return db.query(sql) or ['']
+    return round(db.query(sql)[0][0], 3) or ['']
 
 
 # Misc Tasks
@@ -152,7 +152,7 @@ def tskCalculateCost():
     kwhLowDayMn = qryLowKwhDayMn()[0][0]
     kwhLowDayMnCost = round(kwhLowDayMn * cost, 2)
 
-    kwhAvgDayMn = round(qryAvgKwhDayMn()[0][0], 3)
+    kwhAvgDayMn = qryAvgKwhDayMn()
     kwhAvgDayMnCost = round(kwhAvgDayMn * cost, 2)
 
     return(
