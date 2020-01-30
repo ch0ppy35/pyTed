@@ -13,10 +13,10 @@ def dbVerCheck(dbVer):
         initialTblSetup.tblSetup()
     else:
         app.logger.info('~ Database ready to update! ~')
-        tblSetup(dbVer)
+        tblSetup()
 
 
-def tblSetup(dbVer):
+def tblSetup():
 
     sql = (
         """
@@ -33,7 +33,7 @@ def tblSetup(dbVer):
     """,
         """
     INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);
-    """ % {'s': dbVer}
+    """ % {'s': thisDbVer}
     )
 
     conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database=app.config['DBDB'],
