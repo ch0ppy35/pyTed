@@ -1,5 +1,4 @@
 from app import app, database
-import json
 
 tz = app.config['TZ']
 

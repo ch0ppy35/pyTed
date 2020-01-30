@@ -4,8 +4,13 @@ from app import app
 
 class MyDatabase():
     def __init__(self):
-        self.conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database=app.config['DBDB'],
-                                     user=app.config['DBUSER'], password=app.config['DBPASS'])
+        try:
+            self.conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
+                                         database=app.config['DBDB'],
+                                         user=app.config['DBUSER'], password=app.config['DBPASS'])
+        except (Exception, psycopg2.DatabaseError) as error:
+            app.logger.info("~ Can't connect to the DB! ~")
+            app.logger.info(error)
 
     def query(self, query):
         self.cur = self.conn.cursor()

@@ -12,7 +12,7 @@ function drawChart() {
 
 
     $.getJSON('/lastfive', function (dataq) {
-        //var columns = ['ts', 'Voltage', 'killawatts'];
+        // var columns = ['ts', 'Voltage', 'killawatts'];
         // var result = JSON.parse(dataq).map(function (obj) {
         //     return columns.map(function (key) {
         //         return obj[key];
@@ -20,8 +20,10 @@ function drawChart() {
         // });
         // result.unshift(columns);
         console.log(dataq);
-        //var array  = JSON.parse(dataq);
-        var data = google.visualization.arrayToDataTable(dataq);
+        var arr = $.map(dataq, function(el) { return el });
+        console.log(arr)
+
+        var data = google.visualization.arrayToDataTable(arr);
 
         var options = {
             title: 'Stats (Last 5 minutes)',
