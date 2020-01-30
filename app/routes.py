@@ -73,9 +73,17 @@ def rtkw():
 def about():
     return render_template(
         'about.html',
-        version=app.config['VERSION']
+        version=app.config['VERSION'],
+        dbver=app.config['DBVER']
     )
 
+
+@app.route('/bills')
+def bills():
+    return  render_template(
+        'bills.html',
+        version=app.config['VERSION']
+    )
 
 @app.route('/runtasks')
 def runTasks():
