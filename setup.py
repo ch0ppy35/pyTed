@@ -47,42 +47,42 @@ def tblSetup():
 
     sql = (
         """
-    CREATE TABLE killawatts (
+    CREATE TABLE IF NOT EXISTS killawatts (
     id serial NOT NULL PRIMARY KEY,
     killawatts real,
     ts timestamp without time zone DEFAULT now()
     );
     """,
         """
-    CREATE TABLE kwhTotals (
+    CREATE TABLE IF NOT EXISTS kwhTotals (
     id serial NOT NULL PRIMARY KEY,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
     );
     """,
         """
-    CREATE TABLE kwhTotalsDay (
+    CREATE TABLE IF NOT EXISTS kwhTotalsDay (
     id serial NOT NULL PRIMARY KEY,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
     );
     """,
         """
-    CREATE TABLE kwhTotalsWeek (
+    CREATE TABLE IF NOT EXISTS kwhTotalsWeek (
     id serial NOT NULL PRIMARY KEY,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
     );
     """,
         """
-    CREATE TABLE kwhTotalsMonth (
+    CREATE TABLE IF NOT EXISTS kwhTotalsMonth (
     id serial NOT NULL PRIMARY KEY,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
     );
     """,
         """
-    CREATE TABLE Voltage (
+    CREATE TABLE IF NOT EXISTS Voltage (
     id serial NOT NULL PRIMARY KEY,
     voltage real,
     ts timestamp without time zone DEFAULT now()
