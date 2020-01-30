@@ -101,7 +101,7 @@ def qryPeakKwhDayMn():
     sql = """
     SELECT kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon DD')
     FROM kwhTotalsDay
-    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1MONTH'
     ORDER BY kwhtotal DESC
     LIMIT 1;
     """ % {'s': tz}
@@ -113,9 +113,20 @@ def qryLowKwhDayMn():
     sql = """
     SELECT kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon DD')
     FROM kwhTotalsDay
-    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M'
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1MONTH'
     ORDER BY kwhtotal ASC
     LIMIT 1;
+    """ % {'s': tz}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+def qryAvgKwhDayMn():
+    sql = """
+    SELECT AVG(kwhtotal) 
+    FROM kwhTotalsDay 
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - 
+    INTERVAL '1MONTH';
     """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
@@ -140,7 +151,6 @@ def tskCalculateCost():
 
     kwhLowDayMn = qryLowKwhDayMn()[0][0]
     kwhLowDayMnCost = round(kwhLowDayMn * cost, 2)
-
 
     return(
         kwhDayCost,
@@ -191,7 +201,7 @@ def monthlyTasks():
     INSERT INTO kwhTotalsMonth(kwhtotal) VALUES((
     SELECT SUM(kwhtotal) FROM(
     SELECT * FROM kwhTotalsDay
-    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1M')k)
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1MONTH')k)
     );
     """
     db.modifyq(sql)
