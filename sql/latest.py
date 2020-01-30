@@ -24,12 +24,19 @@ def tblSetup(dbVer):
     id serial NOT NULL PRIMARY KEY,
     totalKwhUsage REAL,
     totalCost REAL,
-    billingPeriod VARCHAR(20),
-    ts timestamp without time zone DEFAULT now()
+    avgKwhUsage REAL,
+    peakKwhUsage REAL,
+    peakKwhDate VARCHAR(6),
+    lowKwhUsage REAL,
+    lowKwhDate VARCHAR(6),
+    ts TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
     );
     """,
         """
-    INSERT INTO killawattsTest(killawatts) VALUES(52.56);
+    INSERT INTO bills(totalKwhUsage, 
+    totalCost, avgKwhUsage, peakKwhUsage, 
+    peakKwhDate, lowKwhUsage, lowKwhDate) 
+    VALUES(0, 0, 0, 0, 'n/a', 0, 'n/a');
     """,
         """
     INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);
