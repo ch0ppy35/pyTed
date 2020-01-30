@@ -57,18 +57,6 @@ def tblSetup():
     );
     """,
         """
-    CREATE TABLE IF NOT EXISTS bills (
-    id serial NOT NULL PRIMARY KEY,
-    idKwhTotalsMn REAL,
-    totalDays REAL,
-    ts TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
-    );
-    """,
-        """
-    INSERT INTO bills(idKwhTotalsMn, totalDays) 
-    VALUES(0, 0);
-    """,
-        """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES(0);
     """,
         """
