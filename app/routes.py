@@ -57,6 +57,7 @@ def index():
         kwhCost=tasks.tskCalculateCost(),
         peakKwhDayMn=tasks.qryPeakKwhDayMn(),
         lowKwhDayMn=tasks.qryLowKwhDayMn(),
+        avgKwhDayMn=tasks.qryAvgKwhDayMn(),
         pws=app.config['PWS']
     )
 
