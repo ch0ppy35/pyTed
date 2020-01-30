@@ -87,8 +87,7 @@ def bills():
 
 @app.route('/runtasks')
 def runTasks():
-    tasks.dailyTasks()
-    print(tasks.tskCalculateCost())
+    tasks.qryGetBills()
     return redirect('/')
 
 

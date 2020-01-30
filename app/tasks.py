@@ -132,7 +132,26 @@ def qryAvgKwhDayMn():
     return round(db.query(sql)[0][0], 3) or ''
 
 
+def qryGetBills():
+    sql = """
+    select id, kwhtotal, ts from kwhTotalsMonth;
+    """
+    db = database.MyDatabase()
+    qryResults = tskQryToList(db.query(sql))
+    return qryResults
+
 # Misc Tasks
+
+def tskQryToList(qry):
+    return list(map(tskQryToList, qry)) \
+        if isinstance(qry, (list, tuple)) \
+        else qry
+
+
+def tskGetBillingData():
+
+    return 'data'
+
 
 def tskCalculateCost():
     cost = float(app.config['COST'])
