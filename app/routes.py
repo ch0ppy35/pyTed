@@ -58,6 +58,7 @@ def index():
         peakKwhDayMn=tasks.qryPeakKwhDayMn(),
         lowKwhDayMn=tasks.qryLowKwhDayMn(),
         avgKwhDayMn=tasks.qryAvgKwhDayMn(),
+        bills=tasks.tskGetBillingData(),
         pws=app.config['PWS']
     )
 
@@ -87,7 +88,7 @@ def bills():
 
 @app.route('/runtasks')
 def runTasks():
-    tasks.qryGetBills()
+    tasks.tskGetBillingData()
     return redirect('/')
 
 
