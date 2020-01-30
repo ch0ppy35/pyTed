@@ -57,8 +57,24 @@ def tblSetup():
     );
     """,
         """
-    INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);
-    """ % {'s': app.config['DBVER']},
+    CREATE TABLE IF NOT EXISTS bills (
+    id serial NOT NULL PRIMARY KEY,
+    totalKwhUsage REAL,
+    totalCost REAL,
+    avgKwhUsage REAL,
+    peakKwhUsage REAL,
+    peakKwhDate VARCHAR(6),
+    lowKwhUsage REAL,
+    lowKwhDate VARCHAR(6),
+    ts TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
+    );
+    """,
+        """
+    INSERT INTO bills(totalKwhUsage, 
+    totalCost, avgKwhUsage, peakKwhUsage, 
+    peakKwhDate, lowKwhUsage, lowKwhDate) 
+    VALUES(0, 0, 0, 0, 'n/a', 0, 'n/a');
+    """,
         """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES(0);
     """,
@@ -67,7 +83,10 @@ def tblSetup():
     """,
         """
     INSERT INTO kwhTotalsMonth(kwhtotal) VALUES(0);
-    """
+    """,
+        """
+    INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);
+    """ % {'s': app.config['DBVER']}
     )
 
     conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database=app.config['DBDB'],
