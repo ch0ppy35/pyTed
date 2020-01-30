@@ -59,21 +59,14 @@ def tblSetup():
         """
     CREATE TABLE IF NOT EXISTS bills (
     id serial NOT NULL PRIMARY KEY,
-    totalKwhUsage REAL,
-    totalCost REAL,
-    avgKwhUsage REAL,
-    peakKwhUsage REAL,
-    peakKwhDate VARCHAR(6),
-    lowKwhUsage REAL,
-    lowKwhDate VARCHAR(6),
+    idKwhTotalsMn REAL,
+    totalDays REAL,
     ts TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
     );
     """,
         """
-    INSERT INTO bills(totalKwhUsage, 
-    totalCost, avgKwhUsage, peakKwhUsage, 
-    peakKwhDate, lowKwhUsage, lowKwhDate) 
-    VALUES(0, 0, 0, 0, 'n/a', 0, 'n/a');
+    INSERT INTO bills(idKwhTotalsMn, totalDays) 
+    VALUES(0, 0);
     """,
         """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES(0);
