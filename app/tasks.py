@@ -210,4 +210,21 @@ def monthlyTasks():
     """
     db.modifyq(sql)
 
+    db = database.MyDatabase()
+    sql = """
+    INSERT INTO bills(idkwhtotalsmn, totaldays) 
+    VALUES(
+    (SELECT id 
+    FROM kwhtotalsmonth 
+    ORDER BY ts DESC LIMIT 1),
+    (SELECT COUNT(kwhtotal) 
+    FROM kwhtotalsday 
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1MONTH')
+    ) 
+    """
+    """
+    select id from kwhTotalsMonth order by ts desc limit 1;
+    select count(kwhtotal) from kwhTotalsDay  WHERE ts > NOW() AT TIME ZONE 'america/new_york' - INTERVAL '1MONTH';
+    """
+    db.modifyq(sql)
     app.logger.info("Monthly task complete")
