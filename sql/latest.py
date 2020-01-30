@@ -4,7 +4,7 @@ import time
 from sql import initialTblSetup
 
 neededDbVer = 0.1
-thisDbVer = 0.3
+thisDbVer = 0.4
 
 
 def dbVerCheck(dbVer):
@@ -20,16 +20,7 @@ def tblSetup():
 
     sql = (
         """
-    CREATE TABLE IF NOT EXISTS bills (
-    id serial NOT NULL PRIMARY KEY,
-    idKwhTotalsMn REAL,
-    totalDays REAL,
-    ts TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
-    );
-    """,
-        """
-    INSERT INTO bills(idKwhTotalsMn, totalDays) 
-    VALUES(0, 0);
+    DROP TABLE IF EXISTS bills;
     """,
         """
     INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);
