@@ -129,7 +129,7 @@ def qryAvgKwhDayMn():
     INTERVAL '1MONTH';
     """ % {'s': tz}
     db = database.MyDatabase()
-    return round(db.query(sql)[0][0], 3) or [0]
+    return round(db.query(sql)[0][0], 3) or ''
 
 
 # Misc Tasks
