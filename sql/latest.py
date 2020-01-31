@@ -5,6 +5,13 @@ from sql import initialTblSetup
 
 neededDbVer = 0.1
 thisDbVer = 0.4
+conn = psycopg2.connect(
+    host=app.config['DBHOST'],
+    port=app.config['DBPORT'],
+    database=app.config['DBDB'],
+    user=app.config['DBUSER'],
+    password=app.config['DBPASS']
+)
 
 
 def dbVerCheck(dbVer):
@@ -27,13 +34,6 @@ def tblSetup():
     """ % {'s': thisDbVer}
     )
 
-    conn = psycopg2.connect(
-        host=app.config['DBHOST'],
-        port=app.config['DBPORT'],
-        database=app.config['DBDB'],
-        user=app.config['DBUSER'],
-        password=app.config['DBPASS']
-    )
     cur = conn.cursor()
 
     for command in sql:
