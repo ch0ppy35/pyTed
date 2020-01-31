@@ -5,7 +5,7 @@ import time
 import atexit
 
 scheduler = BackgroundScheduler()
-
+meterRead = app.config['METERREAD']
 
 @app.before_first_request
 def startBackGroundJob():
@@ -28,6 +28,13 @@ def startBackGroundJob():
         hour='0',
         minute='0'
     )
+    scheduler.add_job(
+        tasks.monthlyTasks,
+        trigger='cron',
+        day='%(s)s' % {'s': meterRead},
+        hour='0',
+        minute='0'
+    )
     scheduler.start()
     app.logger.info('~ Scheduler starting for for tasks ~')
 
@@ -46,6 +53,12 @@ def index():
         dayKwhTotal=tasks.qryDayKwhTotal(),
         kwh7dTotal=tasks.qryKwh7dTotal(),
         kwhPrevWk=tasks.qryKwhPrevWk(),
+        kwhPrevMn=tasks.qryKwhPrevMn(),
+        kwhCost=tasks.tskCalculateCost(),
+        peakKwhDayMn=tasks.qryPeakKwhDayMn(),
+        lowKwhDayMn=tasks.qryLowKwhDayMn(),
+        avgKwhDayMn=tasks.qryAvgKwhDayMn(),
+        bills=tasks.tskGetBills(),
         pws=app.config['PWS']
     )
 
@@ -61,14 +74,22 @@ def rtkw():
 def about():
     return render_template(
         'about.html',
-        version=app.config['VERSION']
+        version=app.config['VERSION'],
+        dbver=app.config['DBVER']
     )
 
+
+@app.route('/bills')
+def bills():
+    return  render_template(
+        'bills.html',
+        version=app.config['VERSION']
+    )
 
 @app.route('/runtasks')
 def runTasks():
     tasks.dailyTasks()
-    tasks.weeklyTasks()
+    tasks.monthlyTasks()
     return redirect('/')
 
 

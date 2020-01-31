@@ -3,7 +3,6 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler, SMTPHandler
 from config import Config
-import time
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -44,5 +43,5 @@ setup.dbCheck()
 
 app.logger.info('~ pyTed is starting up ~')
 
-from app import routes, errors, database
+from app import routes, errors, database, tasks
 

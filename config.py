@@ -8,12 +8,15 @@ load_dotenv(os.path.join(basedir, '.env'))
 class Config(object):
     # TED Endpoint
     HOST = os.environ.get('HOST')
+    # Util Info
+    COST = os.environ.get('COST') or '0'
+    METERREAD = os.environ.get('METERREAD') or '1'
     # Weather station
     PWS = os.environ.get('PWS') or 'KCALONGB124'
-    #TimeZone
+    # TimeZone
     TZ = os.environ.get('TZ') or 'UTC'
     # Database
-    DBHOST = os.environ.get('DBHOST')
+    DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
@@ -32,4 +35,5 @@ class Config(object):
         'en': 'English'
     }
     # version
-    VERSION = '0.0.1a'
+    VERSION = '0.0.3'
+    DBVER = '0.4'

@@ -1,5 +1,6 @@
 {% extends 'top.html' %}
 {% block content %}
+<title>Status | pyTed</title>
 <div id="main" class="w3-mobile">
     <div class="w3-light-gray w3-center" style="padding:1px">
         <span class="gaugeTitle">Real-Time kW Usage</span>
@@ -11,7 +12,26 @@
     </div>
     <div class="w3-row">
         <div class="w3-third w3-center">
-            <div id="table1">
+            <div class="table1">
+                <h3>Previous 4 Bills</h3>
+                <table>
+                    <tr>
+                        <th>Bill ID</th>
+
+                        <th>Total Cost</th>
+
+                        <th>Billing Date</th>
+                    </tr>
+                    {% for row in bills %}
+                    <tr>
+                        <td>{{ row[0] }} </td>
+                        <td>$ {{ row[1] }} </td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="table1">
                 <h3>Stats (Last 5 minutes)</h3>
                 <table>
                     <tr>
@@ -29,12 +49,36 @@
             </div>
         </div>
         <div class="w3-third w3-center">
-            <h3>Misc Stats</h3>
-            <div id="table3">
+            <h3>Power Costs</h3>
+            <div class="table3">
                 <table>
                     <tr>
                         <th>Type</th>
-
+                        <th>Cost</th>
+                    </tr>
+                    <tr>
+                        <td> kWh $ Since Midnight</td>
+                        <td> $ {{ kwhCost[0] }}</td>
+                    </tr>
+                    <tr>
+                        <td> kWh $ Last 7 Days</td>
+                        <td> $ {{ kwhCost[1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> kWh Avg $ Last 30 Days</td>
+                        <td> $ {{ kwhCost[5] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Last Month Bill</td>
+                        <td> $ {{ kwhCost[2] }}</td>
+                    </tr>
+                </table>
+            </div>
+            <h3>Misc Stats</h3>
+            <div class="tableMid">
+                <table>
+                    <tr>
+                        <th>Type</th>
                         <th>Value</th>
                     </tr>
                     <tr>
@@ -48,6 +92,14 @@
                     <tr>
                         <td> kWh Used Last Week</td>
                         <td> {{ kwhPrevWk[0][0] }} kW</td>
+                    </tr>
+                    <tr>
+                        <td> kWh Used Last Month</td>
+                        <td> {{ kwhPrevMn[0][0] }} kW</td>
+                    </tr>
+                    <tr>
+                        <td> kWh Avg Last 30 Days</td>
+                        <td> {{ avgKwhDayMn }} kW</td>
                     </tr>
                 </table>
             </div>
@@ -79,6 +131,18 @@
                     <tr>
                         <td> Low kW Today</td>
                         <td>{{ killawattStats[0][2] }} kW @ {{ killawattStats[0][3] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Peak kW MTD</td>
+                        <td>{{ peakKwhDayMn[0][0] }} kW on {{ peakKwhDayMn[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Peak $ Spent MTD</td>
+                        <td> $ {{ kwhCost[3] }} on {{ peakKwhDayMn[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Low kW MTD</td>
+                        <td>{{ lowKwhDayMn[0][0] }} kW on {{ lowKwhDayMn[0][1] }}</td>
                     </tr>
                 </table>
             </div>
