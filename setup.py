@@ -41,11 +41,18 @@ def dbVerCheck():
     LIMIT 1;
     """
     cur = conn.cursor()
-    cur.execute(sql)
-    result = cur.fetchall()[0][0]
+    try:
+        cur.execute(sql)
+        result = cur.fetchall()[0][0] or 0.0
+    except (psycopg2.errors.UndefinedTable, psycopg2.ProgrammingError):
+        app.logger.info(' Version table does not exist!...setting db ver to 0.0')
+        result = 0.0
     cur.close()
     conn.commit()
-    if result < dbVer:
+    if result == 0.0:
+        app.logger.info('(!) Database Error, rerunning initial setup!')
+        initialTblSetup.tblSetup()
+    elif result < dbVer:
         app.logger.info('(!) Database out of date!')
         app.logger.info('Updating Database...')
         latest.dbVerCheck(dbVer)

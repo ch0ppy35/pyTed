@@ -27,8 +27,13 @@ def tblSetup():
     """ % {'s': thisDbVer}
     )
 
-    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'], database=app.config['DBDB'],
-                            user=app.config['DBUSER'], password=app.config['DBPASS'])
+    conn = psycopg2.connect(
+        host=app.config['DBHOST'],
+        port=app.config['DBPORT'],
+        database=app.config['DBDB'],
+        user=app.config['DBUSER'],
+        password=app.config['DBPASS']
+    )
     cur = conn.cursor()
 
     for command in sql:
