@@ -58,7 +58,7 @@ def index():
         peakKwhDayMn=tasks.qryPeakKwhDayMn(),
         lowKwhDayMn=tasks.qryLowKwhDayMn(),
         avgKwhDayMn=tasks.qryAvgKwhDayMn(),
-        bills=tasks.tskGetBillingData(),
+        bills=tasks.tskGetBills(),
         pws=app.config['PWS']
     )
 

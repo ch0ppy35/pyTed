@@ -144,6 +144,59 @@ def qryGet5Bills():
     qryResults = tskQryToList(db.query(sql))
     return qryResults
 
+
+def qryGetBillDate(id):
+    sql = """
+    SELECT ts 
+    FROM kwhtotalsmonth 
+    WHERE id = %(id)s;
+    """ % {'id': id}
+    db = database.MyDatabase()
+    return db.query(sql) or [0]
+
+
+def qryBillAvgKwh(billDate):
+    sql = """
+       SELECT AVG(kwhtotal) 
+    FROM kwhTotalsDay 
+    WHERE ts > %(bd)s AT TIME ZONE '%(s)s' - 
+    INTERVAL '1MONTH' 
+    AND ts < %(bd)s AT TIME ZONE '%(s)s';
+    """ % {'s': tz, 'bd': billDate}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+def qryBillKwhHiLo(billDate):
+    sql = """
+    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY HH:MI AM') AS mxTs,
+    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY HH:MI AM') AS mnTs
+    FROM(
+    SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
+    FROM killawatts
+    WHERE ts > %(bd)s AT TIME ZONE '%(s)s' - 
+    INTERVAL '1MONTH' 
+    AND ts < %(bd)s AT TIME ZONE '%(s)s'
+    ) k
+    INNER JOIN killawatts mx ON mx.killawatts = k.mxK
+    INNER JOIN killawatts mn ON mn.killawatts = K.mnK
+    ORDER BY mxTs DESC, mnTs DESC
+    LIMIT 1;
+    """ % {'s': tz, 'bd': billDate}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+def qryBillKwhTotal(id):
+    sql = """
+    SELECT kwhtotal
+    FROM kwhTotalsMonth
+    WHERE id = %(id)s
+    """ % {'id': id}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
 # Misc Tasks
 
 def tskQryToList(qry):
@@ -152,12 +205,27 @@ def tskQryToList(qry):
         else qry
 
 
-def tskGetBillingData():
+def tskGetBills():
     Bills = qryGet5Bills()
     for inner_list in Bills:
         inner_list[1] = round(inner_list[1] * cost, 2)
     return Bills
 
+
+def tskGetBillingData(id):
+    billDate = qryGetBillDate(id)
+    avgKwh = qryBillAvgKwh(billDate)
+    kwhHiLo = qryBillKwhHiLo(billDate)
+
+    billKwhTotal = qryBillKwhTotal(id)
+    billKwhTotalCost = round(billKwhTotal * cost, 2)
+
+    return (
+        avgKwh,
+        kwhHiLo,
+        billKwhTotalCost,
+    )
+    
 
 def tskCalculateCost():
     kwhDayTotal = qryDayKwhTotal()[0][0]
