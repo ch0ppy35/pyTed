@@ -130,7 +130,7 @@ def qryAvgKwhDayMn():
     INTERVAL '1MONTH';
     """ % {'s': tz}
     db = database.MyDatabase()
-    return round(db.query(sql)[0][0], 3) or ''
+    return round(db.query(sql)[0][0], 3) or 0
 
 
 def qryGet5Bills():
@@ -230,8 +230,7 @@ def monthlyTasks():
     SELECT * FROM kwhTotalsDay
     WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '1MONTH')k)
     );
-    """
+    """ % {'s': tz}
     db.modifyq(sql)
 
-    db.modifyq(sql)
     app.logger.info("Monthly task complete")
