@@ -9,8 +9,8 @@ class MyDatabase():
                                          database=app.config['DBDB'],
                                          user=app.config['DBUSER'], password=app.config['DBPASS'])
         except (Exception, psycopg2.DatabaseError) as error:
-            app.logger.info("~ Can't connect to the DB! ~")
-            app.logger.info(error)
+            app.logger.warning("~ Can't connect to the DB! ~")
+            app.logger.warning(error)
 
     def query(self, query):
         self.cur = self.conn.cursor()
