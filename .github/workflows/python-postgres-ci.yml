@@ -1,6 +1,6 @@
 name: Will It Deploy
 
-on: [push]
+on:
 
 jobs:
 
