@@ -24,7 +24,7 @@
                     </tr>
                     {% for row in bills %}
                     <tr>
-                        <td>{{ row[0] }} </td>
+                        <td> <a href="/billData?billid={{ row[0] }}"> {{ row[0] }} </a></td>
                         <td>$ {{ row[1] }} </td>
                         <td>{{ row[2] }}</td>
                     </tr>
