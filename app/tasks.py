@@ -147,7 +147,7 @@ def qryGet4Bills():
 
 def qryGetBillDate(id):
     sql = """
-    SELECT ts 
+    SELECT DATE(ts)
     FROM kwhtotalsmonth 
     WHERE id = %(id)s;
     """ % {'id': id}
@@ -159,10 +159,10 @@ def qryBillAvgKwh(billDate):
     sql = """
        SELECT AVG(kwhtotal) 
     FROM kwhTotalsDay 
-    WHERE ts > %(bd)s AT TIME ZONE '%(s)s' - 
-    INTERVAL '1MONTH' 
-    AND ts < %(bd)s AT TIME ZONE '%(s)s';
+    WHERE ts < '%(bd)s'::TIMESTAMP
+    AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH';
     """ % {'s': tz, 'bd': billDate}
+    print(sql)
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -174,9 +174,8 @@ def qryBillKwhHiLo(billDate):
     FROM(
     SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
     FROM killawatts
-    WHERE ts > %(bd)s AT TIME ZONE '%(s)s' - 
-    INTERVAL '1MONTH' 
-    AND ts < %(bd)s AT TIME ZONE '%(s)s'
+    WHERE ts < '%(bd)s'::TIMESTAMP
+    AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH'
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
     INNER JOIN killawatts mn ON mn.killawatts = K.mnK
@@ -213,7 +212,8 @@ def tskGetBills():
 
 
 def tskGetBillingData(id):
-    billDate = qryGetBillDate(id)
+    billDate = qryGetBillDate(id)[0][0]
+
     avgKwh = qryBillAvgKwh(billDate)
     kwhHiLo = qryBillKwhHiLo(billDate)
 

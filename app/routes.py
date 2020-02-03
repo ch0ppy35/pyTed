@@ -83,6 +83,7 @@ def about():
 def bills():
     return  render_template(
         'bills.html',
+        tasks.tskGetBillingData(1),
         version=app.config['VERSION']
     )
 
