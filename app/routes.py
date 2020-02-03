@@ -1,8 +1,9 @@
 from app import app, tasks, getInfo
-from flask import render_template, redirect
+from flask import render_template, redirect, request
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
+
 
 scheduler = BackgroundScheduler()
 meterRead = app.config['METERREAD']
@@ -78,15 +79,20 @@ def about():
         dbver=app.config['DBVER']
     )
 
-
 @app.route('/bills')
 def bills():
-    print(tasks.tskGetBillingData(5))
-    return  render_template(
+    return render_template('about.html')
+
+@app.route('/billData')
+def billData():
+    bid = request.args.get('billid')
+    print(bid)
+    if bid is None:
+        return redirect('/')
+
+    return render_template(
         'bills.html',
-        billData=tasks.tskGetBillingData(5),
-        version=app.config['VERSION'],
-        dbver=app.config['DBVER'],
+        billData=tasks.tskGetBillingData(bid)
     )
 
 @app.route('/runtasks')
