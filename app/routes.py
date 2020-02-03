@@ -47,7 +47,6 @@ def startBackGroundJob():
 
 @app.route('/')
 def index():
-    print(tasks.tskQryToList(queries.qryCurrent()))
     return render_template(
         'index.html',
         currentStatus=queries.qryCurrent(),

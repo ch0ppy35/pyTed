@@ -29,13 +29,6 @@ def tblSetup():
     );
     """,
         """
-    CREATE TABLE IF NOT EXISTS kwhTotalsWeek (
-    id serial NOT NULL PRIMARY KEY,
-    kwhtotal real NOT NULL,
-    ts timestamp without time zone DEFAULT now() NOT NULL
-    );
-    """,
-        """
     CREATE TABLE IF NOT EXISTS kwhTotalsMonth (
     id serial NOT NULL PRIMARY KEY,
     kwhtotal real NOT NULL,
@@ -58,9 +51,6 @@ def tblSetup():
     """,
         """
     INSERT INTO kwhTotalsDay(kwhtotal) VALUES(0);
-    """,
-        """
-    INSERT INTO kwhTotalsWeek(kwhtotal) VALUES(0);
     """,
         """
     INSERT INTO kwhTotalsMonth(kwhtotal) VALUES(0);
