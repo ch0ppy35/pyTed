@@ -40,7 +40,7 @@ def startBackGroundJob():
 
     # Fire off get data & give time for new data to be inserted.
     getInfo.getData()
-    time.sleep(5)
+    time.sleep(1)
 
 
 @app.route('/')
@@ -81,10 +81,12 @@ def about():
 
 @app.route('/bills')
 def bills():
+    print(tasks.tskGetBillingData(5))
     return  render_template(
         'bills.html',
-        tasks.tskGetBillingData(1),
-        version=app.config['VERSION']
+        billData=tasks.tskGetBillingData(5),
+        version=app.config['VERSION'],
+        dbver=app.config['DBVER'],
     )
 
 @app.route('/runtasks')
