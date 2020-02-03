@@ -37,17 +37,6 @@ def qryKwh7dTotal():
     return db.query(sql) or ['']
 
 
-def qryKwhPrevWk():
-    sql = """
-    SELECT kwhtotal
-    FROM kwhTotalsWeek
-    ORDER BY ts DESC
-    LIMIT 1;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
-
-
 def qryKwhPrevMn():
     sql = """
     SELECT kwhtotal
