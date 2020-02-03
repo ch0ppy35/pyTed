@@ -86,12 +86,11 @@ def bills():
 @app.route('/billData')
 def billData():
     bid = request.args.get('billid')
-    print(bid)
     if bid is None:
         return redirect('/')
 
     return render_template(
-        'bills.html',
+        'billData.html',
         billData=tasks.tskGetBillingData(bid)
     )
 
