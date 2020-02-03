@@ -55,7 +55,6 @@ def index():
         killawattStats=queries.qryKillawatt(),
         dayKwhTotal=queries.qryDayKwhTotal(),
         kwh7dTotal=queries.qryKwh7dTotal(),
-        kwhPrevWk=queries.qryKwhPrevWk(),
         kwhPrevMn=queries.qryKwhPrevMn(),
         kwhCost=tasks.tskCalculateCost(),
         peakKwhDayMn=queries.qryPeakKwhDayMn(),
