@@ -168,16 +168,16 @@ def qryBillAvgKwh(billDate):
 
 def qryBillKwhHiLo(billDate):
     sql = """
-    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY @ HH:MI AM') AS mxTs,
-    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY @ HH:MI AM') AS mnTs
+    SELECT mx.kwhtotal, TO_CHAR(mx.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY') AS mxTs,
+    mn.kwhtotal, TO_CHAR(mn.ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'MON DD YYYY') AS mnTs
     FROM(
-    SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
-    FROM killawatts
+    SELECT MAX(kwhtotal) AS mxK, MIN(kwhtotal) AS mnK
+    FROM kwhTotalsDay
     WHERE ts < '02-04-2020'::TIMESTAMP
     AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH'
     ) k
-    INNER JOIN killawatts mx ON mx.killawatts = k.mxK
-    INNER JOIN killawatts mn ON mn.killawatts = K.mnK
+    INNER JOIN kwhTotalsDay mx ON mx.kwhtotal = k.mxK
+    INNER JOIN kwhTotalsDay mn ON mn.kwhtotal = K.mnK
     ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
     """ % {'s': tz, 'bd': billDate}
