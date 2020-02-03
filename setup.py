@@ -2,22 +2,13 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from app import app
 import time
-from sql import initialTblSetup, latest
-
+from sql import initialTblSetup
 dbVer = float(app.config['DBVER'])
 
 conn0 = psycopg2.connect(
     host=app.config['DBHOST'],
     port=app.config['DBPORT'],
     database='postgres',
-    user=app.config['DBUSER'],
-    password=app.config['DBPASS']
-)
-
-conn1 = psycopg2.connect(
-    host=app.config['DBHOST'],
-    port=app.config['DBPORT'],
-    database=app.config['DBDB'],
     user=app.config['DBUSER'],
     password=app.config['DBPASS']
 )
@@ -54,6 +45,13 @@ def dbVerCheck():
     ORDER BY ts DESC 
     LIMIT 1;
     """
+    conn1 = psycopg2.connect(
+        host=app.config['DBHOST'],
+        port=app.config['DBPORT'],
+        database=app.config['DBDB'],
+        user=app.config['DBUSER'],
+        password=app.config['DBPASS']
+    )
     cur = conn1.cursor()
     try:
         cur.execute(sql)
@@ -69,6 +67,7 @@ def dbVerCheck():
     elif result < dbVer:
         app.logger.info('(!) Database out of date!')
         app.logger.info('Updating Database...')
+        from sql import latest
         latest.dbVerCheck(dbVer)
     else:
         app.logger.info('~ Database up to date! ~')
