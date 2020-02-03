@@ -5,7 +5,7 @@ cost = float(app.config['COST'])
 
 def qryCurrent():
     sql = """
-    SELECT v.voltage, k.killawatts
+    SELECT ROW_NUMBER() OVER (ORDER BY 1), v.voltage, k.killawatts
     FROM voltage v
          INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10S'
     ORDER BY v.id DESC

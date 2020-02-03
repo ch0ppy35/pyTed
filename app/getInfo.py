@@ -23,8 +23,7 @@ def getData():
     sql = 'INSERT INTO killawatts(killawatts) VALUES(%s);' % wattsNow
     db.modifyq(sql)
 
-
-    #   kwhTotalNow
+    # kwhTotalNow
     db = database.MyDatabase()
     sql = 'INSERT INTO kwhTotals(kwhtotal) VALUES(%s);' % kwhTotalNow
     db.modifyq(sql)
