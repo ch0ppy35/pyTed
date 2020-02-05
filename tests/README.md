@@ -6,6 +6,14 @@ Will need to figure out how to automate, and get more tests added.
 
 Here's some output.  We'll need to look into some of the warnings...
 
+````
+$`echo $PYTHONPATH                                                           
+:/Users/mmiller/Projects/pyTed:/Users/mmiller/Projects/pyTed/app:/Users/mmiller/Projects/pyTed/tests
+````
+
+
+`python -m pytest --rootdir=/Users/mmiller/Projects/pyTed tests/app_tests.py` 
+
 ```
 Testing started at 00:40 ...
 /Users/mmiller/Projects/pyTed/venv/bin/python /Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm/_jb_pytest_runner.py --target app_tests.py::FlaskpyTedTests
