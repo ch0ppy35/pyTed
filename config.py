@@ -14,7 +14,7 @@ class Config(object):
     # Weather station
     PWS = os.environ.get('PWS') or 'KCALONGB124'
     # TimeZone
-    TZ = os.environ.get('TZ') or 'UTC'
+    TZ = os.environ.get('TZ') or 'America/Denver'
     # Database
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
