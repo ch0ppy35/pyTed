@@ -1,5 +1,6 @@
 from xml.etree.ElementTree import fromstring, ElementTree
-from app import app, database, scraper
+from app import app
+from app.tools import scraper, database
 
 
 def getData():

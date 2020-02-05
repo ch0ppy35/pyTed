@@ -1,4 +1,5 @@
-from app import app, database
+from app import app
+from app.tools import database
 
 tz = app.config['TZ']
 cost = float(app.config['COST'])
