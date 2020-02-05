@@ -1,14 +1,20 @@
 from app import app
-import unittest
+import unittest, logging
 
-class FlaskBookshelfTests(unittest.TestCase):
+from app.routes import scheduler
+
+
+class FlaskpyTedTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        logging.disable(logging.CRITICAL)
         pass
 
     @classmethod
     def tearDownClass(cls):
+        if scheduler.running:
+            scheduler.shutdown()
         pass
 
     def setUp(self):
