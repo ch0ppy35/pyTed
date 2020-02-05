@@ -1,4 +1,5 @@
-from app import app, tasks, getInfo
+from app import app, tasks
+from app.tools import getInfo
 from flask import render_template, redirect
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
