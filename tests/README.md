@@ -43,5 +43,6 @@ tests/app_tests.py::FlaskpyTedTests::test_home_status_code
 ======================== 2 passed, 9 warnings in 7.98s =========================
 
 Process finished with exit code 0
-PASSED              [ 50%]PASSED                          [100%]
+PASSED                           [ 50%]
+PASSED                           [100%]
 ```
