@@ -4,9 +4,12 @@ from app import app
 
 def goget():
     pre = "http://"
-    endpoint = ":8880/api/LiveData.xml"
-    url = pre+app.config['HOST']+endpoint
-    #print(url)
+    if not app.config['TESTING']:
+        endpoint = ":8880/api/LiveData.xml"
+    else:
+        endpoint = "/api/LiveData.xml"
+    url = pre + app.config['HOST'] + endpoint
+    # print(url)
     payload = ""
     headers = {
         'cache-control': "no-cache",
