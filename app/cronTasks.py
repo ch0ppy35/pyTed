@@ -1,4 +1,6 @@
-from app import app, database
+from app import app
+from app.tools import database
+
 tz = app.config['TZ']
 
 # Cron Tasks
