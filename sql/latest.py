@@ -4,7 +4,7 @@ import time
 from sql import initialTblSetup
 
 neededDbVer = 0.1
-thisDbVer = 0.4
+thisDbVer = 0.5
 conn = psycopg2.connect(
     host=app.config['DBHOST'],
     port=app.config['DBPORT'],
@@ -27,7 +27,7 @@ def tblSetup():
 
     sql = (
         """
-    DROP TABLE IF EXISTS bills;
+    DROP TABLE IF EXISTS kwhTotalsWeek;
     """,
         """
     INSERT INTO pytedDbVer(dbver) VALUES(%(s)s);

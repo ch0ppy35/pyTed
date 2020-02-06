@@ -1,12 +1,14 @@
-from app import app, tasks
 from app.tools import getInfo
-from flask import render_template, redirect
+from app import app, tasks, cronTasks, queries
+from flask import render_template, redirect, request
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
 
+
 scheduler = BackgroundScheduler()
 meterRead = app.config['METERREAD']
+
 
 @app.before_first_request
 def startBackGroundJob():
@@ -17,20 +19,20 @@ def startBackGroundJob():
         max_instances=1
     )
     scheduler.add_job(
-        tasks.dailyTasks,
+        cronTasks.dailyTasks,
         trigger='cron',
         hour='23',
         minute='59'
     )
     scheduler.add_job(
-        tasks.weeklyTasks,
+        cronTasks.weeklyTasks,
         trigger='cron',
         day_of_week='sun',
         hour='0',
         minute='0'
     )
     scheduler.add_job(
-        tasks.monthlyTasks,
+        cronTasks.monthlyTasks,
         trigger='cron',
         day='%(s)s' % {'s': meterRead},
         hour='0',
@@ -41,24 +43,23 @@ def startBackGroundJob():
 
     # Fire off get data & give time for new data to be inserted.
     getInfo.getData()
-    time.sleep(5)
+    time.sleep(1)
 
 
 @app.route('/')
 def index():
     return render_template(
         'index.html',
-        currentStatus=tasks.qryCurrent(),
-        voltageStats=tasks.qryVoltage(),
-        killawattStats=tasks.qryKillawatt(),
-        dayKwhTotal=tasks.qryDayKwhTotal(),
-        kwh7dTotal=tasks.qryKwh7dTotal(),
-        kwhPrevWk=tasks.qryKwhPrevWk(),
-        kwhPrevMn=tasks.qryKwhPrevMn(),
+        currentStatus=queries.qryCurrent(),
+        voltageStats=queries.qryVoltage(),
+        killawattStats=queries.qryKillawatt(),
+        dayKwhTotal=queries.qryDayKwhTotal(),
+        kwh7dTotal=queries.qryKwh7dTotal(),
+        kwhPrevMn=queries.qryKwhPrevMn(),
         kwhCost=tasks.tskCalculateCost(),
-        peakKwhDayMn=tasks.qryPeakKwhDayMn(),
-        lowKwhDayMn=tasks.qryLowKwhDayMn(),
-        avgKwhDayMn=tasks.qryAvgKwhDayMn(),
+        peakKwhDayMn=queries.qryPeakKwhDayMn(),
+        lowKwhDayMn=queries.qryLowKwhDayMn(),
+        avgKwhDayMn=queries.qryAvgKwhDayMn(),
         bills=tasks.tskGetBills(),
         pws=app.config['PWS']
     )
@@ -66,8 +67,8 @@ def index():
 
 @app.route('/rtkw')
 def rtkw():
-    currentStatus = tasks.qryCurrent()
-    value = str(currentStatus[0][1])
+    currentStatus = queries.qryCurrent()
+    value = str(currentStatus[0][2])
     return value
 
 
@@ -82,15 +83,25 @@ def about():
 
 @app.route('/bills')
 def bills():
-    return  render_template(
-        'bills.html',
-        version=app.config['VERSION']
+    return render_template('about.html')
+
+
+@app.route('/billData')
+def billData():
+    bid = request.args.get('billid')
+    if bid is None:
+        return redirect('/')
+
+    return render_template(
+        'billData.html',
+        billData=tasks.tskGetBillingData(bid)
     )
+
 
 @app.route('/runtasks')
 def runTasks():
-    tasks.dailyTasks()
-    tasks.monthlyTasks()
+    cronTasks.dailyTasks()
+    cronTasks.monthlyTasks()
     return redirect('/')
 
 

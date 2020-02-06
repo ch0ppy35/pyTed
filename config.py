@@ -36,4 +36,4 @@ class Config(object):
     }
     # version
     VERSION = '0.0.3'
-    DBVER = '0.4'
+    DBVER = '0.5'
