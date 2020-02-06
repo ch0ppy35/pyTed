@@ -1,106 +1,67 @@
-from app import app, database
+from app import app, queries
+from app.tools import database
+
+tz = app.config['TZ']
+cost = float(app.config['COST'])
 
 
+# Misc Tasks
 
-def qryCurrent():
-    sql = """
-    SELECT v.voltage, k.killawatts
-    FROM voltage v
-         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10 s'
-    ORDER BY v.id DESC
-    LIMIT 10;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
+def tskQryToList(qry):
+    return list(map(tskQryToList, qry)) \
+        if isinstance(qry, (list, tuple)) \
+        else qry
 
-def qryDayKwhTotal():
-    sql = """
-    SELECT kwhtotal 
-    FROM kwhTotals ORDER BY ts DESC LIMIT 1;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
 
-def qryKwh7dTotal():
-    sql = """
-    SELECT prevDay.kwhSum + currentDay 
-    FROM (
-    SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() - INTERVAL '7d') AS prevDay, 
-    (SELECT kwhtotal currentDay
-    FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
+def tskGetBills():
+    Bills = queries.qryGet4Bills()
+    for inner_list in Bills:
+        inner_list[1] = round(inner_list[1] * cost, 2)
+    return Bills
 
-def qryKwhPrevWk():
-    sql = """
-    SELECT kwhtotal
-    FROM kwhTotalsWeek
-    ORDER BY ts DESC
-    LIMIT 1;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
 
-def qryVoltage():
-    sql = """
-    SELECT mx.voltage, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM'),
-    mn.voltage, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM')
-    FROM(
-    SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
-    FROM Voltage
-    ) v
-    INNER JOIN voltage mx ON mx.voltage = v.mxV
-    INNER JOIN voltage mn ON mn.voltage = v.mnV
-    WHERE CURRENT_DATE = date(mn.ts);
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
+def tskGetBillingData(id):
+    billDate = queries.qryGetBillDate(id)[0][0]
 
-def qryKillawatt():
-    sql = """
-    SELECT mx.killawatts, TO_CHAR(mx.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mxTs,
-    mn.killawatts, TO_CHAR(mn.ts AT TIME ZONE 'utc' AT TIME ZONE 'america/new_york', 'HH:MI AM') AS mnTs
-    FROM(
-    SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
-    FROM killawatts
-    ) k
-    INNER JOIN killawatts mx ON mx.killawatts = k.mxK
-    INNER JOIN killawatts mn ON mn.killawatts = K.mnK
-    WHERE CURRENT_DATE = date(mn.ts) OR mn.ts > NOW() - INTERVAL '1m'
-    ORDER BY mxTs DESC, mnTs DESC
-    LIMIT 1;
-    """
-    db = database.MyDatabase()
-    return db.query(sql) or ['']
+    avgKwhRaw = queries.qryBillAvgKwh(billDate)[0][0]
+    avgKwh = round(avgKwhRaw, 3)
 
-#Cron Tasks
+    kwhHiLo = queries.qryBillKwhHiLo(billDate)
 
-def dailyTasks():
-    db = database.MyDatabase()
-    sql="""
-    INSERT INTO kwhTotalsDay(kwhtotal) VALUES((
-    SELECT kwhtotal FROM kwhTotals 
-    ORDER BY ts DESC LIMIT 1));
-    """
-    db.modifyq(sql)
+    billKwhTotal = queries.qryBillKwhTotal(id)[0][0]
+    billKwhTotalCost = round(billKwhTotal * cost, 2)
 
-    db = database.MyDatabase()
-    sql="""
-    DELETE FROM kwhTotals
-    WHERE ts < NOW() - INTERVAL '7 days';
-    """
-    db.modifyq(sql)
-    app.logger.info("Daily task complete")
+    return (
+        avgKwh,
+        kwhHiLo,
+        billKwhTotalCost,
+    )
 
-def weeklyTasks():
-    db = database.MyDatabase()
-    sql="""
-    INSERT INTO kwhTotalsWeek(kwhtotal) VALUES((
-    SELECT kwhtotal FROM kwhTotalsDay 
-    ORDER BY ts DESC LIMIT 1));
-    """
-    db.modifyq(sql)
 
-    app.logger.info("Weekly task complete")
+def tskCalculateCost():
+    kwhDayTotal = queries.qryDayKwhTotal()[0][0]
+    kwhDayCost = round(kwhDayTotal * cost, 2)
+
+    kwh7dTotal = queries.qryKwh7dTotal()[0][0]
+    kwh7dCost = round(kwh7dTotal * cost, 2)
+
+    kwhPrevMnTotal = queries.qryKwhPrevMn()[0][0]
+    kwhPrevMnCost = round(kwhPrevMnTotal * cost, 2)
+
+    kwhPeakDayMn = queries.qryPeakKwhDayMn()[0][0]
+    kwhPeakDayMnCost = round(kwhPeakDayMn * cost, 2)
+
+    kwhLowDayMn = queries.qryLowKwhDayMn()[0][0]
+    kwhLowDayMnCost = round(kwhLowDayMn * cost, 2)
+
+    kwhAvgDayMn = queries.qryAvgKwhDayMn()
+    kwhAvgDayMnCost = round(kwhAvgDayMn * cost, 2)
+
+    return(
+        kwhDayCost,
+        kwh7dCost,
+        kwhPrevMnCost,
+        kwhPeakDayMnCost,
+        kwhLowDayMnCost,
+        kwhAvgDayMnCost
+    )

@@ -4,10 +4,67 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
+
 class Config(object):
+    # TED Endpoint
     HOST = os.environ.get('HOST')
-    DBHOST = os.environ.get('DBHOST')
-    DBPORT = os.environ.get('DBPORT')
+    # Util Info
+    COST = os.environ.get('COST') or '0'
+    METERREAD = os.environ.get('METERREAD') or '1'
+    # Weather station
+    PWS = os.environ.get('PWS') or 'KCALONGB124'
+    # TimeZone
+    TZ = os.environ.get('TZ') or 'America/Denver'
+    # Database
+    DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
+    DBPORT = os.environ.get('DBPORT') or '5432'
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
+    DBDB = os.environ.get('DBDB') or 'pyted'
+    # Mail Server
+    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # Admins
+    ADMINS = ['noreply@null.com']
+    # available languages
+    LANGUAGES = {
+        'en': 'English'
+    }
+    # version
+    VERSION = '0.0.3'
+    DBVER = '0.5'
+
+
+class TestingConfig():
+    # Set for testing
+    TESTING = True
+    DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
+    DBPORT = os.environ.get('DBPORT') or '5432'
+    DBUSER = os.environ.get('DBUSER')
+    DBPASS = os.environ.get('DBPASS')
+    # Demo Ted Address
+    HOST = "demo.theenergydetective.com"
+    FLASK_APP = "pyTED.py"
+    # Util Info
+    COST = os.environ.get('COST') or '0'
+    METERREAD = os.environ.get('METERREAD') or '1'
+    # Weather station
     PWS = os.environ.get('PWS') or 'KCALONGB124'
+    # TimeZone
+    TZ = os.environ.get('TZ') or 'America/Denver'
+    # Database
+    DBDB = os.environ.get('DBDB') or 'pyted'
+    # Mail Server
+    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # version
+    VERSION = '0.0.0'
+    DBVER = '0.0'

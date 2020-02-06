@@ -26,10 +26,10 @@ table {
 }
 
 #rtkw {
-    color: #4CAF50;
+    color: #cecece;
 }
 
-#table1 {
+.table1 {
     text-align: center;
 }
 
@@ -37,7 +37,31 @@ table {
     text-align: center;
 }
 
-#table3 {
+.tableMid {
     text-align: center;
     padding-bottom: 10px;
+}
+.gaugeTitle {
+    display: inline-block;
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #676b70;
+    font-weight: bold;
+}
+.gaugeLabel {
+    display: inline-block;
+    position: absolute;
+    float: left;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #BBB;
+    font-weight: bold;
+    z-index: 1;
+    text-shadow: #6b7075 0px 0px 1px;
+    top: 80px;
+    font-size: 24px;
 }

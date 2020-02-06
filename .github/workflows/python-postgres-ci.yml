@@ -1,6 +1,9 @@
 name: Will It Deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
 
