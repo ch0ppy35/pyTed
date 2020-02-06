@@ -39,6 +39,7 @@ else:
     app.logger.info('~ Not turning on mail services, did you define a host? ~')
 
 import setup
+
 setup.dbCheck()
 
 app.logger.info('~ pyTed is starting up ~')

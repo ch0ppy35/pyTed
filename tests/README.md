@@ -7,8 +7,8 @@ Will need to figure out how to automate, and get more tests added.
 Here's some output.  We'll need to look into some of the warnings...
 
 ````
-$`echo $PYTHONPATH                                                           
-:/Users/mmiller/Projects/pyTed:/Users/mmiller/Projects/pyTed/app:/Users/mmiller/Projects/pyTed/tests
+$`echo $PYTHONPATH                                              
+/Users/mmiller/Projects/pyTed:/Users/mmiller/Projects/pyTed/app:/Users/mmiller/Projects/pyTed/tests
 ````
 
 
