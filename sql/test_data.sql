@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.killawatts (
-    id integer NOT NULL,
+    id serial NOT NULL,
     killawatts real,
     ts timestamp without time zone DEFAULT now()
 );
