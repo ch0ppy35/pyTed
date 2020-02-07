@@ -2,9 +2,14 @@ env:
   - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app
   - DBHOST=127.0.0.1
   - DBUSER=postgres
+language: python
+python:
+  - 3.6
 services:
   - postgresql
 install:
+  - python --version
+  - pip install --upgrade pip
   - pip install -r requirements.txt
 before_script:
   - psql -c 'create database pyted;' -U postgres
