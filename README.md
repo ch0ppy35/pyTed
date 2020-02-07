@@ -2,6 +2,7 @@
 ## _Aut viam inveniam aut faciam_
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![Build Status](https://travis-ci.org/ch0ppy35/pyTed.svg?branch=dev)](https://travis-ci.org/ch0ppy35/pyTed)
 
 
 Here's a README for an obscure project.   
