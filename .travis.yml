@@ -1,0 +1,14 @@
+env:
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app
+  - DBHOST=127.0.0.1
+  - DBUSER=postgres
+services:
+  - postgresql
+install:
+  - pip install -r requirements.txt
+before_script:
+  - psql -c 'create database pyted;' -U postgres
+  - psql -U postgres -d pyted < sql/test_data.sql
+script:
+  # unit test
+  - python -m pytest -v tests/app_tests.py
