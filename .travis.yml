@@ -24,3 +24,4 @@ before_script:
 script:
   # unit test
   - python -m pytest -v tests/app_tests.py
+  - flake8 --exclude venv/ .
