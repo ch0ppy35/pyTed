@@ -449,6 +449,7 @@ COPY public.kwhtotalsday (id, kwhtotal, ts) FROM stdin;
 COPY public.kwhtotalsmonth (id, kwhtotal, ts) FROM stdin;
 1	98.50	2020-02-05 19:27:06.482784
 2	98.52	2020-02-05 21:06:13.126319
+3	98.52	2020-02-05 21:06:13.126319
 \.
 
 
