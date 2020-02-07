@@ -6,7 +6,7 @@ jobs:
   allow_failures:
     - os: osx
 env:
-  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres PGPORT=5433
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
 language: python
 python:
   - 3.6
@@ -21,7 +21,7 @@ install:
   - pip install -r requirements.txt
 before_script:
   - psql -c 'create database pyted;' -U postgres
-  - psql -U postgres -d pyted < sql/test_data.sql
+  - psql -h 127.0.0.1 -U postgres -d pyted < sql/test_data.sql
 script:
   # unit test
   - python -m pytest -v tests/app_tests.py
