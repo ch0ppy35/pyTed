@@ -1,6 +1,7 @@
 os:
   - linux
   - osx
+dist: bionic
 jobs:
   allow_failures:
     - os: osx
@@ -11,7 +12,7 @@ python:
   - 3.6
   - 3.7-dev
 addons:
-  postgresql: "9.6"
+  postgresql: "12.1"
 services:
   - postgresql
 install:
