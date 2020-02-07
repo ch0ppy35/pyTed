@@ -1,5 +1,9 @@
 os:
   - linux
+  - osx
+jobs:
+  allow_failures:
+    - os: osx
 env:
   - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
 language: python
