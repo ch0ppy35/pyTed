@@ -51,7 +51,7 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
         self.assertEqual(result.status_code, 200)
 
     def test_billData(self):
-        result = self.app.get('/billData?billid=1')
+        result = self.app.get('/billData?billid=3')
         self.assertEqual(result.status_code, 200)
 
     def test_runtasks(self):
