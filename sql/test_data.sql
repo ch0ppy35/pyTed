@@ -200,7 +200,7 @@ ALTER SEQUENCE public.pyteddbver_id_seq OWNED BY public.pyteddbver.id;
 --
 
 CREATE TABLE public.voltage (
-    id integer NOT NULL,
+    id serial NOT NULL,
     voltage real,
     ts timestamp without time zone DEFAULT now()
 );
