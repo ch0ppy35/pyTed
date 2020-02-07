@@ -60,7 +60,7 @@ ALTER SEQUENCE public.killawatts_id_seq OWNED BY public.killawatts.id;
 --
 
 CREATE TABLE public.kwhtotals (
-    id integer NOT NULL,
+    id serial NOT NULL,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
 );
@@ -95,7 +95,7 @@ ALTER SEQUENCE public.kwhtotals_id_seq OWNED BY public.kwhtotals.id;
 --
 
 CREATE TABLE public.kwhtotalsday (
-    id integer NOT NULL,
+    id serial NOT NULL,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
 );
@@ -130,7 +130,7 @@ ALTER SEQUENCE public.kwhtotalsday_id_seq OWNED BY public.kwhtotalsday.id;
 --
 
 CREATE TABLE public.kwhtotalsmonth (
-    id integer NOT NULL,
+    id serial NOT NULL,
     kwhtotal real NOT NULL,
     ts timestamp without time zone DEFAULT now() NOT NULL
 );
