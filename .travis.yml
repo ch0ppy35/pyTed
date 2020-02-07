@@ -6,7 +6,7 @@ jobs:
   allow_failures:
     - os: osx
 env:
-  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres PGPORT=5433
 language: python
 python:
   - 3.6
