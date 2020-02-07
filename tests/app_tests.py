@@ -1,8 +1,7 @@
 from app import app
-import unittest, logging
 from config import TestingConfig
-
 from app.routes import scheduler
+import unittest, logging
 
 
 class FlaskpyTedTests(unittest.TestCase):
@@ -50,7 +49,7 @@ class FlaskpyTedTests(unittest.TestCase):
     def test_billData(self):
         result = self.app.get('/billData')
         # Need more infor on billid variable
-        #self.assertEqual(result.status_code, 200)
+        # self.assertEqual(result.status_code, 200)
         self.assertEqual(result.status_code, 302)
 
     def test_runtasks(self):
