@@ -150,7 +150,7 @@ def qryBillAvgKwh(billDate):
     sql = """
        SELECT AVG(kwhtotal) 
     FROM kwhTotalsDay 
-    WHERE ts < '02-04-2020'::TIMESTAMP
+    WHERE ts < '%(bd)s'::TIMESTAMP
     AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH';
     """ % {'s': tz, 'bd': billDate}
     db = database.MyDatabase()
@@ -164,7 +164,7 @@ def qryBillKwhHiLo(billDate):
     FROM(
     SELECT MAX(kwhtotal) AS mxK, MIN(kwhtotal) AS mnK
     FROM kwhTotalsDay
-    WHERE ts < '02-04-2020'::TIMESTAMP
+    WHERE ts < '%(bd)s'::TIMESTAMP
     AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH'
     ) k
     INNER JOIN kwhTotalsDay mx ON mx.kwhtotal = k.mxK
