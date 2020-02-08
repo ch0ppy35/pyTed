@@ -1,19 +1,25 @@
-os:
-  - linux
-  - osx
+env:
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
 jobs:
   allow_failures:
     - os: osx
-env:
-  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
-language: python
-python:
-  - 3.6
-  - 3.7-dev
 addons:
   postgresql: "9.6"
 services:
   - postgresql
+matrix:
+  include:
+    - name: "Python 3.7 Linux"
+      os: linux
+      python:
+        - 3.6
+        - 3.7-dev
+    - name: "Python 3.7.2 on macOS"
+      os: osx
+      osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
+      language: shell       # 'language: python' is an error on Travis CI macOS
+      # python: 3.7         # 'python:' is ignored on Travis CI macOS
+      before_install: python3 --version ; pip3 --version ; sw_vers
 install:
   - python --version
   - pip install --upgrade pip
