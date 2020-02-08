@@ -1,4 +1,5 @@
-from app import app, tasks
+from app import app
+from app.chores import tasks
 from app.tools import database
 
 tz = app.config['TZ']
