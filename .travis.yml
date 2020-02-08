@@ -39,7 +39,8 @@ install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
 before_script:
-  - psql -c 'DROP DATABASE IF EXISTS pyted; create database pyted;' -U postgres
+  - psql -c 'DROP DATABASE IF EXISTS pyted;' -U postgres
+  - psql -c 'create database pyted;' -U postgres
   - psql -h 127.0.0.1 -U postgres -d pyted < sql/test_data.sql
 script:
   # unit test
