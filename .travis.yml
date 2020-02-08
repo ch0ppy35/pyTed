@@ -33,6 +33,7 @@ matrix:
       script:
         # unit test
         - python3 -m pytest -v tests/app_tests.py
+        - flake8 --exit-zero --exclude venv/ .
 install:
   - python --version
   - pip install --upgrade pip
