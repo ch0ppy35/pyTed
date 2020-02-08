@@ -13,12 +13,21 @@ matrix:
     - name: "Python 3.7 Linux"
       os: linux
       python: 3.7-dev
+    - name: "Python 3.6 Linux"
+      os: linux
+      python: 3.6
     - name: "Python 3.7.2 on macOS"
       os: osx
       osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
       language: shell       # 'language: python' is an error on Travis CI macOS
-      # python: 3.7         # 'python:' is ignored on Travis CI macOS
       before_install: python3 --version ; pip3 --version ; sw_vers
+      install:
+        - python3 --version
+        - pip3 install --upgrade pip
+        - pip3 install -r requirements.txt
+        script:
+          # unit test
+          - python3 -m pytest -v tests/app_tests.py
 install:
   - python --version
   - pip install --upgrade pip
