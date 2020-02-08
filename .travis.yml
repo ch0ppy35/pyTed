@@ -20,7 +20,12 @@ matrix:
       os: osx
       osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
       language: shell       # 'language: python' is an error on Travis CI macOS
-      before_install: python3 --version ; pip3 --version ; sw_vers
+      before_install:
+        - python3 --version ; pip3 --version ; sw_vers
+        - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rm -rf /usr/local/var/postgres; fi
+        - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then initdb /usr/local/var/postgres; fi
+        - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pg_ctl -D /usr/local/var/postgres start; fi
+        - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then createuser -s postgres; fi
       install:
         - python3 --version
         - pip3 install --upgrade pip
