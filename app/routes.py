@@ -1,5 +1,6 @@
 from app.tools import getInfo
-from app import app, tasks, cronTasks, queries
+from app import app
+from app.chores import cronTasks, tasks, queries
 from flask import render_template, redirect, request
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
