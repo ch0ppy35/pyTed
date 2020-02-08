@@ -25,9 +25,9 @@ matrix:
         - python3 --version
         - pip3 install --upgrade pip
         - pip3 install -r requirements.txt
-        script:
-          # unit test
-          - python3 -m pytest -v tests/app_tests.py
+      script:
+        # unit test
+        - python3 -m pytest -v tests/app_tests.py
 install:
   - python --version
   - pip install --upgrade pip
