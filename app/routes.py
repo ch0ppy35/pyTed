@@ -5,41 +5,41 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import time
 import atexit
 
-
 scheduler = BackgroundScheduler()
 meterRead = app.config['METERREAD']
 
 
 @app.before_first_request
 def startBackGroundJob():
-    scheduler.add_job(
-        getInfo.getData,
-        trigger='cron',
-        second='*/30',
-        max_instances=1
-    )
-    scheduler.add_job(
-        cronTasks.dailyTasks,
-        trigger='cron',
-        hour='23',
-        minute='59'
-    )
-    scheduler.add_job(
-        cronTasks.weeklyTasks,
-        trigger='cron',
-        day_of_week='sun',
-        hour='0',
-        minute='0'
-    )
-    scheduler.add_job(
-        cronTasks.monthlyTasks,
-        trigger='cron',
-        day='%(s)s' % {'s': meterRead},
-        hour='0',
-        minute='0'
-    )
-    scheduler.start()
-    app.logger.info('~ Scheduler starting for for tasks ~')
+    if not app.config['TESTING']:
+        scheduler.add_job(
+            getInfo.getData,
+            trigger='cron',
+            second='*/30',
+            max_instances=1
+        )
+        scheduler.add_job(
+            cronTasks.dailyTasks,
+            trigger='cron',
+            hour='23',
+            minute='59'
+        )
+        scheduler.add_job(
+            cronTasks.weeklyTasks,
+            trigger='cron',
+            day_of_week='sun',
+            hour='0',
+            minute='0'
+        )
+        scheduler.add_job(
+            cronTasks.monthlyTasks,
+            trigger='cron',
+            day='%(s)s' % {'s': meterRead},
+            hour='0',
+            minute='0'
+        )
+        scheduler.start()
+        app.logger.info('~ Scheduler starting for for tasks ~')
 
     # Fire off get data & give time for new data to be inserted.
     getInfo.getData()

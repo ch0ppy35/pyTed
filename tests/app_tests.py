@@ -1,11 +1,11 @@
-from app import app
-import unittest, logging
+from app import app, cronTasks
 from config import TestingConfig
-
 from app.routes import scheduler
+from app.tools import getInfo, scraper
+import unittest, xmlunittest, logging
 
 
-class FlaskpyTedTests(unittest.TestCase):
+class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
 
     @classmethod
     def setUpClass(cls):
@@ -28,6 +28,9 @@ class FlaskpyTedTests(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_testing_variable(self):
+        self.assertEqual(app.config['TESTING'], True)
+
     def test_host_variable(self):
         self.assertEqual(app.config['HOST'], "demo.theenergydetective.com")
 
@@ -48,11 +51,44 @@ class FlaskpyTedTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_billData(self):
-        result = self.app.get('/billData')
-        # Need more infor on billid variable
-        #self.assertEqual(result.status_code, 200)
-        self.assertEqual(result.status_code, 302)
+        result = self.app.get('/billData?billid=2')
+        self.assertEqual(result.status_code, 200)
 
     def test_runtasks(self):
-        result = self.app.get('/billData')
+        result = self.app.get('/runtasks')
         self.assertEqual(result.status_code, 302)
+
+    def test_scraper(self):
+        data = scraper.goget()
+        self.assertXmlDocument(data)
+
+    def test_scheduler(self):
+        meterRead = app.config['METERREAD']
+        scheduler.add_job(
+            getInfo.getData,
+            trigger='cron',
+            second='*/30',
+            max_instances=1
+        )
+        scheduler.add_job(
+            cronTasks.dailyTasks,
+            trigger='cron',
+            hour='23',
+            minute='59'
+        )
+        scheduler.add_job(
+            cronTasks.weeklyTasks,
+            trigger='cron',
+            day_of_week='sun',
+            hour='0',
+            minute='0'
+        )
+        scheduler.add_job(
+            cronTasks.monthlyTasks,
+            trigger='cron',
+            day='%(s)s' % {'s': meterRead},
+            hour='0',
+            minute='0'
+        )
+        scheduler.start()
+        self.assertEqual(scheduler.running, True)
