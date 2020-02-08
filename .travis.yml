@@ -1,14 +1,13 @@
 language: python
 env:
   - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
-jobs:
-  allow_failures:
-    - os: osx
 addons:
   postgresql: "9.6"
 services:
   - postgresql
 matrix:
+  allow_failures:
+    - os: osx
   include:
     - name: "Python 3.7.6 Linux (xenial)"
       os: linux
@@ -35,11 +34,12 @@ matrix:
         - python3 -m pytest -v tests/app_tests.py
         - flake8 --exit-zero --exclude venv/ .
 install:
+  - date
   - python --version
   - pip install --upgrade pip
   - pip install -r requirements.txt
 before_script:
-  - psql -c 'create database pyted;' -U postgres
+  - psql -c 'DROP DATABASE [IF EXISTS] pyted; create database pyted;' -U postgres
   - psql -h 127.0.0.1 -U postgres -d pyted < sql/test_data.sql
 script:
   # unit test
