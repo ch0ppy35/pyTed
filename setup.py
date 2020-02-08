@@ -24,7 +24,7 @@ def dbCheck():
     cur = conn0.cursor()
     cur.execute(sql)
     result = cur.fetchall()[0][0]
-    cur.close
+    cur.close()
 
     if not result:
         app.logger.info('(!) Database does not exist! Running setup!')
