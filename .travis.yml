@@ -10,13 +10,13 @@ services:
   - postgresql
 matrix:
   include:
-    - name: "Python 3.7 Linux"
+    - name: "Python 3.7.6 Linux (xenial)"
       os: linux
       python: 3.7-dev
-    - name: "Python 3.6 Linux"
+    - name: "Python 3.6.7 Linux (xenial)"
       os: linux
       python: 3.6
-    - name: "Python 3.7.2 on macOS"
+    - name: "Python 3.7.4 on macOS (10.14.4)"
       os: osx
       osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
       language: shell       # 'language: python' is an error on Travis CI macOS
