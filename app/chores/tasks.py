@@ -1,5 +1,5 @@
-from app import app, queries
-from app.tools import database
+from app import app
+from app.chores import queries
 
 tz = app.config['TZ']
 cost = float(app.config['COST'])

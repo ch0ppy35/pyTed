@@ -1,4 +1,5 @@
-from app import app, cronTasks
+from app import app
+from app.chores import cronTasks
 from config import TestingConfig
 from app.routes import scheduler
 from app.tools import getInfo, scraper
@@ -33,6 +34,14 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
 
     def test_host_variable(self):
         self.assertEqual(app.config['HOST'], "demo.theenergydetective.com")
+
+    def test_disallowed(self):
+        result = self.app.get('/routes')
+        self.assertEqual(result.status_code, 404)
+
+    def test_500s(self):
+        with self.assertRaises(Exception):
+            result = self.app.get('/billData?billid=foo')
 
     def test_home_status_code(self):
         result = self.app.get('/')
