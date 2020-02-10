@@ -20,7 +20,7 @@ RUN echo "local   all             all  trust" > /etc/postgresql/9.6/main/pg_hba.
 RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/9.6/main/pg_hba.conf
 RUN cat /etc/postgresql/9.6/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
-EXPOSE 5000 5432
+EXPOSE 5000
 COPY . /app
 WORKDIR /app
 RUN whoami
