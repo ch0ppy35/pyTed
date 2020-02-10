@@ -7,7 +7,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class Config(object):
     # TED Endpoint
-    HOST = os.environ.get('HOST')
+    HOST = os.environ.get('HOST') or "demo.theenergydetective.com"
     # Util Info
     COST = os.environ.get('COST') or '0'
     METERREAD = os.environ.get('METERREAD') or '1'
@@ -18,7 +18,7 @@ class Config(object):
     # Database
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
-    DBUSER = os.environ.get('DBUSER')
+    DBUSER = os.environ.get('DBUSER') or 'postgres'
     DBPASS = os.environ.get('DBPASS')
     DBDB = os.environ.get('DBDB') or 'pyted'
     # Mail Server
