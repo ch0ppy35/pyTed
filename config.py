@@ -6,19 +6,21 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 
 class Config(object):
+    # Docker?
+    DOCKER = os.environ.get('DOCKER') or False
     # TED Endpoint
     HOST = os.environ.get('HOST') or "demo.theenergydetective.com"
     # Util Info
     COST = os.environ.get('COST') or '0'
     METERREAD = os.environ.get('METERREAD') or '1'
     # Weather station
-    PWS = os.environ.get('PWS') or 'KCALONGB124'
+    PWS = os.environ.get('PWS') or 'KDEN'
     # TimeZone
     TZ = os.environ.get('TZ') or 'America/Denver'
     # Database
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
-    DBUSER = os.environ.get('DBUSER') or 'postgres'
+    DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
     DBDB = os.environ.get('DBDB') or 'pyted'
     # Mail Server
