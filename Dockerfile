@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Mike Miller <chop3593@gmail.com>
+MAINTAINER Mike Miller <ch0ppy35@gmail.com>
 RUN apt-get update && \
   apt-get install -y software-properties-common && \
   add-apt-repository ppa:deadsnakes/ppa
