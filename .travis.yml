@@ -1,15 +1,14 @@
 language: python
-sudo: required
 env:
   - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
 addons:
   postgresql: "9.6"
 services:
   - postgresql
-  - docker
 matrix:
   allow_failures:
     - os: osx
+    - name: "Python 3.7.6 Linux (xenial)"
   include:
     - name: "Python 3.7.6 Linux (xenial)"
       os: linux
