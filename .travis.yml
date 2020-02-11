@@ -5,6 +5,7 @@ addons:
   postgresql: "9.6"
 services:
   - postgresql
+  - docker
 matrix:
   allow_failures:
     - os: osx
