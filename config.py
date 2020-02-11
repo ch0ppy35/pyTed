@@ -20,8 +20,8 @@ class Config(object):
     # Database
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
-    DBUSER = os.environ.get('DBUSER')
-    DBPASS = os.environ.get('DBPASS')
+    DBUSER = os.environ.get('DBUSER') or 'pyted'
+    DBPASS = os.environ.get('DBPASS') or 'password'
     DBDB = os.environ.get('DBDB') or 'pyted'
     # Mail Server
     MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'

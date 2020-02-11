@@ -1,10 +1,12 @@
 language: python
+sudo: required
 env:
   - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/app DBHOST=127.0.0.1 DBUSER=postgres
 addons:
   postgresql: "9.6"
 services:
   - postgresql
+  - docker
 matrix:
   allow_failures:
     - os: osx
@@ -46,3 +48,5 @@ script:
   # unit test
   - python -m pytest -v tests/app_tests.py
   - flake8 --exit-zero --exclude venv/ .
+after_success:
+- sh .travis/deploy_dockerhub.sh
