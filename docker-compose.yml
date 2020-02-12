@@ -5,7 +5,6 @@ services:
      image: postgres:12.1
      restart: always
      environment:
-       MYSQL_ROOT_PASSWORD: somewordpress
        POSTGRES_DB: pyted
        POSTGRES_USER: pyted
        POSTGRES_PASSWORD: password
@@ -15,7 +14,7 @@ services:
        - db
      image: ch0ppy35/pyted
      ports:
-       - "5000"
+       - "5000:5000"
      restart: always
      environment:
        DBHOST: db
