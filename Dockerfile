@@ -1,9 +1,11 @@
-FROM ubuntu:latest
-MAINTAINER Mike Miller <your email>
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
-COPY . /app
-WORKDIR /app
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP pyTED.py
+ENV FLASK_RUN_HOST 0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+RUN apk add --update --no-cache g++ gcc libxslt-dev
+RUN apk update && apk add postgresql-dev gcc musl-dev
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python"]
-CMD ["qa/app.py"]
+COPY . .
+CMD ["flask", "run"]
