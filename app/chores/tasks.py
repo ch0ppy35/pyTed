@@ -1,5 +1,5 @@
-from app import app, queries
-from app.tools import database
+from app import app
+from app.chores import queries
 
 tz = app.config['TZ']
 cost = float(app.config['COST'])
@@ -43,6 +43,8 @@ def tskCalculateCost():
     kwhDayCost = round(kwhDayTotal * cost, 2)
 
     kwh7dTotal = queries.qryKwh7dTotal()[0][0]
+    if kwh7dTotal is None:
+        kwh7dTotal = 0
     kwh7dCost = round(kwh7dTotal * cost, 2)
 
     kwhPrevMnTotal = queries.qryKwhPrevMn()[0][0]
