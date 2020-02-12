@@ -19,6 +19,7 @@ matrix:
       python: 3.6
       deploy:
         branches:
+          only:
             - dev
             - master
         provider: script
