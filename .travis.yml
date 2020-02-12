@@ -19,11 +19,11 @@ matrix:
       python: 3.6
       before_deploy:
         - docker login --username "$DOCKER_USER" --password "$DOCKER_PASS"
-        - docker build -f Dockerfile -t pyted:"$TRAVIS_BRANCH" .
-        - docker tag pyted ch0ppy35/pyted
+        - docker build -f Dockerfile -t ch0ppy35/pyted .
+        - docker tag ch0ppy35/pyted ch0ppy35/pyted:latest
       deploy:
         provider: script
-        script: docker push "$DOCKER_REPO"
+        script: docker push ch0ppy35/pyted:latest
         on:
           branch: dockerize
     - name: "Python 3.7.4 on macOS (10.14.4)"
