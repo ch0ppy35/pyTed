@@ -6,13 +6,13 @@ addons:
 services:
   - postgresql
   - docker
-matrix:
+jobs:
   allow_failures:
     - python: 3.8-dev
   include:
     - name: "Python 3.8 Dev Linux (xenial)"
-        os: linux
-        python: 3.8-dev
+      os: linux
+      python: 3.8-dev
     - name: "Python 3.7 Dev Linux (xenial)"
       os: linux
       python: 3.7-dev
