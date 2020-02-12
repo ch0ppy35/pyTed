@@ -19,8 +19,8 @@ matrix:
       python: 3.6
       before_deploy:
         - docker login --username "$DOCKER_USER" --password "$DOCKER_PASS"
-        - docker build -f Dockerfile -t "$TRAVIS_REPO_SLUG1":"$TRAVIS_BRANCH" .
-        - docker tag "$TRAVIS_REPO_SLUG1" "$DOCKER_REPO"
+        - docker build -f Dockerfile -t pyted:"$TRAVIS_BRANCH" .
+        - docker tag pyted ch0ppy35/pyted
       deploy:
         provider: script
         script: docker push "$DOCKER_REPO"
