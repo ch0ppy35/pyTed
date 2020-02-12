@@ -19,9 +19,8 @@ matrix:
       python: 3.6
       deploy:
         branches:
-          except:
-            - legacy
-            - experimental
+            - dev
+            - master
         provider: script
         script: sh .travis/deploy_dockerhub.sh
     - name: "Python 3.7.4 on macOS (10.14.4)"
