@@ -1,4 +1,4 @@
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+echo "$DOCKER_PASSWORD" | docker login -username "$DOCKER_USERNAME" --password-stdin
 if [ "$TRAVIS_BRANCH" = "dev" ]; then
   TAG="latest"
 else
