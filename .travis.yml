@@ -17,6 +17,15 @@ matrix:
     - name: "Python 3.6.7 Linux (xenial)"
       os: linux
       python: 3.6
+      before_deploy:
+        - docker login --username "$DOCKER_USER" --password "$DOCKER_PASS"
+        - docker build -f Dockerfile -t "$TRAVIS_REPO_SLUG1":"$TRAVIS_BRANCH" .
+        - docker tag "$TRAVIS_REPO_SLUG1" "$DOCKER_REPO"
+      deploy:
+        provider: script
+        script: docker push "$DOCKER_REPO"
+        on:
+          branch: dockerize
     - name: "Python 3.7.4 on macOS (10.14.4)"
       os: osx
       osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
@@ -48,12 +57,3 @@ script:
   # unit test
   - python -m pytest -v tests/app_tests.py
   - flake8 --exit-zero --exclude venv/ .
-before_deploy:
-  - docker login --username "$DOCKER_USER" --password "$DOCKER_PASS"
-  - docker build -f Dockerfile -t "$TRAVIS_REPO_SLUG1":"$TRAVIS_BRANCH" .
-  - docker tag "$TRAVIS_REPO_SLUG1" "$DOCKER_REPO"
-deploy:
-  provider: script
-  script: docker push "$DOCKER_REPO"
-  on:
-    branch: dockerize
