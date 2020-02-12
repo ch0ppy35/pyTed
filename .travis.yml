@@ -17,15 +17,9 @@ matrix:
     - name: "Python 3.6.7 Linux (xenial)"
       os: linux
       python: 3.6
-      before_deploy:
-        - docker login --username "$DOCKER_USER" --password "$DOCKER_PASS"
-        - docker build -f Dockerfile -t ch0ppy35/pyted .
-        - docker tag ch0ppy35/pyted ch0ppy35/pyted:latest
       deploy:
         provider: script
-        script: docker push ch0ppy35/pyted:latest
-        on:
-          branch: dev
+        script: sh .travis/deploy_dockerhub.sh
     - name: "Python 3.7.4 on macOS (10.14.4)"
       os: osx
       osx_image: xcode11  # Python 3.7.2 running on macOS 10.14.3
