@@ -40,4 +40,4 @@ wcwidth==0.1.8
 Werkzeug==0.16.0
 wrapt==1.11.2
 xmlunittest==0.5.0
-zipp==2.0.0
+zipp==3.0.0
