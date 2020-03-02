@@ -38,7 +38,7 @@ class Config(object):
     }
     # version
     VERSION = '0.0.3.1'
-    DBVER = '0.5'
+    DBVER = '1.0'
 
 
 class TestingConfig():

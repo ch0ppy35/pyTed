@@ -4,7 +4,7 @@ import time
 from sql import initialTblSetup
 
 neededDbVer = 0.1
-thisDbVer = 0.5
+thisDbVer = 1.0
 conn = psycopg2.connect(
     host=app.config['DBHOST'],
     port=app.config['DBPORT'],
