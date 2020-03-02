@@ -26,13 +26,6 @@ def startBackGroundJob():
             minute='59'
         )
         scheduler.add_job(
-            cronTasks.weeklyTasks,
-            trigger='cron',
-            day_of_week='sun',
-            hour='0',
-            minute='0'
-        )
-        scheduler.add_job(
             cronTasks.monthlyTasks,
             trigger='cron',
             day='%(s)s' % {'s': meterRead},
@@ -61,7 +54,7 @@ def index():
         peakKwhDayMn=queries.qryPeakKwhDayMn(),
         lowKwhDayMn=queries.qryLowKwhDayMn(),
         avgKwhDayMn=queries.qryAvgKwhDayMn(),
-        bills=tasks.tskGetBills(),
+        bills=tasks.tskGetBills(4),
         pws=app.config['PWS']
     )
 
@@ -69,7 +62,7 @@ def index():
 @app.route('/rtkw')
 def rtkw():
     currentStatus = queries.qryCurrent()
-    value = str(currentStatus[0][2])
+    value = str(currentStatus[0][1])
     return value
 
 
@@ -84,7 +77,10 @@ def about():
 
 @app.route('/bills')
 def bills():
-    return render_template('about.html')
+    return render_template(
+        'bills.html',
+        bills=tasks.tskGetBills(10)
+    )
 
 
 @app.route('/billData')
@@ -98,6 +94,16 @@ def billData():
         billData=tasks.tskGetBillingData(bid)
     )
 
+
+@app.route('/charts')
+def charts():
+    currentKwh = queries.qryCurrentKwh()
+    kwhPrevWk = queries.qryKwhPrevWk()
+    return render_template(
+        'charts.html',
+        currentKwh=currentKwh,
+        kwhPrevWk=kwhPrevWk
+    )
 
 @app.route('/runtasks')
 def runTasks():

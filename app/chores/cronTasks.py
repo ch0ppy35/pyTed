@@ -24,19 +24,6 @@ def dailyTasks():
     app.logger.info("Daily task complete")
 
 
-def weeklyTasks():
-    db = database.MyDatabase()
-    sql = """
-    INSERT INTO kwhTotalsWeek(kwhtotal) VALUES((
-    SELECT SUM(kwhtotal) FROM(
-    SELECT * FROM kwhTotalsDay
-    ORDER BY ts DESC LIMIT 7)
-    ));
-    """
-    db.modifyq(sql)
-    app.logger.info("Weekly task complete")
-
-
 def monthlyTasks():
     db = database.MyDatabase()
     sql = """

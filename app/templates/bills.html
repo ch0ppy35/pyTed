@@ -1,0 +1,34 @@
+{% include "top.html" %}
+
+{% block content %}
+<title>Bills | pyTed</title>
+<h1>Billing </h1>
+<div class="w3-row" id="main">
+        <div class="w3-third w3-center">
+            <p></p>
+        </div>
+<div class="w3-third w3-center">
+            <h3>Power Costs</h3>
+            <div class="table3">
+                <h3>Previous 4 Bills</h3>
+                <table>
+                    <tr>
+                        <th>Bill ID</th>
+
+                        <th>Total Cost</th>
+
+                        <th>Billing Date</th>
+                    </tr>
+                    {% for row in bills %}
+                    <tr>
+                        <td> <a href="/billData?billid={{ row[0] }}"> {{ row[0] }} </a></td>
+                        <td>$ {{ row[1] }} </td>
+                        <td>{{ row[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+</div>
+{% endblock %}
+{% include 'footer.html' %}

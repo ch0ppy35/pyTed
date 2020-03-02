@@ -3,6 +3,8 @@ version: '3.3'
 services:
    db:
      image: postgres:12.1
+     ports:
+       - "5432:5432"
      restart: always
      environment:
        POSTGRES_DB: pyted
@@ -19,5 +21,10 @@ services:
      environment:
        DBHOST: db
        DBUSER: pyted
+       DBDB: pyted
+       METERREAD: 10
+       COST: 0.06
+       TZ: AMERICA/NEW_YORK
        DBPASS: password
-       DOCKER: 'True'
+       #DOCKER: 'True'
+       HOST: ***REMOVED***

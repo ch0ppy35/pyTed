@@ -1,10 +1,64 @@
-{% extends "top.html" %}
+{% include "top.html" %}
 
 {% block content %}
-<title>About | pyTed</title>
-    <h1>About </h1>
-    <p>About goes here</p>
-    <p>Current app version: {{ version }}</p>
-    <p>Current Database version: {{ dbver }}</p>
-    <p><a href="{{ url_for('index') }}">Back</a></p>
+    <title>About | pyTed</title>
+    <div id="main" class="w3-mobile">
+
+        <div class="w3-light-gray w3-center" style="padding:1px">
+
+            <h1>About</h1>
+
+            <div class="w3-container" style="padding-bottom: 10px">
+                <a href="https://opensource.org/licenses/MIT" style="text-decoration: none;">
+                    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
+                </a>
+                <a href="https://www.python.org/" style="text-decoration: none;">
+                    <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg" alt="made-with-python">
+                </a>
+                <a href="https://dependabot.com/" style="text-decoration: none;">
+                    <img src="https://badgen.net/badge/icon/dependabot?icon=dependabot&label" alt="Dependabot">
+                </a>
+                <a href="https://travis-ci.com/ch0ppy35/pyTed" style="text-decoration: none;">
+                    <img src="https://travis-ci.com/ch0ppy35/pyTed.svg?branch=dev" alt="Build Status">
+                </a>
+            </div>
+
+        </div>
+
+        <h2>Who's behind this?</h2>
+        <div class="w3-cell-row" style="padding: 10px;">
+            <div class="w3-container w3-cell">
+                <div class="w3-card-4 aboutCards">
+                    <img class="cardImg" src="https://avatars0.githubusercontent.com/u/16301350?s=460&v=4"
+                         alt="Avatar">
+                    <div class="w3-container">
+                        <h4><b><a href="https://github.com/ch0ppy35">ch0ppy35</a></b>
+                        </h4>
+                        <p>Insert something here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-container w3-cell">
+                <div class="w3-card-4 aboutCards">
+                    <img class="cardImg" src="https://avatars3.githubusercontent.com/u/48847633?s=460&v=4"
+                         alt="Avatar">
+                    <div class="w3-container">
+                        <h4><b>
+                            <a href="https://github.com/JustBeanie">JustBeanie</a>
+                        </b></h4>
+                        <p>Nope</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding:10px">
+            <h2>App Info</h2>
+            <p>Current app version: {{ version }}</p>
+            <p>Current Database version: {{ dbver }}</p>
+        </div>
+
+    </div>
 {% endblock %}
+{% include 'footer.html' %}
