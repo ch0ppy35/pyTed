@@ -7,12 +7,24 @@ tz = app.config['TZ']
 
 def qryCurrent():
     sql = """
-    SELECT ROW_NUMBER() OVER (ORDER BY 1), v.voltage, k.killawatts
+    SELECT v.voltage, k.killawatts
     FROM voltage v
-         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '10S'
+         INNER JOIN killawatts k ON k.ts BETWEEN v.ts AND v.ts + interval '1S'
     ORDER BY v.id DESC
     LIMIT 10;
     """
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+def qryCurrentKwh():
+    sql = """
+    SELECT TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI'),
+    killawatts 
+    FROM killawatts 
+    ORDER BY id DESC
+    LIMIT 20;
+    """ % {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -47,6 +59,17 @@ def qryKwhPrevMn():
     ORDER BY ts DESC
     LIMIT 1;
     """
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
+
+
+def qryKwhPrevWk():
+    sql = """
+    SELECT TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Day'),
+    kwhtotal FROM kwhTotalsDay 
+    ORDER BY id DESC
+    LIMIT 7;
+    """% {'s': tz}
     db = database.MyDatabase()
     return db.query(sql) or ['']
 
@@ -144,7 +167,7 @@ def qryGetBillDate(id):
     WHERE id = %(id)s;
     """ % {'id': id}
     db = database.MyDatabase()
-    return db.query(sql) or [0]
+    return db.query(sql) or [0][0]
 
 
 def qryBillAvgKwh(billDate):
