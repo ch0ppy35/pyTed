@@ -26,13 +26,6 @@ def startBackGroundJob():
             minute='59'
         )
         scheduler.add_job(
-            cronTasks.weeklyTasks,
-            trigger='cron',
-            day_of_week='sun',
-            hour='0',
-            minute='0'
-        )
-        scheduler.add_job(
             cronTasks.monthlyTasks,
             trigger='cron',
             day='%(s)s' % {'s': meterRead},
