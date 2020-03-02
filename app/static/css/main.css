@@ -57,10 +57,11 @@ table {
 
 .charts {
     height: 325px;
-    width: 75%;
+    width: 92%;
+    max-width: 600px;
+    margin: auto;
     align: center;
     padding-bottom: 10px;
-    box-shadow: 2.5px 5px 4px #888888;
 }
 
 .aboutCards{
