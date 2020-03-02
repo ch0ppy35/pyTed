@@ -1,11 +1,11 @@
-{% extends 'top.html' %}
+{% include 'top.html' %}
 {% block content %}
 <title>Status | pyTed</title>
 <div id="main" class="w3-mobile">
     <div class="w3-light-gray w3-center" style="padding:1px">
         <span class="gaugeTitle">Real-Time kW Usage</span>
         <span class="gaugeLabel">
-            <div id="rtkw"> {{ currentStatus[0][2] }} kW</div>
+            <div id="rtkw"> {{ currentStatus[0][1] }} kW</div>
         </span>
         <canvas id="gauge"></canvas>
         <script src="{{ url_for('static', filename='js/liveData.js') }}"></script>
@@ -41,8 +41,8 @@
                     </tr>
                     {% for row in currentStatus %}
                     <tr>
-                        <td>{{ row[1] }} V</td>
-                        <td>{{ row[2] }} kW</td>
+                        <td>{{ row[0] }} V</td>
+                        <td>{{ row[1] }} kW</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -145,6 +145,5 @@
         </div>
     </div>
 </div>
-</body>
-</html>
 {% endblock %}
+{% include 'footer.html' %}

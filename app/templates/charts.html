@@ -1,0 +1,75 @@
+{% include "top.html" %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+        var data = google.visualization.arrayToDataTable({{ currentKwh | tojson | safe }}, true);
+        var options = {
+          title: 'Kwh Last 10 Minutes',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          hAxis: { direction: -1},
+          vAxis: {
+              viewWindowMode: 'explicit',
+              viewWindow: {
+                  max: 20,
+                  min: 0
+                }
+          },
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curveChart'));
+
+        chart.draw(data, options);
+      }
+</script>
+
+
+<script type="text/javascript">
+    google.charts.load("current", {packages: ["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable({{ kwhPrevWk | tojson | safe }}, true);
+
+        var options = {
+            title: '7 Day Power Usage',
+            pieHole: 0.4,
+            tooltip: {
+                text: 'value'
+            }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+    }
+</script>
+
+
+
+<body>
+    <div id="main" class="w3-mobile">
+
+        <div class="w3-light-gray w3-center" style="padding:1px">
+
+            <h1>Charts</h1>
+        </div>
+    <div class="w3-row">
+        <div class="w3-half w3-center">
+            <div class="charts" id="curveChart"></div>
+        </div>
+        <div class="w3-half w3-center">
+    <div class="charts" id="donutchart"></div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% include 'footer.html' %}

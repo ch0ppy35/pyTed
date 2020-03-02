@@ -12,11 +12,6 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-#main {
-    text-align: center;
-    font-family: arial, sans-serif;
-}
-
 table {
     width: 90%;
     margin: 0pc auto;
@@ -25,15 +20,7 @@ table {
     box-shadow: 2.5px 5px 4px #888888;
 }
 
-#rtkw {
-    color: #cecece;
-}
-
 .table1 {
-    text-align: center;
-}
-
-#table2 {
     text-align: center;
 }
 
@@ -41,6 +28,7 @@ table {
     text-align: center;
     padding-bottom: 10px;
 }
+
 .gaugeTitle {
     display: inline-block;
     position: absolute;
@@ -51,6 +39,7 @@ table {
     color: #676b70;
     font-weight: bold;
 }
+
 .gaugeLabel {
     display: inline-block;
     position: absolute;
@@ -64,4 +53,122 @@ table {
     text-shadow: #6b7075 0px 0px 1px;
     top: 80px;
     font-size: 24px;
+}
+
+.charts {
+    height: 325px;
+    width: 92%;
+    max-width: 600px;
+    margin: auto;
+    align: center;
+    padding-bottom: 10px;
+}
+
+.aboutCards{
+    width:92%;
+    max-width:300px;
+    margin:auto;
+}
+
+.cardImg{
+    width:100%;
+}
+
+.footer-distributed {
+  background-color: #f1f1f1f1;
+  box-shadow: 0 1px 1px 0 rgba(238, 238, 238, 0.12);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: normal 16px sans-serif;
+  padding: 25px 30px;
+}
+
+.footer-distributed .footer-left p {
+  color: #000000;
+  font-size: 14px;
+  margin: 0;
+}
+/* Footer links */
+
+.footer-distributed p.footer-links {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0 0 10px;
+  padding: 0;
+  transition: ease .25s;
+}
+
+.footer-distributed p.footer-links a {
+  display: inline-block;
+  line-height: 1.8;
+  text-decoration: none;
+  color: inherit;
+  transition: ease .25s;
+}
+
+.footer-distributed .footer-links a:before {
+  content: "·";
+  font-size: 20px;
+  left: 0;
+  color: #EEEEEE;
+  display: inline-block;
+  padding-right: 5px;
+}
+
+.footer-distributed .footer-links .link-1:before {
+  content: none;
+}
+
+.footer-distributed .footer-right {
+  float: right;
+  margin-top: 6px;
+  max-width: 180px;
+}
+
+.footer-distributed .footer-right a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background-color: #CCCCCC;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #000000;
+  text-align: center;
+  line-height: 35px;
+  margin-left: 3px;
+  transition:all .25s;
+}
+
+.footer-distributed .footer-right a:hover{transform:scale(1.1); -webkit-transform:scale(1.1);}
+
+.footer-distributed p.footer-links a:hover{text-decoration:underline;}
+
+@media (max-width: 600px) {
+  .footer-distributed .footer-left, .footer-distributed .footer-right {
+    text-align: center;
+  }
+  .footer-distributed .footer-right {
+    float: none;
+    margin: 0 auto 20px;
+  }
+  .footer-distributed .footer-left p.footer-links {
+    line-height: 1.8;
+  }
+}
+
+#main {
+    text-align: center;
+    font-family: arial, sans-serif;
+    min-height: calc(100vh - 155px);
+    padding-bottom: 20px;
+}
+
+#rtkw {
+    color: #cecece;
+}
+
+#table2 {
+    text-align: center;
 }
