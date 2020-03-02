@@ -148,13 +148,13 @@ def qryAvgKwhDayMn():
     return round(db.query(sql)[0][0], 3) or 0
 
 
-def qryGet4Bills():
+def qryGetBills(limit):
     sql = """
     SELECT id, kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon YYYY')
     FROM kwhTotalsMonth 
     ORDER BY ts DESC 
-    LIMIT 4;
-    """ % {'s': tz}
+    LIMIT %(limit)s;
+    """ % {'s': tz, 'limit': limit}
     db = database.MyDatabase()
     qryResults = tasks.tskQryToList(db.query(sql))
     return qryResults

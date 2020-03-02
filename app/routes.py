@@ -54,7 +54,7 @@ def index():
         peakKwhDayMn=queries.qryPeakKwhDayMn(),
         lowKwhDayMn=queries.qryLowKwhDayMn(),
         avgKwhDayMn=queries.qryAvgKwhDayMn(),
-        bills=tasks.tskGetBills(),
+        bills=tasks.tskGetBills(4),
         pws=app.config['PWS']
     )
 
@@ -79,7 +79,7 @@ def about():
 def bills():
     return render_template(
         'bills.html',
-        bills=tasks.tskGetBills()
+        bills=tasks.tskGetBills(10)
     )
 
 
