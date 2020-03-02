@@ -144,8 +144,6 @@ table {
 
 .footer-distributed p.footer-links a:hover{text-decoration:underline;}
 
-/* Media Queries */
-
 @media (max-width: 600px) {
   .footer-distributed .footer-left, .footer-distributed .footer-right {
     text-align: center;
@@ -162,6 +160,8 @@ table {
 #main {
     text-align: center;
     font-family: arial, sans-serif;
+    min-height: calc(100vh - 150px);
+    padding-bottom: 20px;
 }
 
 #rtkw {
