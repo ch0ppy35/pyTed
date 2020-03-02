@@ -26,7 +26,7 @@
         </div>
 
         <h2>Who's behind this?</h2>
-        <div class="w3-cell-row" style="padding-top: 10px;">
+        <div class="w3-cell-row" style="padding: 10px;">
             <div class="w3-container w3-cell">
                 <div class="w3-card-4 aboutCards">
                     <img class="cardImg" src="https://avatars0.githubusercontent.com/u/16301350?s=460&v=4"
@@ -53,9 +53,11 @@
             </div>
         </div>
 
+        <div class="w3-light-gray w3-center" style="padding:10px">
+            <h2>App Info</h2>
+            <p>Current app version: {{ version }}</p>
+            <p>Current Database version: {{ dbver }}</p>
+        </div>
+
     </div>
-    <p>About goes here</p>
-    <p>Current app version: {{ version }}</p>
-    <p>Current Database version: {{ dbver }}</p>
-    <p><a href="{{ url_for('index') }}">Back</a></p>
 {% endblock %}
