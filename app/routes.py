@@ -92,6 +92,16 @@ def billData():
     )
 
 
+@app.route('/charts')
+def charts():
+    currentKwh = queries.qryCurrentKwh()
+    kwhPrevWk = queries.qryKwhPrevWk()
+    return render_template(
+        'charts.html',
+        currentKwh=currentKwh,
+        kwhPrevWk=kwhPrevWk
+    )
+
 @app.route('/runtasks')
 def runTasks():
     cronTasks.dailyTasks()
