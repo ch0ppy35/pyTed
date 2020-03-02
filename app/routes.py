@@ -62,7 +62,7 @@ def index():
 @app.route('/rtkw')
 def rtkw():
     currentStatus = queries.qryCurrent()
-    value = str(currentStatus[0][2])
+    value = str(currentStatus[0][1])
     return value
 
 
