@@ -77,7 +77,10 @@ def about():
 
 @app.route('/bills')
 def bills():
-    return render_template('about.html')
+    return render_template(
+        'bills.html',
+        bills=tasks.tskGetBills()
+    )
 
 
 @app.route('/billData')
