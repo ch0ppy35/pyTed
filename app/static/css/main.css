@@ -173,3 +173,8 @@ table {
 #table2 {
     text-align: center;
 }
+
+#billTable {
+    margin-right: 150px;
+    margin-left: 150px
+}
