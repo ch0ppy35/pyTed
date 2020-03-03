@@ -21,7 +21,9 @@ def tskGetBills(limit):
 
 
 def tskGetBillingData(id):
-    billDate = queries.qryGetBillDate(id)[0][0]
+    billDateInfo = queries.qryGetBillDate(id)
+    billDate = billDateInfo[0][0]
+    billDateName = billDateInfo[0][1]
 
     avgKwhRaw = queries.qryBillAvgKwh(billDate)[0][0]
     avgKwh = round(avgKwhRaw, 3)
@@ -35,6 +37,8 @@ def tskGetBillingData(id):
         avgKwh,
         kwhHiLo,
         billKwhTotalCost,
+        billKwhTotal,
+        billDateName
     )
 
 

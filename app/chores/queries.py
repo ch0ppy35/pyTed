@@ -162,10 +162,10 @@ def qryGetBills(limit):
 
 def qryGetBillDate(id):
     sql = """
-    SELECT DATE(ts)
+    SELECT DATE(ts), TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(tz)s', 'Month YYYY')
     FROM kwhtotalsmonth 
     WHERE id = %(id)s;
-    """ % {'id': id}
+    """ % {'id': id, 'tz': tz}
     db = database.MyDatabase()
     return db.query(sql) or [0][0]
 
