@@ -35,6 +35,7 @@ def tskGetBillingData(id):
         avgKwh,
         kwhHiLo,
         billKwhTotalCost,
+        billKwhTotal
     )
 
 
