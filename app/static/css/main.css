@@ -30,18 +30,19 @@ table {
 }
 
 .gaugeTitle {
-    display: inline-block;
+    display: block;
     position: absolute;
     float: left;
     left: 0;
     width: 100%;
     text-align: center;
     color: #676b70;
+    z-index: 1;
     font-weight: bold;
 }
 
 .gaugeLabel {
-    display: inline-block;
+    display: block;
     position: absolute;
     float: left;
     left: 0;
@@ -171,4 +172,19 @@ table {
 
 #table2 {
     text-align: center;
+}
+
+@media (max-width: 700px){
+    #billTable {
+    padding-top: 20px;
+    margin-right: 5%;
+    margin-left: 5%;
+    }
+}
+@media (min-width: 701px){
+    #billTable {
+    padding-top: 20px;
+    margin-right: 10%;
+    margin-left: 10%;
+    }
 }
