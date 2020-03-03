@@ -14,16 +14,18 @@
         <div class="w3-third w3-center">
             <div class="table1">
                 <h3>Previous 4 Bills</h3>
-                <table>
-                    <tr>
+                <table class="w3-hoverable">
+                <thead>
+                    <tr class="w3-light-gray">
                         <th>Bill ID</th>
 
                         <th>Total Cost</th>
 
                         <th>Billing Date</th>
                     </tr>
+                </thead>
                     {% for row in bills %}
-                    <tr>
+                    <tr onclick="window.location='/billData?billid={{ row[0] }}';">
                         <td> <a href="/billData?billid={{ row[0] }}"> {{ row[0] }} </a></td>
                         <td>$ {{ row[1] }} </td>
                         <td>{{ row[2] }}</td>
@@ -34,11 +36,13 @@
             <div class="table1">
                 <h3>Stats (Last 5 minutes)</h3>
                 <table>
-                    <tr>
+                <thead>
+                    <tr class="w3-light-gray">
                         <th>Present Voltage</th>
 
                         <th>kW Usage</th>
                     </tr>
+                </thead>
                     {% for row in currentStatus %}
                     <tr>
                         <td>{{ row[0] }} V</td>
@@ -52,10 +56,12 @@
             <h3>Power Costs</h3>
             <div class="table3">
                 <table>
-                    <tr>
+                    <thead>
+                    <tr class="w3-light-gray">
                         <th>Type</th>
                         <th>Cost</th>
                     </tr>
+                    </thead>
                     <tr>
                         <td> kWh $ Since Midnight</td>
                         <td> $ {{ kwhCost[0] }}</td>
@@ -77,10 +83,12 @@
             <h3>Misc Stats</h3>
             <div class="tableMid">
                 <table>
-                    <tr>
+                    <thead>
+                    <tr class="w3-light-gray">
                         <th>Type</th>
                         <th>Value</th>
                     </tr>
+                    </thead>
                     <tr>
                         <td> kWh Used Since Midnight</td>
                         <td> {{ dayKwhTotal[0][0] }} kW</td>
@@ -107,11 +115,13 @@
             <div id="table2">
                 <h3>Stats (High/Low)</h3>
                 <table>
-                    <tr>
+                    <thead>
+                    <tr class="w3-light-gray">
                         <th>Type</th>
 
                         <th>Value</th>
                     </tr>
+                    </thead>
                     <tr>
                         <td> Peak Voltage Today</td>
                         <td>{{ voltageStats[0][0] }} V @ {{ voltageStats[0][1] }}</td>
