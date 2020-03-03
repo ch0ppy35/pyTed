@@ -2,7 +2,7 @@
 {% block content %}
 <title>Status | pyTed</title>
 <div id="main" class="w3-mobile">
-    <div class="w3-light-gray w3-center" style="padding:1px">
+    <div class="w3-light-gray w3-center" id="gaugeContainer" style="padding:1px">
         <span class="gaugeTitle">Real-Time kW Usage</span>
         <span class="gaugeLabel">
             <div id="rtkw"> {{ currentStatus[0][1] }} kW</div>

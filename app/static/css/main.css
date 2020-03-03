@@ -30,18 +30,19 @@ table {
 }
 
 .gaugeTitle {
-    display: inline-block;
+    display: block;
     position: absolute;
     float: left;
     left: 0;
     width: 100%;
     text-align: center;
     color: #676b70;
+    z-index: 1;
     font-weight: bold;
 }
 
 .gaugeLabel {
-    display: inline-block;
+    display: block;
     position: absolute;
     float: left;
     left: 0;
