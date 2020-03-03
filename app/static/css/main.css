@@ -173,9 +173,17 @@ table {
 #table2 {
     text-align: center;
 }
-
-#billTable {
+@media (max-width: 700px){
+    #billTable {
     padding-top: 20px;
-    margin-right: 150px;
-    margin-left: 150px
+    margin-right: 5%;
+    margin-left: 5%;
+    }
+}
+@media (min-width: 701px){
+    #billTable {
+    padding-top: 20px;
+    margin-right: 10%;
+    margin-left: 10%;
+    }
 }
