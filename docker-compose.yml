@@ -27,4 +27,4 @@ services:
        TZ: AMERICA/NEW_YORK
        DBPASS: password
        #DOCKER: 'True'
-       HOST: dyn.beaniebot.me
+       HOST: demo.theenergydetective.com
