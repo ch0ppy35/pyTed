@@ -1,7 +1,7 @@
 from app import app
 from app.chores import cronTasks
 from config import TestingConfig
-from app.routes import scheduler
+from app.chores.scheduledTasks import scheduler
 from app.tools import getInfo, scraper
 import unittest, xmlunittest, logging
 
@@ -53,6 +53,10 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
 
     def test_about(self):
         result = self.app.get('/about')
+        self.assertEqual(result.status_code, 200)
+
+    def test_charts(self):
+        result = self.app.get('/charts')
         self.assertEqual(result.status_code, 200)
 
     def test_bills(self):
