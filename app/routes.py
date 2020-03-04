@@ -69,12 +69,6 @@ def charts():
         kwhPrevWk=kwhPrevWk
     )
 
-@app.route('/runtasks')
-def runTasks():
-    cronTasks.dailyTasks()
-    cronTasks.monthlyTasks()
-    return redirect('/')
-
 
 @atexit.register
 def end():
