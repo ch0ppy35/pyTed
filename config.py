@@ -23,15 +23,6 @@ class Config(object):
     DBUSER = os.environ.get('DBUSER') or 'pyted'
     DBPASS = os.environ.get('DBPASS') or 'password'
     DBDB = os.environ.get('DBDB') or 'pyted'
-    # Mail Server
-    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    # Admins
-    ADMINS = ['noreply@null.com']
     # available languages
     LANGUAGES = {
         'en': 'English'
