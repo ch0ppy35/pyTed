@@ -1,43 +1,7 @@
-from app.tools import getInfo
 from app import app
 from app.chores import cronTasks, tasks, queries
 from flask import render_template, redirect, request
-from apscheduler.schedulers.background import BackgroundScheduler
-import time
 import atexit
-
-scheduler = BackgroundScheduler()
-meterRead = app.config['METERREAD']
-
-
-@app.before_first_request
-def startBackGroundJob():
-    if not app.config['TESTING']:
-        scheduler.add_job(
-            getInfo.getData,
-            trigger='cron',
-            second='*/30',
-            max_instances=1
-        )
-        scheduler.add_job(
-            cronTasks.dailyTasks,
-            trigger='cron',
-            hour='23',
-            minute='59'
-        )
-        scheduler.add_job(
-            cronTasks.monthlyTasks,
-            trigger='cron',
-            day='%(s)s' % {'s': meterRead},
-            hour='0',
-            minute='0'
-        )
-        scheduler.start()
-        app.logger.info('~ Scheduler starting for for tasks ~')
-
-    # Fire off get data & give time for new data to be inserted.
-    getInfo.getData()
-    time.sleep(1)
 
 
 @app.route('/')
@@ -114,10 +78,4 @@ def runTasks():
 
 @atexit.register
 def end():
-    # Prevent an unhealthy shutdown
-    if scheduler.running:
-        scheduler.shutdown()
-        app.logger.info('~ Scheduler is shutting down ~')
-    else:
-        app.logger.info("~ Scheduler isn't running, not attempting shutdown ~")
     app.logger.info('~ pyTed is shutting down - Until next time ~')

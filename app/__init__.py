@@ -45,5 +45,5 @@ setup.dbCheck()
 app.logger.info('~ pyTed is starting up ~')
 
 from app import routes, errors
-from app.chores import cronTasks, tasks, queries
+from app.chores import cronTasks, tasks, queries, scheduledTasks
 from app.tools import database
