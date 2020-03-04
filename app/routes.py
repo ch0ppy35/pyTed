@@ -1,5 +1,5 @@
 from app import app
-from app.chores import cronTasks, tasks, queries
+from app.chores import tasks, queries
 from flask import render_template, redirect, request
 import atexit
 
