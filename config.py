@@ -39,6 +39,7 @@ class TestingConfig():
     DBPORT = os.environ.get('DBPORT') or '5432'
     DBUSER = os.environ.get('DBUSER')
     DBPASS = os.environ.get('DBPASS')
+    DOCKER = True
     # Demo Ted Address
     HOST = "demo.theenergydetective.com"
     FLASK_APP = "pyTED.py"
@@ -51,13 +52,6 @@ class TestingConfig():
     TZ = os.environ.get('TZ') or 'America/Denver'
     # Database
     DBDB = os.environ.get('DBDB') or 'pyted'
-    # Mail Server
-    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     # version
     VERSION = '0.0.0'
     DBVER = '0.0'
