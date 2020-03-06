@@ -9,8 +9,6 @@ def goget():
 
     url = pre + app.config['HOST'] + port + endpoint
 
-    print(url)
-    # print(url)
     payload = ""
     headers = {
         'cache-control': "no-cache",
