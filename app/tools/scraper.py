@@ -1,10 +1,11 @@
 import requests
+import config
 from app import app
 
 
 def goget():
     pre = "http://"
-    if not app.config['TESTING']:
+    if not config['TESTING']:
         if app.config['DOCKER'] is False:
             endpoint = ":8880/api/LiveData.xml"
         else:
