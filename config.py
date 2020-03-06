@@ -10,6 +10,7 @@ class Config(object):
     DOCKER = os.environ.get('DOCKER') or False
     # TED Endpoint
     HOST = os.environ.get('HOST') or "demo.theenergydetective.com"
+    HOSTPORT = os.environ.get('HOSTPORT') or '80'
     # Util Info
     COST = os.environ.get('COST') or '0'
     METERREAD = os.environ.get('METERREAD') or '1'
@@ -37,8 +38,8 @@ class TestingConfig():
     TESTING = True
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
-    DBUSER = os.environ.get('DBUSER')
-    DBPASS = os.environ.get('DBPASS')
+    DBUSER = os.environ.get('DBUSER') or 'pyted'
+    DBPASS = os.environ.get('DBPASS') or 'password'
     DOCKER = True
     # Demo Ted Address
     HOST = "demo.theenergydetective.com"
