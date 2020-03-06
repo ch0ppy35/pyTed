@@ -58,4 +58,4 @@ before_script:
 script:
   # unit test
   - python -m pytest -v tests/app_tests.py
-  - flake8 --exit-zero --exclude venv/ .
+  - flake8 --exit-zero --max-line-length 120 --exclude venv/ .
