@@ -64,7 +64,7 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
         self.assertEqual(result.status_code, 200)
 
     def test_billData(self):
-        result = self.app.get('/billData?billid=14')
+        result = self.app.get('/billData?billid=2')
         self.assertEqual(result.status_code, 200)
 
     def test_scraper(self):
