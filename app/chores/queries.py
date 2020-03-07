@@ -20,8 +20,8 @@ def qryCurrent():
 def qryCurrentKwh():
     sql = """
     SELECT TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'HH:MI'),
-    killawatts 
-    FROM killawatts 
+    killawatts
+    FROM killawatts
     ORDER BY id DESC
     LIMIT 20;
     """ % {'s': tz}
@@ -31,8 +31,8 @@ def qryCurrentKwh():
 
 def qryDayKwhTotal():
     sql = """
-    SELECT kwhtotal 
-    FROM kwhTotals ORDER BY ts 
+    SELECT kwhtotal
+    FROM kwhTotals ORDER BY ts
     DESC LIMIT 1;
     """
     db = database.MyDatabase()
@@ -41,10 +41,10 @@ def qryDayKwhTotal():
 
 def qryKwh7dTotal():
     sql = """
-    SELECT prevDay.kwhSum + currentDay 
+    SELECT prevDay.kwhSum + currentDay
     FROM (
-    SELECT SUM(kwhtotal) kwhSum 
-    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7D') AS prevDay, 
+    SELECT SUM(kwhtotal) kwhSum
+    FROM kwhTotalsDay WHERE ts > NOW() AT TIME ZONE '%(s)s' - INTERVAL '7D') AS prevDay,
     (SELECT kwhtotal currentDay
     FROM kwhTotals ORDER BY ts DESC LIMIT 1) AS currentDay;
     """ % {'s': tz}
@@ -66,7 +66,7 @@ def qryKwhPrevMn():
 def qryKwhPrevWk():
     sql = """
     SELECT TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Day'),
-    kwhtotal FROM kwhTotalsDay 
+    kwhtotal FROM kwhTotalsDay
     ORDER BY id DESC
     LIMIT 7;
     """% {'s': tz}
@@ -81,7 +81,7 @@ def qryVoltage():
     FROM(
     SELECT MAX(voltage) AS mxV, MIN(voltage) AS mnV
     FROM Voltage
-    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE =
     DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) v
     INNER JOIN voltage mx ON mx.voltage = v.mxV
@@ -100,7 +100,7 @@ def qryKillawatt():
     FROM(
     SELECT MAX(killawatts) AS mxK, MIN(killawatts) AS mnK
     FROM killawatts
-    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE = 
+    WHERE (CURRENT_TIMESTAMP AT TIME ZONE '%(s)s')::DATE =
     DATE(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s')
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
@@ -139,9 +139,9 @@ def qryLowKwhDayMn():
 
 def qryAvgKwhDayMn():
     sql = """
-    SELECT AVG(kwhtotal) 
-    FROM kwhTotalsDay 
-    WHERE ts > NOW() AT TIME ZONE '%(s)s' - 
+    SELECT AVG(kwhtotal)
+    FROM kwhTotalsDay
+    WHERE ts > NOW() AT TIME ZONE '%(s)s' -
     INTERVAL '1MONTH';
     """ % {'s': tz}
     db = database.MyDatabase()
@@ -151,8 +151,8 @@ def qryAvgKwhDayMn():
 def qryGetBills(limit):
     sql = """
     SELECT id, kwhtotal, TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon YYYY')
-    FROM kwhTotalsMonth 
-    ORDER BY ts DESC 
+    FROM kwhTotalsMonth
+    ORDER BY ts DESC
     LIMIT %(limit)s;
     """ % {'s': tz, 'limit': limit}
     db = database.MyDatabase()
@@ -163,7 +163,7 @@ def qryGetBills(limit):
 def qryGetBillDate(id):
     sql = """
     SELECT DATE(ts), TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(tz)s', 'Month YYYY')
-    FROM kwhtotalsmonth 
+    FROM kwhtotalsmonth
     WHERE id = %(id)s;
     """ % {'id': id, 'tz': tz}
     db = database.MyDatabase()
@@ -172,8 +172,8 @@ def qryGetBillDate(id):
 
 def qryBillAvgKwh(billDate):
     sql = """
-       SELECT AVG(kwhtotal) 
-    FROM kwhTotalsDay 
+       SELECT AVG(kwhtotal)
+    FROM kwhTotalsDay
     WHERE ts < '%(bd)s'::TIMESTAMP
     AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH';
     """ % {'s': tz, 'bd': billDate}

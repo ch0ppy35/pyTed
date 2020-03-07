@@ -1,7 +1,7 @@
 from app import app
 from app.chores import cronTasks
 from config import TestingConfig
-from app.routes import scheduler
+from app.chores.scheduledTasks import scheduler
 from app.tools import getInfo, scraper
 import unittest, xmlunittest, logging
 
@@ -55,6 +55,10 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
         result = self.app.get('/about')
         self.assertEqual(result.status_code, 200)
 
+    def test_charts(self):
+        result = self.app.get('/charts')
+        self.assertEqual(result.status_code, 200)
+
     def test_bills(self):
         result = self.app.get('/bills')
         self.assertEqual(result.status_code, 200)
@@ -63,34 +67,9 @@ class FlaskpyTedTests(unittest.TestCase, xmlunittest.XmlTestMixin):
         result = self.app.get('/billData?billid=2')
         self.assertEqual(result.status_code, 200)
 
-    def test_runtasks(self):
-        result = self.app.get('/runtasks')
-        self.assertEqual(result.status_code, 302)
-
     def test_scraper(self):
         data = scraper.goget()
         self.assertXmlDocument(data)
 
     def test_scheduler(self):
-        meterRead = app.config['METERREAD']
-        scheduler.add_job(
-            getInfo.getData,
-            trigger='cron',
-            second='*/30',
-            max_instances=1
-        )
-        scheduler.add_job(
-            cronTasks.dailyTasks,
-            trigger='cron',
-            hour='23',
-            minute='59'
-        )
-        scheduler.add_job(
-            cronTasks.monthlyTasks,
-            trigger='cron',
-            day='%(s)s' % {'s': meterRead},
-            hour='0',
-            minute='0'
-        )
-        scheduler.start()
         self.assertEqual(scheduler.running, True)

@@ -13,7 +13,7 @@
     <div class="w3-row">
         <div class="w3-third w3-center">
             <div class="table1">
-                <h3>Previous 4 Bills</h3>
+                <h3>Previous 6 Bills</h3>
                 <table class="w3-hoverable">
                 <thead>
                     <tr class="w3-light-gray">
@@ -71,8 +71,16 @@
                         <td> $ {{ kwhCost[1] }}</td>
                     </tr>
                     <tr>
-                        <td> kWh Avg $ Last 30 Days</td>
+                        <td> kWh Avg $ MTD</td>
                         <td> $ {{ kwhCost[5] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Peak $ Spent MTD</td>
+                        <td> $ {{ kwhCost[3] }} on {{ peakKwhDayMn[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <td> Low $ Spent MTD</td>
+                        <td> $ {{ kwhCost[4] }} on {{ lowKwhDayMn[0][1] }}</td>
                     </tr>
                     <tr>
                         <td> Last Month Bill</td>
@@ -141,10 +149,6 @@
                     <tr>
                         <td> Peak kW MTD</td>
                         <td>{{ peakKwhDayMn[0][0] }} kW on {{ peakKwhDayMn[0][1] }}</td>
-                    </tr>
-                    <tr>
-                        <td> Peak $ Spent MTD</td>
-                        <td> $ {{ kwhCost[3] }} on {{ peakKwhDayMn[0][1] }}</td>
                     </tr>
                     <tr>
                         <td> Low kW MTD</td>
