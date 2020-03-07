@@ -29,7 +29,7 @@ class Config(object):
         'en': 'English'
     }
     # version
-    VERSION = '1.0-RC2'
+    VERSION = '1.0'
     DBVER = '1.0'
 
 
