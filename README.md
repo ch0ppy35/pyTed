@@ -1,24 +1,29 @@
 # pyTED
+
 ## _Aut viam inveniam aut faciam_
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![Build Status](https://travis-ci.org/ch0ppy35/pyTed.svg?branch=dev)](https://travis-ci.org/ch0ppy35/pyTed)
+[![Dependabot](https://badgen.net/badge/icon/dependabot?icon=dependabot&label)](https://dependabot.com/)
+[![Build Status](https://travis-ci.com/ch0ppy35/pyTed.svg?branch=dev)](https://travis-ci.com/ch0ppy35/pyTed)
 
-
-Here's a README for an obscure project.   
+Here's a README for an obscure project.
 
 ### What is it?
-This is a Flask app that's being written as a front-end for 
-[TED - The Energy Detective](https://www.theenergydetective.com/). 
+
+This is a Flask app that's being written as a front-end for
+[TED - The Energy Detective](https://www.theenergydetective.com/).
 
 Using api information found [here](http://files.theenergydetective.com/docs/TED5000-API-R330.pdf).
 
 A neat gadget, check it out.
 
 ### Who's behind it?
+
 [ch0ppy35](https://github.com/ch0ppy35) and [JustBeanie](https://github.com/JustBeanie)
 
 ### Why?
+
 We want/need a dashboard for mobile, and we didn't want to write an Android app _and_ an iOS app. 
 We found that other apps for iOS or Android weren't being maintained. 
 
@@ -26,30 +31,30 @@ After a phone upgrade we were left with no simple mobile app for Ted!
 So we turned to Python and Flask.
 
 ### What it needs to run
+
 Python3, check requirements.txt.  You'll need a Postgres endpoint too.
 
 Runs on Mac and Linux, the latter preferably in prod. 
 Hadn't bothered to test this running on Windows (If you want to run on Windows, just run a *nix VM of sorts).
 
 ### What needs to be done?
-- UI Tweaking
-    - Need to get some graphs/charts going (Eye candy)
-    - Clean up styling on sub pages
-- Basic analytics, admin stat page
+
+- UI Tweaking 
+  ~~- Need to get some graphs/charts going (Eye candy)~~ Done
+    ~~- Clean up styling on sub pages~~ Done
 - Exception handling to prevent a nasty crash by chance
 - Cleanup backend code, maybe refactor code by optimizing structure
 - Testing prod deployment
-    - Possibly in Heroku (Free tier?) ?
-    - Maybe Elastic Bean Stalk (Unsure of potential cost) ?
-    - Probably Gunicorn and Supervisor on our local XCP-ng cluster. With nginx as a proxy
-- Some tests written if possible
+  - Probably Gunicorn and Supervisor on our local XCP-ng cluster. With nginx as a proxy
+- ~~Some tests written if possible~~ done
 - Add some screenshots in this readme
 - Add anything I'm missing here
 
 ---
 
-### License 
-```
+### License
+
+```license
 MIT License
 Copyright (c) 2020 Mike Miller
 

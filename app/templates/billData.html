@@ -1,39 +1,44 @@
-{% extends "top.html" %}
-
+{% include "top.html" %}
 {% block content %}
-<title>Bills | pyTed</title>
-<h1>Billing </h1>
-<div class="w3-row">
-        <div class="w3-third w3-center">
-            <p></p>
+    <title>{{ billData[4] }} Bill | PyTED</title>
+    <div id="main" class="w3-mobile">
+        <div class="w3-light-gray w3-center" style="padding:1px">
+            <h1>Bill for {{ billData[4] }}</h1>
         </div>
-<div class="w3-third w3-center">
-            <h3>Power Costs</h3>
-            <div class="table3">
-                <table>
-                    <tr>
-                        <th>Type</th>
-                        <th>Cost</th>
-                    </tr>
-                    <tr>
-                        <td> Average Kwh per Day </td>
-                        <td> {{ billData[0] }} Kwh</td>
-                    </tr>
-                    <tr>
-                        <td> Peak Kwh Usage</td>
-                        <td> {{ billData[1][0][0] }} Kwh on {{ billData[1][0][1] }}</td>
-                    </tr>
-                    <tr>
-                        <td> Low Kwh Usage</td>
-                        <td> {{ billData[1][0][2] }} Kwh on {{ billData[1][0][3] }}</td>
-                    </tr>
-                    <tr>
-                        <td> Total Cost</td>
-                        <td> $ {{ billData[2] }}</td>
-                    </tr>
-                </table>
+        <div class="w3-row">
+            <div class="w3-center" id="billTable">
+                <div class="table3">
+                    <table class="w3-table-all">
+                        <thead>
+                        <tr class="w3-light-gray">
+                            <th>Type</th>
+                            <th>Cost</th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td> Total Kwh</td>
+                            <td> {{ billData[3] }} Kwh</td>
+                        </tr>
+                        <tr>
+                            <td> Average Kwh per Day</td>
+                            <td> {{ billData[0] }} Kwh</td>
+                        </tr>
+                        <tr>
+                            <td> Peak Kwh Usage</td>
+                            <td> {{ billData[1][0][0] }} Kwh on {{ billData[1][0][1] }}</td>
+                        </tr>
+                        <tr>
+                            <td> Low Kwh Usage</td>
+                            <td> {{ billData[1][0][2] }} Kwh on {{ billData[1][0][3] }}</td>
+                        </tr>
+                        <tr>
+                            <td> Total Cost</td>
+                            <td> $ {{ billData[2] }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-</div>
-
+    </div>
 {% endblock %}
+{% include 'footer.html' %}

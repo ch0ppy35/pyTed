@@ -1,0 +1,27 @@
+{% block footer %}
+
+   		<footer class="footer-distributed" id="footerPosition">
+
+			<div class="footer-right">
+				<a href="https://github.com/ch0ppy35/pyTed" target="_blank">
+                    <img src="{{ url_for('static', filename='github.svg') }}">
+                </a>
+			</div>
+
+			<div class="footer-left">
+
+				<p class="footer-links">
+					<a class="link-1" href="/">Home</a>
+                    <a href="/bills">Bills</a>
+                    <a href="/charts">Charts</a>
+                    <a href="/about">About</a>
+				</p>
+                <a href="https://github.com/ch0ppy35/pyTed/blob/dev/LICENSE">
+                    <p>Copyright &copy 2020 Mike Miller</p>
+                </a>
+			</div>
+
+		</footer>
+</body>
+</html>
+{% endblock %}
