@@ -7,11 +7,10 @@ def getData():
     data = scraper.goget()
     tree = ElementTree(fromstring(data))
     root = tree.getroot()
-
     #   Get Data
-    voltageNow = (float(root.getchildren()[2].getchildren()[0].getchildren()[0].text) / 10)
-    wattsNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[0].text) / 1000)
-    kwhTotalNow = (float(root.getchildren()[3].getchildren()[0].getchildren()[2].text) / 1000)
+    voltageNow = (float(root[2][0][0].text) / 10)
+    wattsNow = (float(root[3][0][0].text) / 1000)
+    kwhTotalNow = (float(root[3][0][2].text) / 1000)
 
     #   Build & execute Query
     #   Voltage

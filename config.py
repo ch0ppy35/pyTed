@@ -10,6 +10,7 @@ class Config(object):
     DOCKER = os.environ.get('DOCKER') or False
     # TED Endpoint
     HOST = os.environ.get('HOST') or "demo.theenergydetective.com"
+    HOSTPORT = os.environ.get('HOSTPORT') or '80'
     # Util Info
     COST = os.environ.get('COST') or '0'
     METERREAD = os.environ.get('METERREAD') or '1'
@@ -23,21 +24,12 @@ class Config(object):
     DBUSER = os.environ.get('DBUSER') or 'pyted'
     DBPASS = os.environ.get('DBPASS') or 'password'
     DBDB = os.environ.get('DBDB') or 'pyted'
-    # Mail Server
-    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    # Admins
-    ADMINS = ['noreply@null.com']
     # available languages
     LANGUAGES = {
         'en': 'English'
     }
     # version
-    VERSION = '0.0.3.1'
+    VERSION = '1.0'
     DBVER = '1.0'
 
 
@@ -46,8 +38,9 @@ class TestingConfig():
     TESTING = True
     DBHOST = os.environ.get('DBHOST') or '127.0.0.1'
     DBPORT = os.environ.get('DBPORT') or '5432'
-    DBUSER = os.environ.get('DBUSER')
-    DBPASS = os.environ.get('DBPASS')
+    DBUSER = os.environ.get('DBUSER') or 'pyted'
+    DBPASS = os.environ.get('DBPASS') or 'password'
+    DOCKER = True
     # Demo Ted Address
     HOST = "demo.theenergydetective.com"
     FLASK_APP = "pyTED.py"
@@ -60,13 +53,6 @@ class TestingConfig():
     TZ = os.environ.get('TZ') or 'America/Denver'
     # Database
     DBDB = os.environ.get('DBDB') or 'pyted'
-    # Mail Server
-    MAIL_SERVER = os.environ.get('MAILHOST') or '127.0.0.1'
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     # version
     VERSION = '0.0.0'
     DBVER = '0.0'
