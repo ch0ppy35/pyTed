@@ -1,6 +1,29 @@
 {% include "top.html" %}
 {% block content %}
     <title>{{ billData[4] }} Bill | PyTED</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+        var data = google.visualization.arrayToDataTable({{ billData[5] | tojson | safe }}, true);
+        var options = {
+          title: 'Kwh Day Totals',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          hAxis: { direction: -1},
+          vAxis: {
+              viewWindowMode: 'explicit',
+          }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curveChart'));
+
+        chart.draw(data, options);
+      }
+</script>
+
     <div id="main" class="w3-mobile">
         <div class="w3-light-gray w3-center" style="padding:1px">
             <h1>Bill for {{ billData[4] }}</h1>
@@ -36,6 +59,9 @@
                             <td> $ {{ billData[2] }}</td>
                         </tr>
                     </table>
+                </div>
+                <div id="chartContainer">
+                    <div class="billChart" id="curveChart"></div>
                 </div>
             </div>
         </div>
