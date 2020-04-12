@@ -86,7 +86,6 @@ def qryVoltage():
     ) v
     INNER JOIN voltage mx ON mx.voltage = v.mxV
     INNER JOIN voltage mn ON mn.voltage = v.mnV
-    ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
     """ % {'s': tz}
     db = database.MyDatabase()
@@ -105,7 +104,6 @@ def qryKillawatt():
     ) k
     INNER JOIN killawatts mx ON mx.killawatts = k.mxK
     INNER JOIN killawatts mn ON mn.killawatts = K.mnK
-    ORDER BY mxTs DESC, mnTs DESC
     LIMIT 1;
     """ % {'s': tz}
     db = database.MyDatabase()
