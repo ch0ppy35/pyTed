@@ -208,3 +208,16 @@ def qryBillKwhTotal(id):
     """ % {'id': id}
     db = database.MyDatabase()
     return db.query(sql) or ['']
+
+
+def qryBillDayKwh(billDate):
+    sql = """
+    SELECT TO_CHAR(ts AT TIME ZONE 'UTC' AT TIME ZONE '%(s)s', 'Mon,DD'),
+    kwhtotal
+    FROM kwhTotalsDay
+    WHERE ts < '%(bd)s'::TIMESTAMP
+    AND ts > '%(bd)s'::TIMESTAMP - INTERVAL '1MONTH'
+    ORDER BY ts DESC;
+    """ % {'s': tz, 'bd': billDate}
+    db = database.MyDatabase()
+    return db.query(sql) or ['']
