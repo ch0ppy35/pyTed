@@ -65,6 +65,14 @@ table {
     padding-bottom: 10px;
 }
 
+.billChart {
+    height: 500px;
+    width: 100%;
+    margin: auto;
+    align: center;
+    box-shadow: 2.5px 5px 4px #888888;
+}
+
 .aboutCards{
     width:92%;
     max-width:300px;
@@ -172,6 +180,12 @@ table {
 
 #table2 {
     text-align: center;
+}
+
+#chartContainer{
+    padding-top: 40px;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 @media (max-width: 700px){
