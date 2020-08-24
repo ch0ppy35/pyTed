@@ -37,18 +37,6 @@ Python3, check requirements.txt.  You'll need a Postgres endpoint too.
 Runs on Mac and Linux, the latter preferably in prod. 
 Hadn't bothered to test this running on Windows (If you want to run on Windows, just run a *nix VM of sorts).
 
-### What needs to be done?
-
-- UI Tweaking 
-  ~~- Need to get some graphs/charts going (Eye candy)~~ Done
-    ~~- Clean up styling on sub pages~~ Done
-- Exception handling to prevent a nasty crash by chance
-- Cleanup backend code, maybe refactor code by optimizing structure
-- Testing prod deployment
-  - Probably Gunicorn and Supervisor on our local XCP-ng cluster. With nginx as a proxy
-- ~~Some tests written if possible~~ done
-- Add some screenshots in this readme
-- Add anything I'm missing here
 
 ---
 
