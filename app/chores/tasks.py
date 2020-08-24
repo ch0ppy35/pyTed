@@ -32,9 +32,9 @@ def tskGetBillingData(id):
     kwhHiLo = queries.qryBillKwhHiLo(billDate)
 
     billKwhTotal = queries.qryBillKwhTotal(id)[0][0]
-    billnoTaxCost = round(billKwhTotal * cost, 2)
-    billTax = billnoTaxCost * tax
-    billKwhTotalCost = billTax + billnoTaxCost
+    billNoTaxCost = round(billKwhTotal * cost, 2)
+    billTax = billNoTaxCost * float(tax)
+    billKwhTotalCost = billTax + billNoTaxCost
 
 
     billDayKwh = queries.qryBillDayKwh(billDate)
@@ -47,7 +47,7 @@ def tskGetBillingData(id):
         billDateName,
         billDayKwh,
         billTax,
-        billnoTaxCost
+        billNoTaxCost
     )
 
 
