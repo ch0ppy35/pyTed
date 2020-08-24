@@ -1,7 +1,7 @@
 from app import app
 from app.chores import queries
 
-tax = app.config['TAX']
+tax = float(app.config['TAX'])
 tz = app.config['TZ']
 cost = float(app.config['COST'])
 
@@ -32,8 +32,8 @@ def tskGetBillingData(id):
     kwhHiLo = queries.qryBillKwhHiLo(billDate)
 
     billKwhTotal = queries.qryBillKwhTotal(id)[0][0]
-    billNoTaxCost = round(billKwhTotal * float(cost), 2)
-    billTax = billNoTaxCost * float(tax)
+    billNoTaxCost = round(billKwhTotal * cost, 2)
+    billTax = billNoTaxCost * tax
     billKwhTotalCost = billTax + billNoTaxCost
 
 
