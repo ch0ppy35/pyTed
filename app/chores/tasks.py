@@ -1,6 +1,7 @@
 from app import app
 from app.chores import queries
 
+tax = app.config['TAX']
 tz = app.config['TZ']
 cost = float(app.config['COST'])
 
@@ -16,7 +17,7 @@ def tskQryToList(qry):
 def tskGetBills(limit):
     Bills = queries.qryGetBills(limit)
     for inner_list in Bills:
-        inner_list[1] = round(inner_list[1] * cost, 2)
+        inner_list[1] = round((inner_list[1] * cost) * tax, 2)
     return Bills
 
 
@@ -31,7 +32,10 @@ def tskGetBillingData(id):
     kwhHiLo = queries.qryBillKwhHiLo(billDate)
 
     billKwhTotal = queries.qryBillKwhTotal(id)[0][0]
-    billKwhTotalCost = round(billKwhTotal * cost, 2)
+    billnoTaxCost = round(billKwhTotal * cost, 2)
+    billTax = billnoTaxCost * tax
+    billKwhTotalCost = billTax + billnoTaxCost
+
 
     billDayKwh = queries.qryBillDayKwh(billDate)
 
@@ -41,7 +45,9 @@ def tskGetBillingData(id):
         billKwhTotalCost,
         billKwhTotal,
         billDateName,
-        billDayKwh
+        billDayKwh,
+        billTax,
+        billnoTaxCost
     )
 
 

@@ -13,6 +13,7 @@ class Config(object):
     HOSTPORT = os.environ.get('HOSTPORT') or '80'
     # Util Info
     COST = os.environ.get('COST') or '0'
+    TAX = os.environ.get('TAX') or '0'
     METERREAD = os.environ.get('METERREAD') or '1'
     # Weather station
     PWS = os.environ.get('PWS') or 'KDEN'
