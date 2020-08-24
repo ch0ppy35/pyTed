@@ -17,7 +17,7 @@ def tskQryToList(qry):
 def tskGetBills(limit):
     Bills = queries.qryGetBills(limit)
     for inner_list in Bills:
-        inner_list[1] = round((inner_list[1] * cost) * tax, 2)
+        inner_list[1] = round((inner_list[1] * float(cost)) * tax, 2)
     return Bills
 
 
