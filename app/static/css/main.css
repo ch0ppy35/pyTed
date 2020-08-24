@@ -172,6 +172,7 @@ table {
     font-family: arial, sans-serif;
     min-height: calc(100vh - 155px);
     padding-bottom: 20px;
+    background-color: #FFFFFF;
 }
 
 #rtkw {
