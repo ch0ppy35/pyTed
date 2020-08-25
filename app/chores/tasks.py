@@ -19,7 +19,7 @@ def tskGetBills(limit):
     for inner_list in Bills:
         inner_list[1] = round(inner_list[1] * cost, 2)
         taxCost = round(inner_list[1] * tax, 2)
-        inner_list[1] = inner_list[1] + taxCost
+        inner_list[1] = round(inner_list[1] + taxCost, 2)
     return Bills
 
 
@@ -36,7 +36,7 @@ def tskGetBillingData(id):
     billKwhTotal = queries.qryBillKwhTotal(id)[0][0]
     billNoTaxCost = round(billKwhTotal * cost, 2)
     billTax = round(billNoTaxCost * tax, 2)
-    billKwhTotalCost = billTax + billNoTaxCost
+    billKwhTotalCost = round(billTax + billNoTaxCost, 2)
 
 
     billDayKwh = queries.qryBillDayKwh(billDate)
