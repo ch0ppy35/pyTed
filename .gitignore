@@ -4,6 +4,7 @@ venv/
 logs/
 __pycache__/
 .pytest_cache/
+*.pyc
 instance/
 .webassets-cache
 .DS_Store

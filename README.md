@@ -1,5 +1,7 @@
 # pyTED
 
+## This is no longer maintained, feel free to fork ~
+
 ## _Aut viam inveniam aut faciam_
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
